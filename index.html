@@ -1,0 +1,3416 @@
+<!doctype html>
+<html lang="bn" data-theme="dark">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>অনলাইন সার্ভিস বিডি</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: radial-gradient(circle at top left, #0f172a, #0b132b, #030712);
+      --card-bg: rgba(15, 23, 42, 0.85);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --text-color: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary-btn: linear-gradient(135deg, #0ea5e9, #0284c7);
+      --primary-hover: linear-gradient(135deg, #0284c7, #0369a1);
+      --accent-color: #38bdf8;
+      --gold-color: #facc15;
+    }
+
+    [data-theme="light"] {
+      --bg-gradient: radial-gradient(circle at top left, #f8fafc, #e2e8f0, #cbd5e1);
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --card-border: rgba(0, 0, 0, 0.1);
+      --text-color: #0f172a;
+      --text-muted: #64748b;
+      --primary-btn: linear-gradient(135deg, #0284c7, #0369a1);
+      --primary-hover: linear-gradient(135deg, #0369a1, #075985);
+      --accent-color: #0284c7;
+      --gold-color: #d97706;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Hind Siliguri', Arial, sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    header {
+      background: rgba(15, 23, 42, 0.9);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .nav {
+      max-width: 1350px;
+      margin: auto;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.5px;
+      line-height: 1.2;
+    }
+
+    .logo small {
+      display: block;
+      color: var(--gold-color);
+      font-size: 11px;
+      letter-spacing: 2px;
+      margin-top: 1px;
+    }
+
+    .user-top-bar {
+      display: none;
+      width: 100%;
+      background: rgba(3, 7, 18, 0.7);
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--card-border);
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .bar-middle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .top-action-group {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .top-action-group button,
+    .top-action-group span.balance-box {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--card-border);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .top-action-group button:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .balance-box {
+      background: linear-gradient(135deg, #059669, #047857) !important;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+    }
+
+    .profile-modal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .profile-left-col {
+      text-align: center;
+      border-right: 1px solid var(--card-border);
+      padding-right: 15px;
+    }
+
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #1e293b;
+      margin: 0 auto 12px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      border: 2px solid var(--accent-color);
+    }
+
+    .profile-right-col {
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .profile-info-item {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 14px;
+      border: 1px solid var(--card-border);
+    }
+
+    .profile-info-item strong {
+      color: var(--accent-color);
+      display: block;
+      font-size: 12px;
+      margin-bottom: 2px;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 15px;
+    }
+
+    .modal-card {
+      background: #0f172a;
+      color: #fff;
+      width: 100%;
+      max-width: 680px;
+      padding: 25px;
+      border-radius: 18px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      text-align: left;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-card h3 {
+      margin-top: 0;
+      color: var(--gold-color);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 18px;
+    }
+
+    .modal-card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 15px;
+    }
+
+    .agent-box {
+      background: #020617;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: bold;
+      color: var(--gold-color);
+      text-align: center;
+      margin: 10px 0;
+      font-size: 18px;
+      border: 1px dashed #e2136e;
+      letter-spacing: 1px;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .dropdown-btn {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 12px;
+      background: none;
+      border: 0;
+      font-size: 22px;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 0 5px;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 40px;
+      right: 0;
+      background: #1e293b;
+      border-radius: 12px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      display: none;
+      min-width: 180px;
+      overflow: hidden;
+      z-index: 100;
+      border: 1px solid var(--card-border);
+    }
+
+    .dropdown-menu button {
+      width: 100%;
+      padding: 12px 16px;
+      text-align: left;
+      background: none;
+      border: 0;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      color: #f8fafc;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      transition: background 0.2s ease;
+    }
+
+    .dropdown-menu button:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--accent-color);
+    }
+
+    .hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 15px;
+    }
+
+    .auth-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 40px 30px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      text-align: left;
+    }
+
+    .auth-card h2 {
+      font-size: 26px;
+      margin: 0 0 8px 0;
+      font-weight: 700;
+      text-align: center;
+      color: var(--accent-color);
+    }
+
+    .auth-card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin: 0 0 25px 0;
+      text-align: center;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    .input-group span {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      opacity: 0.8;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px 14px 12px 42px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+      transition: border 0.2s ease;
+    }
+
+    .input-group input:focus {
+      border-color: var(--accent-color);
+    }
+
+    .form-field {
+      margin-bottom: 12px;
+      text-align: left;
+    }
+
+    .form-field label {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 5px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .form-field label span.req {
+      color: #ef4444;
+      font-weight: bold;
+    }
+
+    .form-field input, .form-field select, .form-field textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+      background: rgba(0, 0, 0, 0.3);
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .form-field select option {
+      background: #0f172a;
+      color: #fff;
+    }
+
+    .form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+      border-color: var(--accent-color);
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .form-grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+
+    .section-subhead {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--gold-color);
+      margin: 15px 0 10px 0;
+      border-bottom: 1px dashed var(--card-border);
+      padding-bottom: 5px;
+    }
+
+    .section-divider {
+      border: 0;
+      border-top: 1px solid var(--card-border);
+      margin: 15px 0;
+    }
+
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 12px 0;
+      font-size: 14px;
+    }
+
+    .checkbox-container input {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .action-btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary-btn);
+      color: white;
+      border: 0;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 8px;
+      box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+      text-align: center;
+    }
+
+    .action-btn:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+    }
+
+    .dashboard-container {
+      display: none;
+      width: 100%;
+      max-width: 1350px;
+      margin-top: 10px;
+      text-align: left;
+    }
+
+    .main-flex-layout {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      height: calc(100vh - 120px);
+    }
+
+    .left-sidebar {
+      width: 380px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      height: 100%;
+      overflow-y: auto;
+      padding-right: 5px;
+    }
+
+    .right-content {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      height: 100%;
+      overflow-y: auto;
+      padding-right: 5px;
+    }
+
+    .left-sidebar::-webkit-scrollbar,
+    .right-content::-webkit-scrollbar {
+      width: 6px;
+    }
+    .left-sidebar::-webkit-scrollbar-thumb,
+    .right-content::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+    }
+
+    .dash-box {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      text-align: left;
+    }
+
+    .dash-box h3 {
+      margin-top: 0;
+      color: var(--gold-color);
+      font-size: 16px;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .center-title {
+      text-align: center !important;
+      justify-content: center;
+    }
+
+    .service-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .service-status-running { display:inline-block; margin-top:6px; font-size:12px; color:#16a34a; font-weight:800; }
+    .service-status-closed { display:inline-block; margin-top:6px; font-size:12px; color:#dc2626; font-weight:800; }
+    .service-item-link.service-closed { opacity:.65; cursor:not-allowed; }
+
+    .service-item-link {
+      padding: 12px 14px;
+      border: 1px solid var(--card-border);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .service-item-link:hover {
+      background: rgba(56, 189, 248, 0.12);
+      border-color: rgba(56, 189, 248, 0.4);
+      transform: translateX(4px);
+    }
+
+    .service-item-link h4 {
+      margin: 0 0 4px 0;
+      font-size: 14px;
+      color: var(--accent-color);
+      font-weight: 600;
+    }
+
+    .service-item-link p {
+      margin: 0;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .content-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .order-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    .order-table th,
+    .order-table td {
+      padding: 12px 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .order-table th {
+      color: var(--accent-color);
+      background: rgba(0, 0, 0, 0.3);
+      font-weight: 600;
+    }
+
+    .status-badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .status-pending {
+      background: rgba(245, 158, 11, 0.15);
+      color: #f59e0b;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+
+    .status-completed {
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    .download-btn-table {
+      background: linear-gradient(135deg, #059669, #047857);
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: 0 2px 8px rgba(5, 150, 105, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    .download-btn-table:hover {
+      transform: translateY(-2px);
+      opacity: 0.9;
+    }
+
+    .view-file-link {
+      display: inline-block;
+      margin-top: 6px;
+      color: #00d2ff;
+      text-decoration: underline;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .floating-helpline {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: linear-gradient(135deg, #25d366, #128c7e);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 15px;
+      box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      z-index: 999;
+      transition: all 0.3s ease;
+    }
+
+    .floating-helpline:hover {
+      transform: scale(1.05) translateY(-2px);
+    }
+
+    footer {
+      background: rgba(3, 7, 18, 0.8);
+      border-top: 1px solid var(--card-border);
+      color: var(--text-muted);
+      text-align: center;
+      padding: 15px;
+      width: 100%;
+    }
+
+    footer p { margin: 4px 0; }
+
+    .status-cancelled {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+    }
+
+    .recharge-history-card { margin-top: 20px; }
+
+    .toast {
+      position: fixed;
+      right: 20px;
+      bottom: 85px;
+      background: #0f172a;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 12px;
+      display: none;
+      z-index: 2000;
+      border: 1px solid var(--accent-color);
+      font-size: 13px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    @media(max-width:950px) {
+      .main-flex-layout { flex-direction: column; height: auto; }
+      .left-sidebar, .right-content { height: auto; overflow-y: visible; width: 100%; }
+      .user-top-bar, .bar-middle, .top-action-group, .content-card { flex-direction: column; align-items: flex-start; width: 100%; }
+      .profile-modal-grid { grid-template-columns: 1fr; }
+      .profile-left-col { border-right: none; border-bottom: 1px solid var(--card-border); padding-bottom: 15px; padding-right: 0; }
+      .form-grid-2, .form-grid-3 { grid-template-columns: 1fr; }
+    }
+  
+    .service-price-badge{display:inline-block;margin-top:7px;padding:4px 9px;border-radius:8px;background:rgba(16,185,129,.14);border:1px solid rgba(16,185,129,.35);color:#34d399;font-weight:800;font-size:12px}
+    .modal-price-box{margin:8px 0 14px;padding:10px 12px;border-radius:10px;background:rgba(15,23,42,.75);border:1px solid var(--card-border);color:#fbbf24;font-weight:800}
+    
+/* User Order Information Modal */
+.order-info-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.72);backdrop-filter:blur(7px);z-index:8000}
+.order-info-modal.show{display:flex}
+.order-info-card{width:min(860px,96vw);max-height:88vh;overflow:auto;background:var(--card-bg);color:var(--text-color);border:1px solid var(--card-border);border-radius:18px;padding:18px;box-shadow:0 28px 90px rgba(0,0,0,.55)}
+.order-info-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:12px;margin-bottom:13px;border-bottom:1px solid var(--card-border)}
+.order-info-head h3{margin:0;color:var(--gold-color);font-size:18px}
+.order-info-close{width:36px;height:36px;border:0;border-radius:9px;background:#dc2626;color:#fff;font-size:17px;font-weight:800;cursor:pointer}
+.order-info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.order-info-item{padding:11px;border:1px solid var(--card-border);border-radius:10px;background:rgba(255,255,255,.035);overflow-wrap:anywhere}
+.order-info-item.full{grid-column:1/-1}.order-info-label{display:block;color:var(--text-muted);font-size:11px;font-weight:700;margin-bottom:4px}.order-info-value{font-size:13px;white-space:pre-wrap;line-height:1.55}
+@media(max-width:620px){.order-info-grid{grid-template-columns:1fr}.order-info-item.full{grid-column:auto}}
+
+</style>
+
+<style id="user-dashboard-notification-upgrade">
+  .user-extra-menu{margin-top:15px}
+  .user-extra-menu h3{cursor:pointer;user-select:none}
+  .account-submenu{display:none;gap:7px;flex-direction:column;margin-top:10px}
+  .account-submenu.open{display:flex}
+  .account-submenu button{width:100%;padding:9px 11px;border:1px solid var(--card-border);border-radius:10px;background:rgba(255,255,255,.04);color:var(--text-color);text-align:left;cursor:pointer;font-family:inherit;font-weight:600}
+  .account-submenu button:hover{background:rgba(56,189,248,.12);border-color:var(--accent-color)}
+  .notif-panel{display:none;position:fixed;right:18px;top:72px;width:min(430px,calc(100vw - 36px));max-height:72vh;overflow:auto;background:#0f172a;color:#fff;border:1px solid var(--card-border);border-radius:16px;box-shadow:0 25px 70px rgba(0,0,0,.55);z-index:4000;padding:14px}
+  .notif-panel.open{display:block}
+  .notif-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+  .notif-head h3{margin:0;color:var(--gold-color);font-size:17px}
+  .notif-item{padding:12px;border:1px solid rgba(255,255,255,.09);border-radius:12px;margin:8px 0;background:rgba(255,255,255,.035);cursor:pointer}
+  .notif-item:hover{background:rgba(56,189,248,.09)}
+  .notif-item strong{display:block;color:var(--accent-color);margin-bottom:4px}
+  .notif-item small{color:var(--text-muted)}
+  .notif-empty{text-align:center;color:var(--text-muted);padding:25px 10px}
+  .user-dashboard-panel{display:none}
+  .user-dashboard-panel.active{display:block}
+  .dashboard-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:15px}
+  .dashboard-kpi{padding:16px;border:1px solid var(--card-border);border-radius:14px;background:rgba(255,255,255,.04)}
+  .dashboard-kpi small{display:block;color:var(--text-muted);font-weight:700}.dashboard-kpi b{display:block;font-size:24px;color:var(--accent-color);margin-top:3px}
+  .dashboard-section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .dashboard-table-wrap{overflow-x:auto}.dashboard-table{width:100%;border-collapse:collapse;font-size:13px}.dashboard-table th,.dashboard-table td{padding:10px;border-bottom:1px solid var(--card-border);text-align:left}.dashboard-table th{color:var(--accent-color);background:rgba(0,0,0,.25)}
+  .dashboard-nav-btn{background:linear-gradient(135deg,#0ea5e9,#0284c7)!important;color:#fff!important}
+  .sidebar-nav-box{position:sticky;top:0;z-index:5}
+  .sidebar-nav-btn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border:1px solid rgba(56,189,248,.35);border-radius:12px;color:var(--text-color);background:rgba(255,255,255,.04);cursor:pointer;font:700 14px 'Hind Siliguri',Arial,sans-serif;transition:.2s}
+  .sidebar-nav-btn:hover{transform:translateY(-1px);box-shadow:0 10px 25px rgba(14,165,233,.22)}
+  .account-chevron{float:right;transition:transform .2s}.user-extra-menu.open .account-chevron{transform:rotate(180deg)}
+  .account-submenu button{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .dashboard-table tbody tr{cursor:pointer;transition:.18s}.dashboard-table tbody tr:hover{background:rgba(56,189,248,.08);transform:translateX(2px)}
+  .dashboard-table .row-kind{font-weight:800;color:var(--accent-color)}
+  .dashboard-click-hint{margin-top:10px;color:var(--text-muted);font-size:12px;text-align:right}
+  @media(max-width:900px){.dashboard-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.notif-panel{top:120px}}
+  @media(max-width:520px){.dashboard-kpis{grid-template-columns:1fr}}
+</style>
+<style id="dashboard-pro-upgrade">
+/* Premium user dashboard */
+#userDashboardPanel{animation:dashIn .45s ease both}
+@keyframes dashIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+#userDashboardPanel>.dash-box{position:relative;overflow:hidden;background:linear-gradient(145deg,rgba(15,23,42,.96),rgba(17,24,39,.92))!important;border:1px solid rgba(56,189,248,.18)!important}
+#userDashboardPanel>.dash-box:before{content:"";position:absolute;inset:-40% auto auto -15%;width:280px;height:280px;background:radial-gradient(circle,rgba(56,189,248,.16),transparent 68%);pointer-events:none}
+.dashboard-section-title{position:relative;z-index:1;padding-bottom:2px}
+.dashboard-section-title h3{font-size:22px!important;letter-spacing:.2px;display:flex;align-items:center;gap:8px}
+.dashboard-section-title h3:after{content:"LIVE";font-size:9px;padding:4px 7px;border-radius:999px;color:#fff;background:rgba(34,197,94,.18);border:1px solid rgba(34,197,94,.35);letter-spacing:1px}
+#dashboardRefreshBtn{border-radius:999px!important;padding:9px 15px!important;background:linear-gradient(135deg,rgba(14,165,233,.18),rgba(99,102,241,.18))!important;border-color:rgba(56,189,248,.35)!important}
+.dashboard-kpis{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:18px 0 20px}
+.dashboard-kpi{position:relative;overflow:hidden;min-height:96px;padding:16px 17px!important;border-radius:18px!important;border:1px solid rgba(148,163,184,.16)!important;background:linear-gradient(145deg,rgba(255,255,255,.085),rgba(255,255,255,.025))!important;box-shadow:0 12px 30px rgba(0,0,0,.16)!important}
+.dashboard-kpi:after{content:"";position:absolute;right:-24px;bottom:-28px;width:90px;height:90px;border-radius:50%;background:rgba(56,189,248,.08)}
+.dashboard-kpi small{font-size:12px!important;letter-spacing:.2px;position:relative;z-index:1}
+.dashboard-kpi b{font-size:28px!important;line-height:1.15;margin-top:9px!important;position:relative;z-index:1}
+.dashboard-kpi:nth-child(2) b{color:#22c55e!important}.dashboard-kpi:nth-child(3) b{color:#a78bfa!important}.dashboard-kpi:nth-child(4) b{color:var(--gold-color)!important}
+.dashboard-table-wrap{border:1px solid rgba(148,163,184,.14);border-radius:16px;overflow:auto;background:rgba(2,6,23,.28);box-shadow:inset 0 1px 0 rgba(255,255,255,.03)}
+.dashboard-table{min-width:680px!important;font-size:13px!important}
+.dashboard-table th{position:sticky;top:0;z-index:2;padding:13px 12px!important;text-transform:none;background:rgba(15,23,42,.96)!important;border-bottom:1px solid rgba(56,189,248,.18)!important}
+.dashboard-table td{padding:13px 12px!important;border-bottom:1px solid rgba(148,163,184,.10)!important;vertical-align:middle}
+.dashboard-table tbody tr:last-child td{border-bottom:0!important}
+.dashboard-table tbody tr:hover{background:linear-gradient(90deg,rgba(56,189,248,.10),rgba(99,102,241,.05))!important;transform:none!important}
+.dashboard-table .row-kind{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:999px;background:rgba(56,189,248,.10);border:1px solid rgba(56,189,248,.18);font-size:11px}
+.dashboard-table td:nth-child(3){font-weight:800;color:var(--gold-color);white-space:nowrap}
+.dashboard-table td:nth-child(4){color:var(--text-muted);white-space:nowrap}
+.dashboard-table td:nth-child(5){font-weight:700}
+.dashboard-click-hint{margin-top:12px!important;padding:10px 12px;border-radius:12px;background:rgba(56,189,248,.05);border:1px dashed rgba(56,189,248,.18);text-align:center!important;font-size:12px!important}
+@media(max-width:900px){.dashboard-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.dashboard-kpis{grid-template-columns:1fr}.dashboard-section-title h3{font-size:18px!important}.dashboard-kpi b{font-size:24px!important}}
+</style>
+<style id="modern-upgrade">
+:root{--ux-radius:20px;--ux-shadow:0 18px 60px rgba(0,0,0,.28);--ux-glow:0 0 0 1px rgba(255,255,255,.08),0 12px 35px rgba(0,0,0,.22)}
+body{background-attachment:fixed;overflow-x:hidden}body:before{content:"";position:fixed;inset:-30%;z-index:-2;pointer-events:none;background:radial-gradient(circle at 15% 20%,rgba(56,189,248,.12),transparent 25%),radial-gradient(circle at 85% 70%,rgba(168,85,247,.10),transparent 25%);animation:uxFloat 16s ease-in-out infinite alternate}@keyframes uxFloat{to{transform:translate3d(3%, -2%,0) scale(1.04)}}
+header{box-shadow:0 8px 30px rgba(0,0,0,.18)!important}.dash-box,.content-card,.auth-card,.modal-card{border-radius:var(--ux-radius)!important;box-shadow:var(--ux-shadow)!important;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}.dash-box:hover,.content-card:hover{transform:translateY(-2px);box-shadow:var(--ux-shadow),0 0 0 1px rgba(56,189,248,.06)!important}
+.service-item-link{position:relative;overflow:hidden}.service-item-link:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--accent-color),var(--gold-color));transform:scaleY(0);transform-origin:center;transition:.25s}.service-item-link:hover:before{transform:scaleY(1)}
+.ux-toolbar{position:sticky;top:78px;z-index:90;display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px 12px;margin:8px 0;border:1px solid var(--card-border);background:rgba(15,23,42,.72);backdrop-filter:blur(18px);border-radius:16px;box-shadow:var(--ux-glow)}.ux-toolbar input{flex:1;min-width:180px;padding:10px 13px;border-radius:11px;border:1px solid var(--card-border);background:rgba(0,0,0,.22);color:var(--text-color);outline:none}.ux-toolbtn{border:1px solid var(--card-border);background:rgba(255,255,255,.06);color:var(--text-color);padding:9px 11px;border-radius:10px;cursor:pointer;font-weight:700}.ux-toolbtn:hover{background:rgba(56,189,248,.14);border-color:var(--accent-color)}
+.ux-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:12px 0}.ux-kpi{padding:15px;border:1px solid var(--card-border);border-radius:16px;background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(255,255,255,.025));box-shadow:var(--ux-glow)}.ux-kpi small{display:block;color:var(--text-muted);font-weight:700}.ux-kpi b{display:block;font-size:25px;margin-top:3px;color:var(--accent-color)}
+.ux-command{position:fixed;inset:0;background:rgba(0,0,0,.62);backdrop-filter:blur(8px);display:none;align-items:flex-start;justify-content:center;padding:12vh 18px;z-index:5000}.ux-command-card{width:min(680px,100%);background:var(--card-bg);border:1px solid var(--card-border);border-radius:20px;padding:16px;box-shadow:0 30px 90px rgba(0,0,0,.5)}.ux-command input{width:100%;padding:14px;border-radius:12px;border:1px solid var(--card-border);background:rgba(0,0,0,.25);color:var(--text-color);font-size:16px}.ux-cmd-list{margin-top:10px;display:grid;gap:6px;max-height:48vh;overflow:auto}.ux-cmd-item{padding:12px;border-radius:11px;cursor:pointer}.ux-cmd-item:hover{background:rgba(56,189,248,.12)}
+.ux-progress{position:fixed;top:0;left:0;width:0;height:3px;background:linear-gradient(90deg,var(--accent-color),var(--gold-color),#a855f7);z-index:9999;transition:width .18s ease}.ux-top{position:fixed;right:22px;bottom:82px;width:42px;height:42px;border-radius:50%;border:1px solid var(--card-border);background:var(--card-bg);color:var(--text-color);display:none;place-items:center;cursor:pointer;z-index:998;box-shadow:var(--ux-glow)}
+.ux-toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;padding:11px 16px;border-radius:12px;background:#0f172a;color:#fff;border:1px solid var(--accent-color);z-index:6000;transition:.25s;box-shadow:var(--ux-shadow)}.ux-toast.show{opacity:1;transform:translate(-50%,0)}
+body.ux-compact .dash-box{padding:13px}body.ux-compact .service-item-link{padding:9px 11px}body.ux-focus *:focus{outline:2px solid var(--accent-color)!important;outline-offset:2px}
+@media(max-width:900px){.ux-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.ux-toolbar{top:62px}}@media(max-width:520px){.ux-kpis{grid-template-columns:1fr}.ux-toolbar input{min-width:100%}}
+</style>
+
+<style id="language-toggle-style">
+#languageToggle {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 99999;
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 10px;
+  background: rgba(255,255,255,.96);
+  box-shadow: 0 2px 12px rgba(0,0,0,.12);
+  border: 1px solid rgba(0,0,0,.08);
+  font-family: inherit;
+}
+#languageToggle button {
+  border: 0;
+  border-radius: 7px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-weight: 600;
+  background: transparent;
+}
+#languageToggle button.active {
+  background: #111827;
+  color: #fff;
+}
+</style>
+
+<style id="language-options-fix">
+.language-option{
+  border:1px solid var(--card-border);
+  border-radius:8px;
+  padding:7px 10px;
+  cursor:pointer;
+  font-weight:700;
+  background:rgba(255,255,255,.07);
+  color:var(--text-color);
+  font-family:inherit;
+}
+.language-option.active{
+  background:var(--primary-btn);
+  color:#fff;
+  border-color:transparent;
+}
+#languageOptions{flex-shrink:0}
+</style>
+</head>
+
+<body>
+
+  <header>
+    <div class="nav">
+      <div class="logo">অনলাইন সার্ভিস বিডি<small>ONLINE SERVICE BD</small></div>
+      <div class="nav-right" id="guestNav">
+        <a href="#contact" style="color:#fff;text-decoration:none;font-weight:600;font-size:15px;">যোগাযোগ</a>
+        <button id="headerLoginBtn" type="button" style="margin-left:12px;background:var(--primary-btn);border:1px solid var(--card-border);color:#fff;padding:9px 14px;border-radius:10px;cursor:pointer;font-weight:700;">🔑 লগইন করুন</button>
+        <button class="dropdown-btn" id="threeDotBtn" title="মেনু">⋮</button>
+        <div class="dropdown-menu" id="dropdownMenu">
+          <button id="menuLogin">🔑 লগইন করুন</button>
+          <button id="menuSignup">📝 সাইন আপ করুন</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="user-top-bar" id="userTopBar">
+      <div class="bar-middle">
+        <span id="currentDate" style="font-size: 16px; font-weight: 600; color: var(--gold-color);">তারিখ: লোড হচ্ছে...</span>
+        <div class="top-action-group">
+          <button id="refreshBtn">🔄 রিফ্রেশ</button>
+          <button id="colorPickerBtn">🎨 কালার</button>
+          <button id="themeToggleBtn">🌙 মোড</button>
+          <button id="notifBtn">🔔 <span id="notifCount">0</span></button>
+          <span class="balance-box">বর্তমান ব্যালেন্স <span id="userBalance">0.00</span></span>
+          <div id="languageOptions" style="display:flex;gap:4px;align-items:center;">
+            <button type="button" class="language-option" data-lang="bn" id="langBnBtn">বাংলা</button>
+            <button type="button" class="language-option" data-lang="en" id="langEnBtn">English</button>
+          </div>
+          <button id="topBarProfileBtn" type="button" style="background: var(--primary-btn); font-weight: 600;">👤 প্রোফাইল</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="notif-panel" id="notificationPanel">
+    <div class="notif-head">
+      <h3>🔔 নোটিফিকেশন</h3>
+      <button id="closeNotifPanel" class="ux-toolbtn" type="button">বন্ধ</button>
+    </div>
+    <div id="notificationList"><div class="notif-empty">নোটিফিকেশন লোড হচ্ছে...</div></div>
+  </div>
+
+  <div class="modal-overlay" id="orderModal">
+    <div class="modal-card">
+      <h3 id="modalServiceTitle">📝 সেবা অর্ডার করুন</h3>
+      <p id="modalServiceSubtitle">অর্ডারটি সম্পন্ন করতে নিচের প্রয়োজনীয় তথ্যগুলো প্রদান করুন:</p>
+
+      <form id="orderDynamicForm" action="javascript:void(0);">
+        <div id="dynamicFormFields"></div>
+
+        <div style="display: flex; gap: 10px; margin-top: 15px;">
+          <button type="submit" class="action-btn" id="submitOrderBtn" style="margin-top:0; background: linear-gradient(135deg, #059669, #047857);">🛒 অর্ডার জমা দিন</button>
+          <button type="button" class="action-btn" id="closeOrderModalBtn" style="margin-top:0; background: #475569;">বাতিল</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="profileModal">
+    <div class="modal-card" style="max-width: 520px;">
+      <h3>👤 কাস্টমার প্রোফাইল ডিটেইলস</h3>
+      <div class="profile-modal-grid">
+        <div class="profile-left-col">
+          <div class="profile-avatar">👤</div>
+          <p style="font-size: 13px; color: var(--accent-color); margin-bottom: 12px;" id="profileModalEmail">email@gmail.com</p>
+          <button class="action-btn" id="changePasswordModalBtn" style="font-size: 13px; padding: 8px;">পাসওয়ার্ড পরিবর্তন</button>
+        </div>
+        <div class="profile-right-col">
+          <div class="profile-info-item"><strong>আইপি অ্যাড্রেস</strong><span id="userIpAddress">লোড হচ্ছে...</span></div>
+          <div class="profile-info-item"><strong>নাম / ইউজার</strong><span id="userProfileName">ইউজার</span></div>
+          <div class="profile-info-item"><strong>ইমেল</strong><span id="userProfileEmail">email@gmail.com</span></div>
+          <div class="profile-info-item"><strong>ফোন নম্বর</strong><span id="userProfilePhone">সংরক্ষিত নেই</span></div>
+        </div>
+      </div>
+      <button class="action-btn" id="closeProfileModalBtn" style="margin-top: 15px; background: #475569;">বন্ধ করুন</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="languageModal">
+    <div class="modal-card" style="max-width: 420px; text-align:center;">
+      <h3 style="justify-content:center;">🌐 ভাষা নির্বাচন করুন / Select Language</h3>
+      <p>আপনার পছন্দের ভাষা নির্বাচন করুন।</p>
+      <div style="display:grid;gap:10px;margin-top:15px;">
+        <button type="button" class="action-btn" id="selectBanglaBtn" style="margin-top:0;">🇧🇩 বাংলা</button>
+        <button type="button" class="action-btn" id="selectEnglishBtn" style="margin-top:0;background:linear-gradient(135deg,#475569,#334155);">🇬🇧 English</button>
+        <button type="button" class="action-btn" id="closeLanguageModalBtn" style="margin-top:0;background:#475569;">বন্ধ করুন / Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="passwordModal">
+    <div class="modal-card">
+      <h3>🔒 পাসওয়ার্ড পরিবর্তন করুন</h3>
+      <div class="form-field" style="margin-bottom: 12px;">
+        <label>নতুন পাসওয়ার্ড (কমপক্ষে ৮ সংখ্যার)</label>
+        <input type="password" id="newPasswordInput" placeholder="কমপক্ষে ৮ অক্ষরের পাসওয়ার্ড">
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <button class="action-btn" id="submitNewPasswordBtn" style="margin-top:0; background: linear-gradient(135deg, #059669, #047857);">আপডেট করুন</button>
+        <button class="action-btn" id="closePasswordModalBtn" style="margin-top:0; background: #475569;">বাতিল</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="rechargeModal">
+    <div class="modal-card">
+      <h3>📱 বিকাশ এজেন্ট রিচার্জ</h3>
+      <p>নিচের বিকাশ এজেন্ট নম্বরে ক্যাশ আউট করুন:</p>
+      <div class="agent-box">01636668686 (Agent)</div>
+      <div class="form-field">
+        <label>টাকার পরিমাণ (৫০ - ২০০০০)</label>
+        <input type="number" id="rechargeAmount" min="100" max="20000" placeholder="টাকার পরিমাণ">
+      </div>
+      <div class="form-field" style="margin-bottom: 20px;">
+        <label>ট্রানজেকশন আইডি (TrxID)</label>
+        <input type="text" id="rechargeTrxId" placeholder="যেমন: 9N78X...">
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <button class="action-btn" id="submitRechargeBtn" style="margin-top:0; background: linear-gradient(135deg, #e2136e, #be123c);">রিকোয়েস্ট পাঠান</button>
+        <button class="action-btn" id="closeModalBtn" style="margin-top:0; background: #475569;">বাতিল</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="auth-card" id="authSection">
+      <h2 id="mainTitle">অনলাইন সার্ভিস বিডি</h2>
+      <p id="subTitle">সাইন ইন করতে নিচের ফর্ম পূরণ করুন</p>
+
+      <form id="authForm" autocomplete="on" action="javascript:void(0);">
+        <div class="input-group">
+          <span>✉️</span>
+          <input type="email" id="authEmail" name="username" placeholder="yourmail@gmail.com" autocomplete="username" required>
+        </div>
+        <div class="input-group" id="phoneInputGroup">
+          <span>📞</span>
+          <input type="text" id="authPhone" name="tel" placeholder="01XXXXXXXXX" autocomplete="tel">
+        </div>
+        <div class="input-group">
+          <span>🔒</span>
+          <input type="password" id="authPassword" name="password" placeholder="কমপক্ষে ৮ সংখ্যার পাসওয়ার্ড" autocomplete="current-password" required>
+        </div>
+
+        <div id="signupContainer">
+          <button class="action-btn" type="button" id="signupBtn">সাইন আপ করুন →</button>
+        </div>
+
+        <div id="loginContainer" style="display: none;">
+          <button class="action-btn" type="button" id="loginBtn">লগইন করুন →</button>
+          <button type="button" id="forgotPasswordBtn"
+            style="margin-top:10px; width:100%; background:transparent; border:0; color:#38bdf8; cursor:pointer; font-size:13px;">
+            পাসওয়ার্ড ভুলে গেছেন?
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div class="dashboard-container" id="dashboardContainer">
+      <div class="main-flex-layout">
+
+        <div class="left-sidebar">
+
+          <div class="dash-box sidebar-nav-box">
+            <h3>🧭 নেভিগেশন</h3>
+            <button type="button" class="sidebar-nav-btn dashboard-nav-btn" id="sidebarDashboardBtn">📊 ড্যাশবোর্ড <span>→</span></button>
+          </div>
+
+          <div class="dash-box">
+            <h3>💳 ব্যালেন্স ও রিচার্জ</h3>
+            <p style="font-size: 15px; margin: 5px 0 10px 0;">ব্যালেন্স: <strong style="color: var(--accent-color); font-size: 18px;">৳ <span id="dashBalance">0.00</span></strong></p>
+            <button class="action-btn" id="boxRechargeBtn" style="background: linear-gradient(135deg, #e2136e, #be123c); margin-top:5px; padding: 8px; font-size: 13px;">বিকাশ রিচার্জ করুন</button>
+          </div>
+
+          <div class="dash-box">
+            <h3>👤 ইউজার একাউন্ট</h3>
+            <p style="color: var(--accent-color); font-weight: 700; margin: 4px 0;" id="customerNameDisplay">ইউজার</p>
+            <p id="profileEmailText" style="font-size: 12px; color: var(--text-muted); word-break: break-all; margin: 0;"></p>
+            <div style="display: flex; gap: 8px; margin-top: 12px;">
+              <button class="action-btn" id="profileDetailsBtn" style="margin-top:0; padding: 7px; font-size: 12px;">প্রোফাইল</button>
+              <button class="action-btn" id="logoutMenuBtn" style="background: linear-gradient(135deg, #ef4444, #dc2626); margin-top:0; padding: 7px; font-size: 12px;">লগআউট</button>
+            </div>
+          </div>
+
+          <div class="dash-box user-extra-menu">
+            <h3 id="accountDetailsToggle">👤 একাউন্ট ডিটেলস <span class="account-chevron">⌄</span></h3>
+            <div class="account-submenu" id="accountDetailsMenu">
+              <button type="button" id="accountProfileBtn">👤 প্রোফাইল ডিটেলস <span>→</span></button>
+              <button type="button" id="accountOrdersBtn">📦 অর্ডার হিস্টোরি <span>→</span></button>
+              <button type="button" id="accountRechargeBtn">💳 রিচার্জ হিস্টোরি <span>→</span></button>
+              <button type="button" id="accountSupportBtn">💬 কাস্টমার সাপোর্ট লাইভ <span>→</span></button>
+            </div>
+          </div>
+
+          <div class="dash-box">
+            <h3 class="center-title">🪪 এনআইডি সেবা</h3>
+            <div class="service-list">
+              <div class="service-item-link" onclick="openOrderModal('NID PDF Copy')">
+                <h4>• NID PDF Copy</h4>
+                <p>স্মার্ট বা ভোটার আইডি কার্ড কপি ডাউনলোডের জন্য আবেদন।</p>
+              </div>
+              <div class="service-item-link" onclick="openOrderModal('হারানো NID উদ্ধার')">
+                <h4>• হারানো NID উদ্ধার</h4>
+                <p>ভোটার নম্বর বা ফর্ম স্লিপ দিয়ে আইডি কার্ড কপি ডাউনলোড।</p>
+              </div>
+              <div class="service-item-link" onclick="openOrderModal('NID Server Copy')">
+                <h4>• NID Server Copy</h4>
+                <p>অরিজিনাল সার্ভার কপি ডাউনলোড।</p>
+              </div>
+              <div class="service-item-link" onclick="openOrderModal('ছবি ও ঠিকানা দিয়ে NID PDF')">
+                <h4>• ছবি ও নাম ঠিকানা দিয়ে NID PDF</h4>
+                <p>বিভাগ, জেলা, উপজেলা সিলেক্ট করে ছবি ও ঠিকানা প্রদান করুন।</p>
+              </div>
+              <div class="service-item-link" onclick="openOrderModal('নতুন আইডি কার্ড আবেদন')">
+                <h4>• নতুন আইডি কার্ড আবেদন</h4>
+                <p>নতুন এনআইডি কার্ড এর  আবেদন করতে পারবেন ।</p>
+              </div>
+              <div class="service-item-link" onclick="openOrderModal('নতুন ভোটার নিবন্ধন স্লিপ')">
+                <h4>• নতুন ভোটার নিবন্ধন স্লিপ</h4>
+                <p>নতুন নিবন্ধনের ফরম বা স্লিপ উত্তোলন।</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="dash-box">
+            <h3 class="center-title">📄 জন্ম নিবন্ধন সেবা</h3>
+            <div class="service-list">
+              <div class="service-item-link" onclick="openOrderModal('নতুন জন্ম নিবন্ধন আবেদন')">
+                <h4>• নতুন জন্ম নিবন্ধন আবেদন</h4>
+                <p>নাম, পিতা/মাতার তথ্য, বর্তমান ও স্থায়ী ঠিকানা প্রদান করুন।</p>
+              </div>
+              <div class="service-item-link" onclick="openOrderModal('জন্ম নিবন্ধন অনলাইন কপি')">
+                <h4>• জন্ম নিবন্ধন অনলাইন কপি</h4>
+                <p>জন্ম নিবন্ধন নম্বর এবং জন্ম তারিখ দিয়ে আবেদন করুন।</p>
+              </div>
+              <div class="service-item-link" onclick="openOrderModal('জন্ম সনদ তথ্য সংশোধন')">
+                <h4>• জন্ম সনদ তথ্য সংশোধন</h4>
+                <p>সংশোধনের জন্য ফরমের যাবতীয় তথ্য পূরণ করুন।</p>
+              </div>
+              <div class="service-item-link" onclick="openOrderModal('মৃত্যু নিবন্ধন সনদ আবেদন')">
+                <h4>• মৃত্যু নিবন্ধন সনদ আবেদন</h4>
+                <p>মৃত্যু সনদের জন্য প্রয়োজনীয় তথ্যাদি প্রদান।</p>
+              </div>
+              <div class="service-item-link" onclick="openOrderModal('জন্ম নিবন্ধন ইংরেজি ও বাংলা সনদ রি-ইস্যু')">
+                <h4>• জন্ম নিবন্ধন ইংরেজি ও বাংলা সনদ রি-ইস্যু</h4>
+                <p>অনলাইন কপি রি-প্রিন্ট ও পুনরুদ্ধার।</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="dash-box">
+            <h3 class="center-title">📋 টিন সার্টিফিকেট সেবা</h3>
+            <div class="service-list">
+              <div class="service-item-link" onclick="openOrderModal('নতুন TIN সার্টিফিকেট তৈরি')">
+                <h4>• নতুন TIN সার্টিফিকেট তৈরি</h4>
+                <p>নাম বা জন্ম এবং ঠিকানা প্রদান।</p>
+              </div>
+              <div class="service-item-link" onclick="openOrderModal('দ্রুত নতুন ই-টিন (e-TIN) রেজিস্ট্রেশন')">
+                <h4>• দ্রুত নতুন ই-টিন (e-TIN) রেজিস্ট্রেশন</h4>
+                <p>নাম বা জন্ম এবং ঠিকানা প্রদান।</p>
+              </div>
+              <div class="service-item-link" onclick="openOrderModal('হারানো TIN সার্টিফিকেট উত্তোলন')">
+                <h4>• হারানো TIN সার্টিফিকেট উত্তোলন</h4>
+                <p>নাম বা জন্ম এবং মোবাইল নম্বর প্রধান করুন।</p>
+              </div>
+              <div class="service-item-link" onclick="openOrderModal('পুরাতন বা হারিয়ে যাওয়া টিন সার্টিফিকেট রি-প্রিন্ট বা উদ্ধার')">
+                <h4>• পুরাতন বা হারিয়ে যাওয়া টিন সার্টিফিকেট রি-প্রিন্ট বা উদ্ধার</h4>
+                <p>নাম বা জন্ম এবং মোবাইল নম্বর প্রধান করুন।</p>
+              </div>
+              <div class="service-item-link" onclick="openOrderModal('রিটার্ন দাখিল ও সার্টিফিকেট আপডেট')">
+                <h4>• রিটার্ন দাখিল ও সার্টিফিকেট আপডেট</h4>
+                <p>বার্ষিক আয়কর বিবরণী ও সার্টিফিকেট তথ্য আপডেট।</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="dash-box">
+            <h3 class="center-title">📜 ই-পর্চা বা খতিয়ান সেবা</h3>
+            <div class="service-list">
+              <div class="service-item-link" onclick="openOrderModal('অনলাইন খতিয়ান অনুসন্ধান')">
+                <h4>• অনলাইন খতিয়ান অনুসন্ধান</h4>
+                <p>আরএস, সিএস, এসএ , বিআরএস পিডিএফ বাহির করে দেওয়া হয়।</p>
+              </div>
+              <div class="service-item-link" onclick="openOrderModal('সার্টিফাইড পর্চা কপি আবেদন')">
+                <h4>• সার্টিফাইড পর্চা কপি আবেদন</h4>
+                <p>জমি-জমার পর্চার সার্টিফাইড কপির আবেদন করা হয়।</p>
+              </div>
+              <div class="service-item-link" onclick="openOrderModal('নামজারি (Mutation) আবেদন')">
+                <h4>• নামজারি (Mutation) আবেদন</h4>
+                <p>জমির মিউটেশন বা নামজারির জন্য আবেদন।</p>
+              </div>
+              <div class="service-item-link" onclick="openOrderModal('জমির ম্যাপ ও নকশা সংগ্রহ')">
+                <h4>• জমির ম্যাপ ও নকশা সংগ্রহ</h4>
+                <p>বিভাগ ও জেলা ভিত্তিক ক্যাডাস্ট্রাল ম্যাপ সংগ্রহ।</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="dash-box">
+            <h3 class="center-title">💼 জীবন বৃত্তান্ত (CV) & ফাইল সেবা</h3>
+            <div class="service-list">
+              <div class="service-item-link" onclick="openOrderModal('প্রফেশনাল CV তৈরি (PDF/Word)')">
+                <h4>• প্রফেশনাল CV / Bio-Data তৈরি</h4>
+                <p>চাকরি বা বিয়ের জন্য আকর্ষণীয় সিভি (Word & PDF).</p>
+              </div>
+              <div class="service-item-link" onclick="openOrderModal('Word ফাইল PDF রূপান্তর')">
+                <h4>• Word ফাইল to PDF কনভার্ট সেবা</h4>
+                <p>ফরম্যাটিং ঠিক রেখে ফাইল রূপান্তর ও এডিটিং।</p>
+              </div>
+              <div class="service-item-link" onclick="openOrderModal('পাসপোর্ট সাইজ ছবি এডিটিং ও ব্যাকগ্রাউন্ড রিমুভ')">
+                <h4>• পাসপোর্ট সাইজ ছবি এডিটিং</h4>
+                <p>স্টুডিও কোয়ালিটি ছবি ব্যাকগ্রাউন্ড পরিবর্তন ও রিসাইজ।</p>
+              </div>
+              <div class="service-item-link" onclick="openOrderModal('PDF Merge, Split & Password Remove')">
+                <h4>• PDF ফাইল ম্যানেজমেন্ট সেবা</h4>
+                <p>পিডিএফ মার্জ, স্প্লিট এবং সিকিউরিটি পাসওয়ার্ড রিমুভ।</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="right-content">
+          <div class="user-dashboard-panel" id="userDashboardPanel">
+            <div class="dash-box">
+              <div class="dashboard-section-title">
+                <h3 style="margin:0;color:var(--gold-color);">📊 ইউজার ড্যাশবোর্ড</h3>
+                <button class="ux-toolbtn" id="dashboardRefreshBtn" type="button">🔄 আপডেট</button>
+              </div>
+              <p style="color:var(--text-muted);margin:7px 0 14px;">আপনার কাজ ও রিচার্জের সম্পূর্ণ হিসাব এক জায়গায়।</p>
+              <div class="dashboard-kpis">
+                <div class="dashboard-kpi"><small>📦 মোট কাজ</small><b id="dashTotalOrders">0</b></div>
+                <div class="dashboard-kpi"><small>✅ সম্পন্ন কাজ</small><b id="dashCompletedOrders">0</b></div>
+                <div class="dashboard-kpi"><small>💳 মোট রিচার্জ</small><b id="dashRechargeCount">0</b></div>
+                <div class="dashboard-kpi"><small>💰 মোট টাকা রিচার্জ</small><b id="dashTotalRecharge">৳ 0.00</b></div>
+              </div>
+              <div class="dashboard-table-wrap">
+                <table class="dashboard-table">
+                  <thead><tr><th>ধরন</th><th>বিবরণ</th><th>টাকা</th><th>তারিখ</th><th>অবস্থা</th></tr></thead>
+                  <tbody id="userDashboardTable"><tr><td colspan="5" class="notif-empty">ডাটা লোড হচ্ছে...</td></tr></tbody>
+                </table>
+              </div>
+              <div class="dashboard-click-hint">↗ টেবিলের যেকোনো কাজ/রিচার্জে ক্লিক করলে সংশ্লিষ্ট হিস্টোরি খুলবে</div>
+            </div>
+          </div>
+
+          <div class="content-card" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.9)); border: 1px solid var(--accent-color); text-align: center; display: block; padding: 25px 20px;">
+            <div style="font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 6px; line-height: 1.3;">
+              অনলাইন সার্ভিস বিডি তে আপনাকে স্বাগতম, <span id="boxUserName" style="color: var(--gold-color);">ইউজার</span>
+            </div>
+            <div style="font-size: 15px; color: var(--accent-color); font-weight: 500;">
+              • সকল ডিজিটাল সেবা সচল রয়েছে
+            </div>
+          </div>
+
+          <div class="dash-box" style="width:100%;">
+            <h3>📦 আপনার সাম্প্রতিক অর্ডার ও স্ট্যাটাস</h3>
+            <div style="overflow-x:auto;">
+              <table class="order-table">
+                <thead>
+                  <tr>
+                    <th>সেবার নাম</th>
+                    <th>আইডি নং / নাম / বিবরণ</th>
+                    <th>তারিখ</th>
+                    <th>অবস্থা ও ফাইল</th>
+                  </tr>
+                </thead>
+                <tbody id="userOrderHistoryTable">
+                  <tr>
+                    <td colspan="4" style="text-align: center; color: var(--text-muted);">এখনো কোনো অর্ডার করা হয়নি।</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="dash-box recharge-history-card" style="width:100%;">
+            <h3>💳 আমার রিচার্জ রিকোয়েস্ট</h3>
+            <div style="overflow-x:auto;">
+              <table class="order-table">
+                <thead>
+                  <tr>
+                    <th>তারিখ ও সময়</th>
+                    <th>টাকা</th>
+                    <th>TrxID</th>
+                    <th>অবস্থা</th>
+                  </tr>
+                </thead>
+                <tbody id="userRechargeHistoryTable">
+                  <tr>
+                    <td colspan="4" style="text-align:center;color:var(--text-muted);">রিচার্জ রিকোয়েস্ট লোড হচ্ছে...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <a href="https://wa.me/8801766257634" target="_blank" class="floating-helpline">
+    💬 হেল্পলাইন
+  </a>
+
+  <footer id="contact">
+    <div style="max-width: 1000px; margin: auto;">
+      <p style="font-size: 13px; color: var(--text-muted);">© 2026 অনলাইন সার্ভিস বিডি | সর্বস্বত্ব সংরক্ষিত</p>
+    </div>
+  </footer>
+
+
+  <div class="order-info-modal" id="userOrderInfoModal" role="dialog" aria-modal="true">
+    <div class="order-info-card">
+      <div class="order-info-head">
+        <h3 id="userOrderInfoTitle">📋 অর্ডার ইনফরমেশন</h3>
+        <button type="button" class="order-info-close" id="userOrderInfoClose">✕</button>
+      </div>
+      <div id="userOrderInfoBody" class="order-info-grid"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+    const SUPABASE_URL = 'https://dzjldurvekflugrcvziv.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_W3_LwB3etjp4shhfT5vrXg_pedXbUG6';
+    window.supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+	
+	let notificationTimer = null;
+
+function formatNotificationDate(dateString) {
+    if (!dateString) return '';
+    try {
+        const d = new Date(dateString);
+        return d.toLocaleString('bn-BD', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    } catch (e) {
+        return dateString;
+    }
+}
+
+async function loadUserRechargeHistory() {
+    try {
+        if (!window.supabase) return;
+        const user = userDataStore;
+        if (!user) return;
+
+        const { data, error } = await window.supabase
+            .from('recharges')
+            .select('*')
+            .eq('user_email', user.email)
+            .order('created_at', { ascending: false });
+
+        if (error) console.error("Recharge history error:", error);
+    } catch (err) {
+        console.error("Recharge fetch catch:", err);
+    }
+}
+    let activeSelectedService = '';
+    let localOrdersList = [];
+    let userDataStore = null;
+
+    // আপনার অর্ডার সাবমিট ফাংশন[cite: 2]
+    async function handleOrderSubmit() {
+      try {
+        const currentUser = userDataStore;
+        if (!currentUser) {
+          alert('অনুগ্রহ করে প্রথমে লগইন করুন।');
+          return;
+        }
+
+        const serviceName = activeSelectedService || 'NID PDF Copy';
+        const serviceKey = serviceName.normalize('NFKC').replace(/\s+/g, ' ').trim().toLowerCase();
+        const serviceAmount = Number(window.servicePrices?.[serviceKey] ?? window.servicePrices?.[serviceName] ?? 300);
+
+        // Dynamic form-এর সব input/select/textarea একসাথে সংগ্রহ।
+        // ফলে NID, জন্ম নিবন্ধন, TIN, পর্চা, CV ইত্যাদি প্রতিটি সার্ভিসের
+        // নিজস্ব ফিল্ড আলাদা করে অর্ডারের সাথে সংরক্ষিত হবে।
+        const formContainer = document.getElementById('dynamicFormFields');
+        const serviceFields = {};
+        if (formContainer) {
+          formContainer.querySelectorAll('input, select, textarea').forEach(el => {
+            if (!el.id || el.type === 'submit' || el.type === 'button') return;
+            const label = el.closest('.form-field')?.querySelector('label')?.textContent?.trim()
+              || el.previousElementSibling?.textContent?.trim()
+              || el.name
+              || el.id;
+            let value = '';
+
+            if (el.type === 'file') {
+              value = el.files?.[0]?.name || '';
+            } else {
+              value = String(el.value ?? '').trim();
+            }
+
+            serviceFields[el.id] = {
+              label: label.replace(/\s+/g, ' '),
+              value
+            };
+          });
+        }
+
+        const readField = (id) => String(document.getElementById(id)?.value || '').trim();
+        const inputName =
+          readField('field_name') ||
+          readField('field_name_bn') ||
+          readField('field_name_en') ||
+          'দিদারুল ইসলাম';
+
+        const inputNid =
+          readField('field_nid') ||
+          readField('field_birth_reg_no') ||
+          '';
+
+        const inputMobile =
+          readField('field_mobile') ||
+          userDataStore?.user_metadata?.phone ||
+          document.getElementById('userProfilePhone')?.textContent?.trim() ||
+          '';
+
+        const inputDob = readField('field_dob');
+
+        const nidRequiredServices = [
+          'NID PDF Copy',
+          'হারানো NID উদ্ধার',
+          'NID Server Copy',
+          'ভোটার আইডি কার্ড সংশোধন',
+          'নতুন ভোটার নিবন্ধন স্লিপ'
+        ];
+
+        if (nidRequiredServices.includes(serviceName) && !inputNid) {
+          alert('⚠️ NID / ফরম / ভোটার নম্বর অবশ্যই দিতে হবে।');
+          return;
+        }
+
+        // details-এর মধ্যে সার্ভিসের পুরো ফর্মটি JSON হিসেবে রাখা হচ্ছে।
+        // এতে এক সার্ভিসের তথ্য অন্য সার্ভিসের field-এর সাথে মিশবে না।
+        const orderInformation = {
+          version: 1,
+          service: serviceName,
+          submitted_at: new Date().toISOString(),
+          fields: serviceFields
+        };
+        const orderDetailsJson = 'ORDER_FORM_DATA_V1:' + JSON.stringify(orderInformation);
+
+        const { data, error } = await supabase.rpc('place_order_and_deduct_balance', {
+          p_user_id: currentUser.id,
+          p_service: serviceName,
+          p_name: inputName,
+          p_nid_no: inputNid,
+          p_user_email: currentUser.email,
+          p_amount: serviceAmount
+        });
+
+        if (error) {
+          alert('অর্ডার করা সম্ভব হয়নি: ' + error.message);
+          return;
+        }
+
+        const orderId = data?.order_id || data?.id || data?.orderId || data?.[0]?.order_id || data?.[0]?.id || null;
+
+        if (orderId) {
+          // Standard fields: পুরোনো Admin/User view-গুলোর compatibility বজায় থাকবে।
+          const updatePayload = {
+            details: orderDetailsJson
+          };
+          if (inputNid) updatePayload.nid_no = inputNid;
+          if (inputMobile) updatePayload.mobile = inputMobile;
+          if (inputDob) updatePayload.date_of_birth = inputDob;
+
+          const saveRes = await supabase
+            .from('orders')
+            .update(updatePayload)
+            .eq('id', orderId)
+            .eq('user_id', currentUser.id);
+
+          if (saveRes.error) {
+            console.warn('Full service form data save failed:', saveRes.error);
+            // যদি optional columns না থাকে, অন্তত details-এ পুরো form data রাখার চেষ্টা।
+            await supabase
+              .from('orders')
+              .update({ details: orderDetailsJson })
+              .eq('id', orderId)
+              .eq('user_id', currentUser.id);
+          }
+
+          // Local fallback caches.
+          try {
+            const nidCache = JSON.parse(localStorage.getItem('userOrderNidCache') || '{}');
+            if (inputNid) nidCache[String(orderId)] = inputNid;
+            localStorage.setItem('userOrderNidCache', JSON.stringify(nidCache));
+
+            const contactCache = JSON.parse(localStorage.getItem('userOrderContactCache') || '{}');
+            contactCache[String(orderId)] = { mobile: inputMobile || '', dob: inputDob || '' };
+            localStorage.setItem('userOrderContactCache', JSON.stringify(contactCache));
+          } catch (_) {}
+        }
+
+        alert(`অর্ডার সফল হয়েছে! আপনার নতুন ব্যালেন্স: ৳${data?.remaining_balance ?? '-'}`);
+        console.log('অর্ডার আইডি:', orderId);
+
+        document.getElementById('orderModal').style.display = 'none';
+        // অর্ডার সফলভাবে তৈরি হয়ে গেছে। পরের refresh/load ব্যর্থ হলেও
+        // সেটিকে অর্ডার-সাবমিট ব্যর্থতা হিসেবে দেখানো হবে না।
+        try {
+          await fetchUserData(currentUser);
+        } catch (refreshErr) {
+          console.warn('Post-order refresh failed:', refreshErr);
+        }
+      } catch (err) {
+        console.error('An error occurred before order success was confirmed:', err);
+        alert('অর্ডার প্রক্রিয়ায় সমস্যা হয়েছে। আবার চেষ্টা করুন।');
+      }
+    }
+
+    const divisionList = ["ঢাকা", "চট্টগ্রাম", "রাজশাহী", "খুলনা", "বরিশাল", "সিলেট", "রংপুর", "ময়মনসিংহ"];
+
+    const geoData = {
+      "ঢাকা": {
+        "ঢাকা": ["ধামরাই", "দোহার", "কেরানীগঞ্জ", "নবাবগঞ্জ", "সাভার", "তেজগাঁও", "গুলশান", "রমনা", "মতিঝিল", "ধানমন্ডি", "মিরপুর", "উত্তরা"],
+        "গাজীপুর": ["গাজীপুর সদর", "কালিয়াকৈর", "কালীগঞ্জ", "কাপাসিয়া", "শ্রীপুর"],
+        "নারায়ণগঞ্জ": ["আড়াইহাজার", "বন্দর", "নারায়ণগঞ্জ সদর", "রূপগঞ্জ", "সোনারগাঁও"],
+        "টাঙ্গাইল": ["টাঙ্গাইল সদর", "গোপালপুর", "বাসাইল", "ভূঞাপুর", "কালিহাতী", "মির্জাপুর", "নাগরপুর", "সখিপুর", "ঘাটাইল", "দেওলাদিয়া", "ধনবাড়ী"],
+        "ফরিদপুর": ["ফরিদপুর সদর", "আলফাডাঙা", "ভাংগা", "বোয়ালমারী", "নগরকান্দা", "চরভদ্রাসন", "মধুখালী", "সদরপুর"],
+        "কিশোরগঞ্জ": ["কিশোরগঞ্জ সদর", "অষ্টগ্রাম", "বাজিতপুর", "ভৈরব", "হোসেনপুর", "ইটনা", "করিমগঞ্জ", "কটিয়াদী", "কুলিয়ারচর", "মিঠামইন", "নিকলী", "তারাইল"],
+        "মানিকগঞ্জ": ["মানিকগঞ্জ সদর", "সিংগাইর", "শিবালয়", "সাতুরিয়া", "ঘিওর", "দৌলতপুর", "হরিরামপুর"],
+        "মুন্সিগঞ্জ": ["মুন্সিগঞ্জ সদর", "শ্রীনগর", "সিরাজদিখান", "লৌহজং", "টঙ্গীবাড়ি", "গজারিয়া"],
+        "নরসিংদী": ["নরসিংদী সদর", "বেলাবো", "মনোহরদী", "পলাশ", "রায়পুরা", "শিবপুর"],
+        "রাজবাড়ী": ["রাজবাড়ী সদর", "গোয়ালন্দ", "পাংশা", "বালিয়াকান্দি", "কালুখালী"],
+        "শরীয়তপুর": ["শরীয়তপুর সদর", "নড়িয়া", "জাজিরা", "গোসাইরহাট", "ভেদরগঞ্জ", "ডামুড্যা"],
+        "মাদারীপুর": ["মাদারীপুর সদর", "শিবচর", "কালকিনি", "রাজৈর", "ডাসার"]
+      },
+      "চট্টগ্রাম": {
+        "চট্টগ্রাম": ["আনোয়ারা", "বাঁশখালী", "বোয়ালখালী", "চন্দনাইশ", "ফটিকছড়ি", "হাটহাজারী", "মিরসরাই", "পটিয়া", "রাঙ্গুনিয়া", "রাউজান", "সীতাকুণ্ড", "লোহাগাড়া", "সাতকানিয়া", "সন্দীপ"],
+        "কুমিল্লা": ["কুমিল্লা সদর", "বরুড়া", "ব্রাহ্মণপাড়া", "চান্দিনা", "চৌদ্দগ্রাম", "দাউদকান্দি", "দেবীদ্বার", "হোমনা", "লাকসাম", "মনোহরগঞ্জ", "মুরাদনগর", "নাঙ্গলকোট", "তিতাস"],
+        "ব্রাহ্মণবাড়িয়া": ["ব্রাহ্মণবাড়িয়া সদর", "আশুগঞ্জ", "নাসিরনগর", "নবীনগর", "সরাইল", "কসবা", "আখাউড়া", "বাঞ্ছারামপুর", "বিজয়নগর"],
+        "চাঁদপুর": ["চাঁদপুর সদর", "ফরিদগঞ্জ", "হাইমচর", "হাজীগঞ্জ", "কচুয়া", "মতলব উত্তর", "মতলব দক্ষিণ", "শাহরাস্তি"],
+        "লক্ষ্মীপুর": ["লক্ষ্মীপুর সদর", "কমলনগর", "রায়পুর", "রামগতি", "রামগঞ্জ"],
+        "নোয়াখালী": ["নোয়াখালী সদর", "বেগমগঞ্জ", "চাটখিল", "কোম্পানীগঞ্জ", "হাতিয়া", "সেনবাগ", "সুবর্ণচর", "কবিরহাট"],
+        "ফেনী": ["ফেনী সদর", "ছাগলনাইয়া", "দাগনভূঞা", "পরশুরাম", "ফুলগাজী", "সোনাগাজী"],
+        "কক্সবাজার": ["কক্সবাজার সদর", "চকরিয়া", "টেকনাফ", "উখিয়া", "মহেশখালী", "পেকুয়া", "রামু", "কুতুবদিয়া"],
+        "খাগড়াছড়ি": ["খাগড়াছড়ি সদর", "দীঘিনালা", "পানছড়ি", "লক্ষ্মীছড়ি", "মহালছড়ি", "মানিকছড়ি", "রামগড়", "মাটিরাঙ্গা"],
+        "রাঙ্গামাটি": ["রাঙ্গামাটি সদর", "বাঘাইছড়ি", "বরকল", "কাপ্তাই", "জুরাছড়ি", "লংগদু", "নানিয়ারচর", "রাজস্থলী", "কাওখালী"],
+        "বান্দরবান": ["বান্দরবান সদর", "আলীকদম", "নাইক্ষ্যংছড়ি", "রোয়াংছড়ি", "রুমা", "থানচি", "লামা"]
+      },
+      "রাজশাহী": {
+        "রাজশাহী": ["পবা", "গোদাগাড়ী", "তানোর", "মোহনপুর", "বাগমারা", "চারঘাট", "দুর্গাপুর", "বাঘা", "বোয়ালিয়া"],
+        "বগুড়া": ["বগুড়া সদর", "শিবগঞ্জ", "শেরপুর", "ধুনট", "গাবতলী", "কাহালু", "নন্দীগ্রাম", "সারিয়াকান্দি", "শাজাহানপুর", "দুপচাঁচিয়া", "আদমদীঘি"],
+        "পাবনা": ["পাবনা সদর", "ঈশ্বরদী", "চাটমোহর", "বেড়া", "সুজানগর", "ভাঙ্গুরা", "ফরিদপুর", "আটঘরিয়া", "সাঁথিয়া"],
+        "সিরাজগঞ্জ": ["সিরাজগঞ্জ সদর", "কাজিপুর", "উল্লাপাড়া", "শাহজাদপুর", "বেলকুচি", "কামারখন্দ", "চৌহালি", "রায়গঞ্জ", "তারাশ"],
+        "নাটোর": ["নাটোর সদর", "বাগাতিপাড়া", "বড়াইগ্রাম", "গুরুদাসপুর", "লালপুর", "সিংড়া", "নলডাঙ্গা"],
+        "নওগাঁ": ["নওগাঁ সদর", "মহাদেবপুর", "মান্দা", "পত্নীতলা", "ধামইরহাট", "নিয়ামতপুর", "পোরশা", "সাপাহার", "বদলগাছী", "আত্রাই", "রানীনগর"],
+        "চাঁপাইনবাবগঞ্জ": ["চাঁপাইনবাবগঞ্জ সদর", "গোমস্তাপুর", "নাচোল", "ভোলাহাট", "শিবগঞ্জ"],
+        "জয়পুরহাট": ["জয়পুরহাট সদর", "আক্কেলপুর", "কালাই", "ক্ষেতলাল", "পাঁচবিবি"]
+      },
+      "খুলনা": {
+        "খুলনা": ["রূপসা", "তেরখাদা", "দিঘলিয়া", "ফুলতলা", "বটিয়াঘাটা", "ডুমুরিয়া", "কয়রা", "পাইকগাছা", "দাকোপ"],
+        "যশোর": ["যশোর সদর", "ঝিকরগাছা", "চৌগাছা", "বাঘারপাড়া", "মণিরামপুর", "কেশবপুর", "শার্শা", "অভয়নগর"],
+        "সাতক্ষীরা": ["সাতক্ষীরা সদর", "কলারোয়া", "তালা", "দেবহাটা", "কালীগঞ্জ", "শ্যামনগর", "আশাশুনি"],
+        "মেহেরপুর": ["মেহেরপুর সদর", "গাংনী", "মুজিবনগর"],
+        "নড়াইল": ["নড়াইল সদর", "লোহাগড়া", "কালিয়া"],
+        "চুয়াডাঙ্গা": ["চুয়াডাঙ্গা সদর", "আলমডাঙ্গা", "দামুড়হুদা", "জীবননগর"],
+        "ঝিনাইদহ": ["ঝিনাইদহ সদর", "শৈলকুপা", "হরিণাকুন্ডু", "কালীগঞ্জ", "কোটচাঁদপুর", "মহেশপুর"],
+        "বাগেরহাট": ["বাগেরহাট সদর", "মংলা", "মোড়েলগঞ্জ", "শরণখোলা", "রামপাল", "ফকিরহাট", "কচুয়া", "চিতলমারী"],
+        "মাগুরা": ["মাগুরা সদর", "শ্রীপুর", "মহম্মদপুর", "শালিখা"],
+        "কুষ্টিয়া": ["কুষ্টিয়া সদর", "কুমারখালী", "খোকসা", "মিরপুর", "ভেড়ামারা", "দৌলতপুর"]
+      },
+      "বরিশাল": {
+        "বরিশাল": ["বরিশাল সদর", "বাকেরগঞ্জ", "বাবুগঞ্জ", "উজিরপুর", "মেহেন্দিগঞ্জ", "হিজলা", "বানারীপাড়া", "গৌরনদী", "আগৈলঝাড়া"],
+        "পটুয়াখালী": ["পটুয়াখালী সদর", "বাউফল", "গলাচিপা", "দশমিনা", "কলাপাড়া", "মির্জাগঞ্জ", "রাঙ্গাবালী", "দুমকি"],
+        "ভোলা": ["ভোলা সদর", "বোরহানউদ্দিন", "চরফ্যাশন", "দৌলতখান", "তাজুমদ্দিন", "মনপুরা", "লালমোহন"],
+        "পিরোজপুর": ["পিরোজপুর সদর", "নাজিরপুর", "কাউখালী", "ভাণ্ডারিয়া", "মঠবাড়িয়া", "নেছারাবাদ", "ইন্দুরকানি"],
+        "বরগুনা": ["বরগুনা সদর", "আমতলী", "বেতাগী", "বামনা", "পাথরঘাটা", "তালতলী"],
+        "ঝালকাঠি": ["ঝালকাঠি সদর", "কাঠালিয়া", "নলছিটি", "রাজাপুর"]
+      },
+      "সিলেট": {
+        "সিলেট": ["সিলেট সদর", "বিশ্বনাথ", "গোলাপগঞ্জ", "ফেঞ্চুগঞ্জ", "জৈন্তাপুর", "কোম্পানীগঞ্জ", "কানাইঘাট", "জকিগঞ্জ", "বালাগঞ্জ", "গোয়াইনঘাট", "দক্ষিণ সুরমা"],
+        "মৌলভীবাজার": ["মৌলভীবাজার সদর", "শ্রীমঙ্গল", "কমলগঞ্জ", "কুলাউড়া", "জুড়ী", "বড়লেখা", "রাজনগর"],
+        "হবিগঞ্জ": ["হবিগঞ্জ সদর", "নবীগঞ্জ", "বাহুবল", "চুনারুঘাট", "মাধবপুর", "বানিয়াচং", "আজমিরীগঞ্জ", "শায়েস্তাগঞ্জ", "লাখাই"],
+        "সুনামগঞ্জ": ["সুনামগঞ্জ সদর", "দক্ষিণ সুনামগঞ্জ", "বিশ্বম্ভরপুর", "ছাতক", "জগন্নাথপুর", "দিরাই", "শাল্লা", "ধর্মপাশা", "তাহিরপুর", "জামালগঞ্জ", "মধ্যনগর"]
+      },
+      "রংপুর": {
+        "রংপুর": ["রংপুর সদর", "মিঠাপুকুর", "পীরগঞ্জ", "কাউনিয়া", "পীরগাছা", "বদরগঞ্জ", "তারাগঞ্জ"],
+        "দিনাজপুর": ["দিনাজপুর সদর", "বীরগঞ্জ", "বোচাগঞ্জ", "ফুলবাড়ী", "পার্বতীপুর", "চিরিরবন্দর", "ঘোড়াঘাট", "নবাবগঞ্জ", "বিরামপুর", "খানসামা", "কাহারোল"],
+        "গাইবান্ধা": ["গাইবান্ধা সদর", "ফুলছড়ি", "সাঘাটা", "গোবিন্দগঞ্জ", "পলাশবাড়ী", "সাদুল্লাপুর", "সুন্দরগঞ্জ"],
+        "কুড়িগ্রাম": ["কুড়িগ্রাম সদর", "নাগেশ্বরী", "ভুরুঙ্গামারী", "ফুলবাড়ী", "উলিপুর", "চিলমারী", "রাজিবপুর", "রৌমারী"],
+        "লালমনিরহাট": ["লালমনিরহাট সদর", "হাতীবান্ধা", "কালীগঞ্জ", "আদিতমারী", "পাটগ্রাম"],
+        "নীলফামারী": ["নীলফামারী সদর", "ডোমার", "ডিমলা", "জলঢাকা", "সৈয়দপুর"],
+        "পঞ্চগড়": ["পঞ্চগড় সদর", "বোদা", "দেবীগঞ্জ", "আটোয়ারী", "তেঁতুলিয়া"],
+        "ঠাকুরগাঁও": ["ঠাকুরগাঁও সদর", "বালিয়াডাঙ্গী", "হরিপুর", "রাণীশংকৈল", "পীরগঞ্জ"]
+      },
+      "ময়মনসিংহ": {
+        "ময়মনসিংহ": ["ময়মনসিংহ সদর", "মুক্তাগাছা", "ফুলবাড়ীয়া", "ত্রিশাল", "ভালুকা", "হালুয়াঘাট", "ধোবাউড়া", "ফুলপুর", "নান্দাইল", "গফরগাঁও", "ঈশ্বরগঞ্জ", "তারাকান্দা"],
+        "জামালপুর": ["জামালপুর সদর", "মেলান্দহ", "ইসলামপুর", "দেওয়ানগঞ্জ", "সরিষাবাড়ী", "বকশীগঞ্জ", "মাদারগঞ্জ"],
+        "শেরপুর": ["শেরপুর সদর", "নালিতাবাড়ী", "ঝিনাইগাতী", "শ্রীবরদী", "নকলা"],
+        "নেত্রকোণা": ["নেত্রকোণা সদর", "পূর্বধলা", "দুর্গাপুর", "কলমাকান্দা", "বারহাট্টা", "কেন্দুয়া", "আটপাড়া", "মদন", "মোহনগঞ্জ", "খালিয়াজুরী"]
+      }
+    };
+
+    function getDivisionOptions() {
+      return `<option value="">বিভাগ নির্বাচন করুন</option>` + divisionList.map(div => `<option value="${div}">${div}</option>`).join('');
+    }
+
+    window.onDivisionChange = (divSelectId, distSelectId, upaSelectId) => {
+      const selectedDiv = document.getElementById(divSelectId).value;
+      const distSelect = document.getElementById(distSelectId);
+      const upaSelect = document.getElementById(upaSelectId);
+
+      distSelect.innerHTML = `<option value="">জেলা নির্বাচন করুন</option>`;
+      upaSelect.innerHTML = `<option value="">উপজেলা নির্বাচন করুন</option>`;
+
+      if (selectedDiv && geoData[selectedDiv]) {
+        const districts = Object.keys(geoData[selectedDiv]);
+        districts.forEach(d => {
+          distSelect.innerHTML += `<option value="${d}">${d}</option>`;
+        });
+      }
+    };
+
+    window.onDistrictChange = (divSelectId, distSelectId, upaSelectId) => {
+      const selectedDiv = document.getElementById(divSelectId).value;
+      const selectedDist = document.getElementById(distSelectId).value;
+      const upaSelect = document.getElementById(upaSelectId);
+
+      upaSelect.innerHTML = `<option value="">উপজেলা নির্বাচন করুন</option>`;
+
+      if (selectedDiv && selectedDist && geoData[selectedDiv] && geoData[selectedDiv][selectedDist]) {
+        const upazilas = geoData[selectedDiv][selectedDist];
+        upazilas.forEach(u => {
+          upaSelect.innerHTML += `<option value="${u}">${u}</option>`;
+        });
+      }
+    };
+
+    window.toggleSameAddress = (checkbox) => {
+      const permContainer = document.getElementById('permAddressContainer');
+      if (checkbox.checked) {
+        permContainer.style.display = 'none';
+      } else {
+        permContainer.style.display = 'block';
+      }
+    };
+
+    function getBirthRegistrationFormHTML() {
+      return `
+        <div class="section-subhead">📌 ১. আবেদনকারীর ব্যক্তিগত তথ্য</div>
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>নিজের নাম (বাংলা)</label>
+            <input type="text" id="field_name_bn" placeholder="বাংলায় নাম">
+          </div>
+          <div class="form-field">
+            <label>নিজের নাম (ইংরেজি)</label>
+            <input type="text" id="field_name_en" placeholder="English Name">
+          </div>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>মোবাইল নম্বর</label>
+            <input type="text" id="field_mobile" placeholder="01XXXXXXXXX">
+          </div>
+          <div class="form-field">
+            <label>জন্ম তারিখ</label>
+            <input type="date" id="field_dob">
+          </div>
+        </div>
+
+        <hr class="section-divider">
+        <div class="section-subhead">👨‍👦 ২. পিতার তথ্য</div>
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>পিতার নাম (বাংলা)</label>
+            <input type="text" id="field_father_bn" placeholder="পিতার বাংলা নাম">
+          </div>
+          <div class="form-field">
+            <label>পিতার নাম (ইংরেজি)</label>
+            <input type="text" id="field_father_en" placeholder="Father's English Name">
+          </div>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>পিতার আইডি / NID নম্বর</label>
+            <input type="text" id="field_father_id" placeholder="আইডি নম্বর">
+          </div>
+          <div class="form-field">
+            <label>পিতার জন্ম তারিখ</label>
+            <input type="date" id="field_father_dob">
+          </div>
+        </div>
+
+        <hr class="section-divider">
+        <div class="section-subhead">👩‍👦 ৩. মাতার তথ্য</div>
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>মাতার নাম (বাংলা)</label>
+            <input type="text" id="field_mother_bn" placeholder="মাতার বাংলা নাম">
+          </div>
+          <div class="form-field">
+            <label>মাতার নাম (ইংরেজি)</label>
+            <input type="text" id="field_mother_en" placeholder="Mother's English Name">
+          </div>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>মাতার আইডি / NID নম্বর</label>
+            <input type="text" id="field_mother_id" placeholder="আইডি নম্বর">
+          </div>
+          <div class="form-field">
+            <label>মাতার জন্ম তারিখ</label>
+            <input type="date" id="field_mother_dob">
+          </div>
+        </div>
+
+        <hr class="section-divider">
+        <div class="section-subhead">🏡 ৪. বর্তমান ঠিকানা</div>
+        <div class="form-grid-3">
+          <div class="form-field">
+            <label>বিভাগ সিলেক্ট</label>
+            <select id="curr_division" onchange="window.onDivisionChange('curr_division', 'curr_district', 'curr_upazila')">
+              ${getDivisionOptions()}
+            </select>
+          </div>
+          <div class="form-field">
+            <label>জেলা সিলেক্ট</label>
+            <select id="curr_district" onchange="window.onDistrictChange('curr_division', 'curr_district', 'curr_upazila')">
+              <option value="">জেলা নির্বাচন করুন</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>উপজেলা সিলেক্ট</label>
+            <select id="curr_upazila">
+              <option value="">উপজেলা নির্বাচন করুন</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>ইউনিয়ন / পৌরসভা</label>
+            <input type="text" id="curr_union" placeholder="ইউনিয়ন নাম">
+          </div>
+          <div class="form-field">
+            <label>ওয়ার্ড নম্বর</label>
+            <input type="text" id="curr_ward" placeholder="ওয়ার্ড নং">
+          </div>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>গ্রাম / রাস্তা / পাড়া</label>
+            <input type="text" id="curr_village" placeholder="গ্রামের নাম">
+          </div>
+          <div class="form-field">
+            <label>পোস্ট অফিস নাম ও কোড</label>
+            <input type="text" id="curr_post" placeholder="যেমন: ধানমন্ডি ১২০৯">
+          </div>
+        </div>
+
+        <div class="checkbox-container">
+          <input type="checkbox" id="sameAddressBtn" onchange="window.toggleSameAddress(this)">
+          <label for="sameAddressBtn">☑️ বর্তমান ঠিকানা এবং স্থায়ী ঠিকানা একই (Same)</label>
+        </div>
+
+        <div class="section-subhead">🏠 ৫. স্থায়ী ঠিকানা</div>
+        <div id="permAddressContainer">
+          <div class="form-grid-3">
+            <div class="form-field">
+              <label>বিভাগ সিলেক্ট</label>
+              <select id="perm_division" onchange="window.onDivisionChange('perm_division', 'perm_district', 'perm_upazila')">
+                ${getDivisionOptions()}
+              </select>
+            </div>
+            <div class="form-field">
+              <label>জেলা সিলেক্ট</label>
+              <select id="perm_district" onchange="window.onDistrictChange('perm_division', 'perm_district', 'perm_upazila')">
+                <option value="">জেলা নির্বাচন করুন</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label>উপজেলা সিলেক্ট</label>
+              <select id="perm_upazila">
+                <option value="">উপজেলা নির্বাচন করুন</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label>ইউনিয়ন / পৌরসভা</label>
+              <input type="text" id="perm_union" placeholder="ইউনিয়ন নাম">
+            </div>
+            <div class="form-field">
+              <label>ওয়ার্ড নম্বর</label>
+              <input type="text" id="perm_ward" placeholder="ওয়ার্ড নং">
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label>গ্রাম / রাস্তা / পাড়া</label>
+              <input type="text" id="perm_village" placeholder="গ্রামের নাম">
+            </div>
+            <div class="form-field">
+              <label>পোস্ট অফিস নাম ও কোড</label>
+              <input type="text" id="perm_post" placeholder="যেমন: ঢাকা ১২১২">
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    window.servicePrices = {};
+
+    async function loadServicePrices() {
+      let data = null;
+      let error = null;
+      const rpc = await supabase.rpc('get_service_prices_with_status');
+      if (!rpc.error && Array.isArray(rpc.data)) {
+        data = rpc.data;
+      } else {
+        const fallback = await supabase.from('service_prices').select('service_name,price,is_active');
+        data = fallback.data;
+        error = fallback.error;
+      }
+      if (error) { console.error('Service prices/status load error:', error); return; }
+      window.servicePrices = {};
+      window.serviceStatus = {};
+      window.serviceNameLookup = {};
+      const normalizeServiceName = (value) => String(value ?? '')
+        .normalize('NFKC').replace(/\s+/g, ' ').trim().toLowerCase();
+      (data || []).forEach(row => {
+        const key = normalizeServiceName(row.service_name);
+        window.servicePrices[row.service_name] = Number(row.price || 0);
+        window.serviceStatus[row.service_name] = row.is_active !== false;
+        window.servicePrices[key] = Number(row.price || 0);
+        window.serviceStatus[key] = row.is_active !== false;
+        window.serviceNameLookup[key] = row.service_name;
+      });
+
+      const serviceLinks = document.querySelectorAll('.service-item-link');
+      serviceLinks.forEach(item => {
+        const h4El = item.querySelector('h4');
+        if (!h4El) return;
+        const serviceName = h4El.textContent.replace(/^•\s*/, '').trim();
+        const serviceKey = normalizeServiceName(serviceName);
+        const price = Number(window.servicePrices[serviceKey] ?? window.servicePrices[serviceName] ?? 0);
+        const active = window.serviceStatus[serviceKey] !== false && window.serviceStatus[serviceName] !== false;
+        let priceBadge = item.querySelector('.service-price-badge');
+        if (!priceBadge) { priceBadge = document.createElement('span'); priceBadge.className = 'service-price-badge'; item.appendChild(priceBadge); }
+        priceBadge.textContent = '💰 মূল্য: ৳ ' + price.toFixed(2);
+        let statusBadge = item.querySelector('.service-status-badge');
+        if (!statusBadge) { statusBadge = document.createElement('span'); statusBadge.className = 'service-status-badge'; item.appendChild(statusBadge); }
+        statusBadge.className = 'service-status-badge ' + (active ? 'service-status-running' : 'service-status-closed');
+        statusBadge.textContent = active ? '🟢 কাজ চলমান' : '🔴 কাজ বন্ধ';
+        item.classList.toggle('service-closed', !active);
+        item.setAttribute('data-service-active', active ? 'true' : 'false');
+        item.style.opacity = active ? '1' : '0.72';
+        item.style.cursor = active ? 'pointer' : 'not-allowed';
+      });
+    }
+
+
+    window.openOrderModal = (serviceName) => {
+      const serviceKey = String(serviceName ?? '').normalize('NFKC').replace(/\s+/g, ' ').trim().toLowerCase();
+      if (window.serviceStatus && (window.serviceStatus[serviceKey] === false || window.serviceStatus[serviceName] === false)) {
+        alert('🔴 এই সার্ভিসের কাজ বর্তমানে বন্ধ আছে। পরে আবার চেষ্টা করুন।');
+        return;
+      }
+      activeSelectedService = serviceName;
+      document.getElementById('modalServiceTitle').textContent = '📝 ' + serviceName;
+      let priceBox = document.getElementById('modalServicePrice');
+      if (!priceBox) {
+        priceBox = document.createElement('div');
+        priceBox.id = 'modalServicePrice';
+        priceBox.className = 'modal-price-box';
+        document.getElementById('modalServiceTitle').insertAdjacentElement('afterend', priceBox);
+      }
+      const selectedPrice = Number(window.servicePrices?.[serviceKey] ?? window.servicePrices?.[serviceName] ?? 0);
+      priceBox.textContent = `💰 সেবার মূল্য: ৳ ${selectedPrice.toFixed(2)}`;
+
+      const formContainer = document.getElementById('dynamicFormFields');
+      formContainer.innerHTML = '';
+
+    function getNewNidApplicationFormHTML() {
+      return `
+        <div class="section-subhead">🪪 ১. আবেদনকারীর ব্যক্তিগত তথ্য</div>
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>নাম (বাংলা) <span class="req">*</span></label>
+            <input type="text" id="nid_name_bn" placeholder="বাংলায় সম্পূর্ণ নাম" required>
+          </div>
+          <div class="form-field">
+            <label>নাম (ইংরেজি) <span class="req">*</span></label>
+            <input type="text" id="nid_name_en" placeholder="Full Name in English" required>
+          </div>
+        </div>
+        <div class="form-grid-3">
+          <div class="form-field">
+            <label>জন্ম সনদ নং <span class="req">*</span></label>
+            <input type="text" id="nid_birth_cert_no" placeholder="জন্ম সনদ নম্বর" required>
+          </div>
+          <div class="form-field">
+            <label>জন্ম তারিখ <span class="req">*</span></label>
+            <input type="date" id="nid_dob" required>
+          </div>
+          <div class="form-field">
+            <label>মোবাইল নং <span class="req">*</span></label>
+            <input type="tel" id="nid_mobile" placeholder="01XXXXXXXXX" required>
+          </div>
+        </div>
+        <div class="form-field">
+          <label>রক্তের গ্রুপ <span class="req">*</span></label>
+          <select id="nid_blood_group" required>
+            <option value="">রক্তের গ্রুপ নির্বাচন করুন</option>
+            <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+            <option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
+          </select>
+        </div>
+
+        <hr class="section-divider">
+        <div class="section-subhead">👨‍👧 ২. পিতার তথ্য</div>
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>পিতার নাম (বাংলা) <span class="req">*</span></label>
+            <input type="text" id="nid_father_bn" placeholder="পিতার বাংলা নাম" required>
+          </div>
+          <div class="form-field">
+            <label>পিতার নাম (ইংরেজি) <span class="req">*</span></label>
+            <input type="text" id="nid_father_en" placeholder="Father's English Name" required>
+          </div>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>পিতার এনআইডি নং <small>(অপশনাল)</small></label>
+            <input type="text" id="nid_father_id" placeholder="পিতার NID নম্বর">
+          </div>
+          <div class="form-field">
+            <label>পিতার জন্ম তারিখ <small>(অপশনাল)</small></label>
+            <input type="date" id="nid_father_dob">
+          </div>
+        </div>
+        <div class="form-field">
+          <label>পিতার আইডি/NID আপলোড <small>(অপশনাল)</small></label>
+          <input type="file" id="nid_father_id_file" accept="image/*,.pdf" style="padding:6px;">
+        </div>
+
+        <hr class="section-divider">
+        <div class="section-subhead">👩‍👧 ৩. মাতার তথ্য</div>
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>মাতার নাম (বাংলা) <span class="req">*</span></label>
+            <input type="text" id="nid_mother_bn" placeholder="মাতার বাংলা নাম" required>
+          </div>
+          <div class="form-field">
+            <label>মাতার নাম (ইংরেজি) <span class="req">*</span></label>
+            <input type="text" id="nid_mother_en" placeholder="Mother's English Name" required>
+          </div>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>মাতার এনআইডি নং <small>(অপশনাল)</small></label>
+            <input type="text" id="nid_mother_id" placeholder="মাতার NID নম্বর">
+          </div>
+          <div class="form-field">
+            <label>মাতার জন্ম তারিখ <small>(অপশনাল)</small></label>
+            <input type="date" id="nid_mother_dob">
+          </div>
+        </div>
+        <div class="form-field">
+          <label>মাতার আইডি/NID আপলোড <small>(অপশনাল)</small></label>
+          <input type="file" id="nid_mother_id_file" accept="image/*,.pdf" style="padding:6px;">
+        </div>
+
+        <hr class="section-divider">
+        <div class="section-subhead">🏡 ৪. বর্তমান ঠিকানা</div>
+        <div class="form-grid-3">
+          <div class="form-field">
+            <label>বিভাগ <span class="req">*</span></label>
+            <select id="nid_curr_division" onchange="window.onDivisionChange('nid_curr_division','nid_curr_district','nid_curr_thana')" required>${getDivisionOptions()}</select>
+          </div>
+          <div class="form-field">
+            <label>জেলা <span class="req">*</span></label>
+            <select id="nid_curr_district" onchange="window.onDistrictChange('nid_curr_division','nid_curr_district','nid_curr_thana')" required><option value="">জেলা নির্বাচন করুন</option></select>
+          </div>
+          <div class="form-field">
+            <label>থানা / উপজেলা <span class="req">*</span></label>
+            <select id="nid_curr_thana" required><option value="">থানা / উপজেলা নির্বাচন করুন</option></select>
+          </div>
+        </div>
+        <div class="form-grid-3">
+          <div class="form-field"><label>ইউনিয়ন / পৌরসভা <span class="req">*</span></label><select id="nid_curr_union" required><option value="">ইউনিয়ন / পৌরসভা নির্বাচন করুন</option></select></div>
+          <div class="form-field"><label>ওয়ার্ড <span class="req">*</span></label><select id="nid_curr_ward" required><option value="">ওয়ার্ড নির্বাচন করুন</option>${Array.from({length:9},(_,i)=>`<option value="${i+1}">${i+1} নং ওয়ার্ড</option>`).join('')}</select></div>
+          <div class="form-field"><label>গ্রাম <span class="req">*</span></label><input type="text" id="nid_curr_village" placeholder="গ্রামের নাম" required></div>
+        </div>
+        <div class="form-field"><label>পোস্ট অফিস নাম ও কোড <span class="req">*</span></label><input type="text" id="nid_curr_post" placeholder="পোস্ট অফিসের নাম ও পোস্ট কোড" required></div>
+
+        <hr class="section-divider">
+        <div class="section-subhead">🏠 ৫. স্থায়ী ঠিকানা</div>
+        <div class="checkbox-container">
+          <input type="checkbox" id="nid_same_address" onchange="window.copyNidCurrentToPermanent(this)">
+          <label for="nid_same_address">☑️ বর্তমান ঠিকানা এবং স্থায়ী ঠিকানা একই</label>
+        </div>
+        <div id="nidPermAddressContainer">
+          <div class="form-grid-3">
+            <div class="form-field">
+              <label>বিভাগ <span class="req">*</span></label>
+              <select id="nid_perm_division" onchange="window.onDivisionChange('nid_perm_division','nid_perm_district','nid_perm_thana')" required>${getDivisionOptions()}</select>
+            </div>
+            <div class="form-field">
+              <label>জেলা <span class="req">*</span></label>
+              <select id="nid_perm_district" onchange="window.onDistrictChange('nid_perm_division','nid_perm_district','nid_perm_thana')" required><option value="">জেলা নির্বাচন করুন</option></select>
+            </div>
+            <div class="form-field">
+              <label>থানা / উপজেলা <span class="req">*</span></label>
+              <select id="nid_perm_thana" required><option value="">থানা / উপজেলা নির্বাচন করুন</option></select>
+            </div>
+          </div>
+          <div class="form-grid-3">
+            <div class="form-field"><label>ইউনিয়ন / পৌরসভা <span class="req">*</span></label><select id="nid_perm_union" required><option value="">ইউনিয়ন / পৌরসভা নির্বাচন করুন</option></select></div>
+            <div class="form-field"><label>ওয়ার্ড <span class="req">*</span></label><select id="nid_perm_ward" required><option value="">ওয়ার্ড নির্বাচন করুন</option>${Array.from({length:9},(_,i)=>`<option value="${i+1}">${i+1} নং ওয়ার্ড</option>`).join('')}</select></div>
+            <div class="form-field"><label>গ্রাম <span class="req">*</span></label><input type="text" id="nid_perm_village" placeholder="গ্রামের নাম" required></div>
+          </div>
+          <div class="form-field"><label>পোস্ট অফিস নাম ও কোড <span class="req">*</span></label><input type="text" id="nid_perm_post" placeholder="পোস্ট অফিসের নাম ও পোস্ট কোড" required></div>
+        </div>
+        <div style="margin-top:10px;padding:10px 12px;border-radius:10px;background:rgba(56,189,248,.07);font-size:12px;color:var(--text-muted);">
+          ℹ️ বিভাগ, জেলা ও থানা/উপজেলা নির্বাচন করলে পরবর্তী ঠিকানা অপশন ব্যবহার করা যাবে। ইউনিয়ন/পৌরসভা তালিকা আপনার ডাটাবেজে যুক্ত হলে সেটিও স্বয়ংক্রিয়ভাবে পূরণ করা যাবে।
+        </div>
+      `;
+    }
+
+    window.copyNidCurrentToPermanent = (checkbox) => {
+      const container = document.getElementById('nidPermAddressContainer');
+      if (!container) return;
+      container.style.display = checkbox.checked ? 'none' : 'block';
+      if (!checkbox.checked) return;
+      const pairs = [
+        ['nid_curr_division','nid_perm_division'], ['nid_curr_district','nid_perm_district'], ['nid_curr_thana','nid_perm_thana'],
+        ['nid_curr_union','nid_perm_union'], ['nid_curr_ward','nid_perm_ward'], ['nid_curr_village','nid_perm_village'], ['nid_curr_post','nid_perm_post']
+      ];
+      pairs.forEach(([a,b]) => {
+        const src=document.getElementById(a), dst=document.getElementById(b);
+        if(src && dst){ dst.value=src.value; dst.dispatchEvent(new Event('change',{bubbles:true})); }
+      });
+    };
+
+      const normalizedServiceName = String(serviceName || '').normalize('NFKC').replace(/\s+/g, ' ').trim();
+      if (normalizedServiceName === 'নতুন আইডি কার্ড আবেদন' || (normalizedServiceName.includes('নতুন') && normalizedServiceName.includes('আইডি কার্ড আবেদন'))) {
+        formContainer.innerHTML = getNewNidApplicationFormHTML();
+      } else if (['NID PDF Copy', 'হারানো NID উদ্ধার', 'NID Server Copy', 'ভোটার আইডি কার্ড সংশোধন', 'নতুন ভোটার নিবন্ধন স্লিপ'].includes(serviceName)) {
+        formContainer.innerHTML = `
+          <div class="form-field">
+            <label>১. কাস্টমারের নাম <span class="req">*</span></label>
+            <input type="text" id="field_name" placeholder="আপনার নাম লিখুন" required>
+          </div>
+          <div class="form-field">
+            <label>২. NID / ফরম / ভোটার নম্বর <span class="req">*</span></label>
+            <input type="text" id="field_nid" placeholder="NID বা ভোটার বা ফরম নম্বর" required>
+          </div>
+          <div class="form-field">
+            <label>৩. জন্ম তারিখ</label>
+            <input type="date" id="field_dob">
+          </div>
+        `;
+      } else if (serviceName === 'ছবি ও ঠিকানা দিয়ে NID PDF') {
+        formContainer.innerHTML = `
+          <div class="form-field">
+            <label>কাস্টমারের নাম <span class="req">*</span></label>
+            <input type="text" id="field_name" placeholder="কাস্টমারের সম্পূর্ণ নাম লিখুন" required>
+          </div>
+          <div class="form-field">
+            <label>মোবাইল নম্বর <span class="req">*</span></label>
+            <input type="text" id="field_mobile" placeholder="01XXXXXXXXX" required>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label>পিতার নাম <span class="req">*</span></label>
+              <input type="text" id="field_father_name" placeholder="পিতার নাম লিখুন" required>
+            </div>
+            <div class="form-field">
+              <label>মাতার নাম <span class="req">*</span></label>
+              <input type="text" id="field_mother_name" placeholder="মাতার নাম লিখুন" required>
+            </div>
+          </div>
+          <div class="form-grid-3">
+            <div class="form-field">
+              <label>বিভাগ সিলেক্ট <span class="req">*</span></label>
+              <select id="nid_division" required onchange="window.onDivisionChange('nid_division', 'nid_district', 'nid_upazila')">
+                ${getDivisionOptions()}
+              </select>
+            </div>
+            <div class="form-field">
+              <label>জেলা সিলেক্ট <span class="req">*</span></label>
+              <select id="nid_district" required onchange="window.onDistrictChange('nid_division', 'nid_district', 'nid_upazila')">
+                <option value="">জেলা নির্বাচন করুন</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label>উপজেলা সিলেক্ট <span class="req">*</span></label>
+              <select id="nid_upazila" required>
+                <option value="">উপজেলা নির্বাচন করুন</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label>ইউনিয়ন / পৌরসভা <span class="req">*</span></label>
+              <input type="text" id="field_union" placeholder="ইউনিয়ন বা পৌরসভা নাম" required>
+            </div>
+            <div class="form-field">
+              <label>ওয়ার্ড নম্বর <span class="req">*</span></label>
+              <input type="text" id="field_ward" placeholder="ওয়ার্ড নম্বর" required>
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label>গ্রাম / রাস্তা / পাড়া <span class="req">*</span></label>
+              <input type="text" id="field_village" placeholder="গ্রাম বা রাস্তার নাম" required>
+            </div>
+            <div class="form-field">
+              <label>পোস্ট অফিস <span class="req">*</span></label>
+              <input type="text" id="field_post" placeholder="পোস্ট অফিস ও কোড" required>
+            </div>
+          </div>
+          <div class="form-field">
+            <label>কাস্টমারের ছবি আপলোড করুন <span class="req">*</span></label>
+            <input type="file" id="field_photo" accept="image/*" style="padding: 6px;" required>
+          </div>
+        `;
+      } else if (serviceName === 'জন্ম নিবন্ধন অনলাইন কপি') {
+        formContainer.innerHTML = `
+          <div class="form-field">
+            <label>১. জন্ম নিবন্ধন নম্বর <span class="req">*</span></label>
+            <input type="text" id="field_birth_reg_no" placeholder="১৭ ডিজিটের জন্ম নিবন্ধন নম্বর লিখুন" required>
+          </div>
+          <div class="form-field">
+            <label>২. জন্ম তারিখ <span class="req">*</span></label>
+            <input type="date" id="field_dob" required>
+          </div>
+        `;
+      } else if (['নতুন জন্ম নিবন্ধন আবেদন', 'জন্ম সনদ তথ্য সংশোধন', 'মৃত্যু নিবন্ধন সনদ আবেদন', 'জন্ম নিবন্ধন ইংরেজি ও বাংলা সনদ রি-ইস্যু'].includes(serviceName)) {
+        formContainer.innerHTML = getBirthRegistrationFormHTML();
+      } else if (['নতুন TIN সার্টিফিকেট তৈরি', 'দ্রুত নতুন ই-টিন (e-TIN) রেজিস্ট্রেশন', 'হারানো TIN সার্টিফিকেট উত্তোলন', 'পুরাতন বা হারিয়ে যাওয়া টিন সার্টিফিকেট রি-প্রিন্ট বা উদ্ধার', 'রিটার্ন দাখিল ও সার্টিফিকেট আপডেট'].includes(serviceName)) {
+        formContainer.innerHTML = `
+          <div class="form-field">
+            <label>১. আবেদনকারীর নাম <span class="req">*</span></label>
+            <input type="text" id="field_name" placeholder="নাম লিখুন" required>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label>২. মোবাইল নম্বর <span class="req">*</span></label>
+              <input type="text" id="field_mobile" placeholder="01XXXXXXXXX" required>
+            </div>
+            <div class="form-field">
+              <label>৩. জাতীয় পরিচয়পত্র নম্বর (NID)</label>
+              <input type="text" id="field_nid" placeholder="NID নম্বর">
+            </div>
+          </div>
+          <div class="form-field">
+            <label>৪. বর্তমান ঠিকানা / এলাকা</label>
+            <input type="text" id="field_address" placeholder="জেলা ও থানা">
+          </div>
+        `;
+      } else if (['অনলাইন খতিয়ান অনুসন্ধান', 'সার্টিফাইড পর্চা কপি আবেদন', 'নামজারি (Mutation) আবেদন', 'জমির ম্যাপ ও নকশা সংগ্রহ'].includes(serviceName)) {
+        formContainer.innerHTML = `
+          <div class="form-field">
+            <label>১. আবেদনকারীর নাম <span class="req">*</span></label>
+            <input type="text" id="field_name" placeholder="আপনার নাম" required>
+          </div>
+          <div class="form-grid-3">
+            <div class="form-field">
+              <label>২. বিভাগ</label>
+              <input type="text" id="field_div" placeholder="বিভাগ">
+            </div>
+            <div class="form-field">
+              <label>৩. জেলা</label>
+              <input type="text" id="field_dist" placeholder="জেলা">
+            </div>
+            <div class="form-field">
+              <label>৪. উপজেলা</label>
+              <input type="text" id="field_upa" placeholder="উপজেলা">
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label>৫. মৌজা / জে.এল নম্বর</label>
+              <input type="text" id="field_mouza" placeholder="মৌজার নাম ও জে.এল নং">
+            </div>
+            <div class="form-field">
+              <label>৬. খতিয়ান বা দাগ নম্বর</label>
+              <input type="text" id="field_khatian" placeholder="খতিয়ান বা দাগ নং">
+            </div>
+          </div>
+        `;
+      } else {
+        formContainer.innerHTML = `
+          <div class="form-field">
+            <label>১. আপনার নাম <span class="req">*</span></label>
+            <input type="text" id="field_name" placeholder="আপনার সম্পূর্ণ নাম লিখুন" required>
+          </div>
+          <div class="form-field">
+            <label>২. বিস্তারিত বিবরণ / তথ্য <span class="req">*</span></label>
+            <textarea id="field_nid" rows="3" placeholder="প্রয়োজনীয় তথ্য ও বিবরণ এখানে লিখুন" required></textarea>
+          </div>
+        `;
+      }
+
+      document.getElementById('orderModal').style.display = 'flex';
+    };
+
+    document.getElementById('closeOrderModalBtn').addEventListener('click', () => {
+      document.getElementById('orderModal').style.display = 'none';
+    });
+
+    document.getElementById('orderDynamicForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await handleOrderSubmit();
+    });
+
+    function getStatusBadge(status, fileUrl) {
+      if (status === 'সম্পন্ন' || status === 'completed' || fileUrl) {
+        return `
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <span class="status-badge status-completed">সম্পন্ন</span>
+            ${fileUrl ? `
+              <a href="${fileUrl}" target="_blank" class="download-btn-table">📥 ফাইল ডাউনলোড</a>
+              <a href="${fileUrl}" target="_blank" class="view-file-link">বর্তমান ফাইল/লিংক দেখুন</a>
+            ` : '<span style="font-size:11px; color:var(--text-muted);">ফাইল যুক্ত হয়নি</span>'}
+          </div>
+        `;
+      }
+      return `<span class="status-badge status-pending">${status || 'পেন্ডিং'}</span>`;
+    }
+
+    const escapeOrderHtml = (value) => {
+      if (value === null || value === undefined) return '';
+      return String(value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+    };
+    const orderLabel = (key) => ({
+      id:'ডাটাবেজ ID', order_id:'অর্ডার ID', user_id:'ইউজার ID', service:'সেবার নাম',
+      service_name:'সেবার নাম', name:'আবেদনকারীর নাম', full_name:'পূর্ণ নাম',
+      user_email:'ইমেইল', email:'ইমেইল', mobile:'মোবাইল নম্বর', phone:'ফোন নম্বর',
+      nid_no:'NID / আইডি নম্বর', nid:'NID / আইডি নম্বর', nid_number:'NID / আইডি নম্বর',
+      details:'অর্ডারের বিস্তারিত', description:'বিবরণ', order_details:'অর্ডারের বিস্তারিত',
+      amount:'মূল্য', price:'মূল্য', status:'স্ট্যাটাস', file_url:'ফাইল / লিংক', file:'ফাইল / লিংক',
+      created_at:'অর্ডারের সময়', updated_at:'সর্বশেষ আপডেট', completed_at:'সম্পন্ন হওয়ার সময়',
+      date_of_birth:'জন্ম তারিখ', dob:'জন্ম তারিখ', birth_date:'জন্ম তারিখ'
+    }[key] || key.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase()));
+
+    function getValidUserPhone() {
+      const metaPhone = String(userDataStore?.user_metadata?.phone || '').trim();
+      const profilePhone = String(window.__currentProfileMobile || '').trim();
+      const isBdMobile = v => /^(?:\+?880)?01[3-9]\d{8}$/.test(v.replace(/[\s-]/g,''));
+      if (isBdMobile(profilePhone)) return profilePhone;
+      if (isBdMobile(metaPhone)) return metaPhone;
+      return profilePhone || metaPhone || '-';
+    }
+
+    window.showUserOrderDetails = (id) => {
+      const order = localOrdersList.find(o => String(o.id) === String(id));
+      const modal = document.getElementById('userOrderInfoModal');
+      const body = document.getElementById('userOrderInfoBody');
+      if(!order || !modal || !body){ toast('অর্ডারের তথ্য পাওয়া যায়নি।'); return; }
+
+      const raw = order.raw || order;
+      let contactCache = {};
+      try { contactCache = JSON.parse(localStorage.getItem('userOrderContactCache') || '{}'); } catch (_) {}
+      const cached = contactCache[String(order.id)] || {};
+
+      const service = raw.service || raw.service_name || order.service || '-';
+      const nid = String(raw.nid_no || raw.nid || raw.nid_number || order.nid_no || '').trim();
+      const mobile = String(raw.mobile || raw.phone || order.mobile || '').trim();
+      const phone = mobile || cached.mobile || getValidUserPhone();
+      const dob = String(raw.date_of_birth || raw.dob || raw.birth_date || order.dob || cached.dob || '').trim();
+
+      const display = [
+        ['order_id','অর্ডার ID',raw.order_id || raw.id || '-'],
+        ['service','সেবার নাম',service],
+        ['mobile','📱 ফোন নম্বর',phone || '-'],
+        ['email','ইমেইল',raw.user_email || raw.email || userDataStore?.email || '-'],
+        ['amount','মূল্য',raw.amount ?? raw.price ?? '-'],
+        ['status','স্ট্যাটাস',raw.status || order.status || 'নতুন'],
+        ['created_at','অর্ডারের সময়',raw.created_at ? new Date(raw.created_at).toLocaleString('bn-BD',{dateStyle:'medium',timeStyle:'short'}) : '-'],
+        ['updated_at','সর্বশেষ আপডেট',raw.updated_at ? new Date(raw.updated_at).toLocaleString('bn-BD',{dateStyle:'medium',timeStyle:'short'}) : '-']
+      ];
+
+      // Service-specific fields: details-এ রাখা JSON থেকে পড়া হবে।
+      let parsed = null;
+      const detailsText = String(raw.details || '');
+      const cleanDetailsText = detailsText.startsWith('ORDER_FORM_DATA_V1:')
+        ? ''
+        : detailsText;
+      if (detailsText.startsWith('ORDER_FORM_DATA_V1:')) {
+        try {
+          parsed = JSON.parse(detailsText.slice('ORDER_FORM_DATA_V1:'.length));
+        } catch (_) {}
+      }
+
+      if (parsed?.fields) {
+        Object.entries(parsed.fields).forEach(([fieldId, item]) => {
+          const label = String(item?.label || fieldId).replace(/\s+/g,' ').trim();
+          const value = String(item?.value ?? '').trim();
+          if (!value) return;
+
+          // Phone/NID/DOB আলাদা standard row-এ আছে; একই তথ্য duplicate না দেখানো।
+          const normalized = label.toLowerCase();
+          const isMobileField = fieldId === 'field_mobile' || normalized.includes('মোবাইল') || normalized.includes('phone');
+          const isNidField = fieldId === 'field_nid' || fieldId === 'field_birth_reg_no' || normalized.includes('nid');
+          const isDobField = fieldId === 'field_dob' || normalized.includes('জন্ম তারিখ') || normalized.includes('date of birth');
+
+          if (isMobileField || isNidField || isDobField) return;
+
+          display.push([`service_${fieldId}`, label, value]);
+        });
+      } else {
+        // পুরোনো অর্ডারের fallback।
+        if (nid) display.push(['nid_no','🪪 NID/আইডি নম্বর',nid]);
+        if (dob) display.push(['date_of_birth','🎂 জন্ম তারিখ',dob]);
+        if (cleanDetailsText && cleanDetailsText !== '-') display.push(['details','অর্ডারের বিস্তারিত',cleanDetailsText]);
+      }
+
+      if (nid) display.splice(2, 0, ['nid_no','🪪 NID/আইডি নম্বর',nid]);
+      if (dob) display.splice(3, 0, ['date_of_birth','🎂 জন্ম তারিখ',dob]);
+
+      const fileUrl = raw.file_url || raw.file || '';
+      if (fileUrl) display.push(['file_url','ফাইল / লিংক',fileUrl]);
+
+      body.innerHTML = display.map(([key,label,value]) => {
+        if (key === 'file_url') return `<div class="order-info-item full"><span class="order-info-label">${escapeOrderHtml(label)}</span><div class="order-info-value"><a href="${escapeOrderHtml(value)}" target="_blank" rel="noopener" style="color:var(--accent-color);font-weight:800">📥 ফাইল/লিংক খুলুন</a></div></div>`;
+        const full=['details'].includes(key) || String(value).length>120;
+        return `<div class="order-info-item ${full?'full':''}"><span class="order-info-label">${escapeOrderHtml(label)}</span><div class="order-info-value">${escapeOrderHtml(value)}</div></div>`;
+      }).join('');
+      modal.classList.add('show');
+    };
+    const closeUserOrderInfo=()=>document.getElementById('userOrderInfoModal')?.classList.remove('show');
+    document.getElementById('userOrderInfoClose')?.addEventListener('click',closeUserOrderInfo);
+    document.getElementById('userOrderInfoModal')?.addEventListener('click',e=>{if(e.target.id==='userOrderInfoModal')closeUserOrderInfo()});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')closeUserOrderInfo()});
+
+    function getOrderFormData(order) {
+      const raw = order.raw || order;
+      const details = String(raw.details || '');
+      if (!details.startsWith('ORDER_FORM_DATA_V1:')) return null;
+      try {
+        const parsed = JSON.parse(details.slice('ORDER_FORM_DATA_V1:'.length));
+        return parsed?.fields || null;
+      } catch (_) {
+        return null;
+      }
+    }
+
+    function getOrderSummaryHtml(order) {
+      const fields = getOrderFormData(order);
+      const items = [];
+
+      if (fields) {
+        const entries = Object.entries(fields);
+        const used = new Set();
+
+        const priorityMatchers = [
+          (id,l) => id.includes('name') || l.includes('নাম'),
+          (id,l) => id.includes('mobile') || id.includes('phone') || l.includes('মোবাইল') || l.includes('ফোন'),
+          (id,l) => id.includes('nid') || id.includes('birth_reg') || l.includes('nid') || l.includes('জন্ম নিবন্ধন নম্বর'),
+          (id,l) => id.includes('dob') || id.includes('birth_date') || id.includes('date_of_birth') || l.includes('জন্ম তারিখ')
+        ];
+
+        priorityMatchers.forEach((matcher) => {
+          const found = entries.find(([id,item]) => {
+            const label = String(item?.label || id).replace(/\s+/g,' ').trim();
+            return !used.has(id) && String(item?.value || '').trim() && matcher(id.toLowerCase(), label.toLowerCase());
+          });
+          if (found) {
+            const [id,item] = found;
+            used.add(id);
+            items.push([String(item?.label || id), String(item?.value || '').trim()]);
+          }
+        });
+
+        for (const [id,item] of entries) {
+          if (items.length >= 6) break;
+          if (used.has(id)) continue;
+          const value = String(item?.value ?? '').trim();
+          if (!value) continue;
+          const label = String(item?.label || id).replace(/\s+/g,' ').trim();
+          if (!label || label.length > 80) continue;
+          used.add(id);
+          items.push([label, value]);
+        }
+      }
+
+      if (!items.length) {
+        if (order.name) items.push(['নাম', order.name]);
+        if (order.mobile) items.push(['📱 ফোন', order.mobile]);
+        if (order.nid_no) items.push(['🪪 NID/আইডি নম্বর', order.nid_no]);
+        if (order.dob) items.push(['🎂 জন্ম তারিখ', order.dob]);
+        const plain = String(order.details || '').trim();
+        if (plain && plain !== '-') items.push(['বিস্তারিত', plain]);
+      }
+
+      if (!items.length) return '<small style="color:var(--text-muted);">বিস্তারিত তথ্য নেই</small>';
+
+      return items.map(([label,value]) =>
+        `<small style="display:block;margin:2px 0;color:var(--text-muted);">
+          <b style="color:var(--accent-color);">${escapeOrderHtml(label)}:</b>
+          ${escapeOrderHtml(value)}
+        </small>`
+      ).join('');
+    }
+
+    function renderOrdersTable() {
+      const tbody = document.getElementById('userOrderHistoryTable');
+      if (!localOrdersList || localOrdersList.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">এখনো কোনো অর্ডার করা হয়নি।</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = localOrdersList.map(o => `
+        <tr>
+          <td style="font-weight:600; color:var(--accent-color);">
+            ${escapeOrderHtml(o.service || '-')}
+            <br>
+            <button type="button" class="btn-sm" style="margin-top:7px;background:#7c3aed"
+              onclick='window.showUserOrderDetails(${JSON.stringify(String(o.id))})'>
+              📋 অর্ডার ইনফরমেশন
+            </button>
+          </td>
+          <td>${getOrderSummaryHtml(o)}</td>
+          <td>${escapeOrderHtml(o.date || '-')}</td>
+          <td>${getStatusBadge(o.status, o.file_url)}</td>
+        </tr>
+      `).join('');
+    }
+
+    async function loadUserOrders(userId) {
+      const { data, error } = await supabase
+        .from('orders')
+        .select('*')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false });
+
+      if (error) return;
+
+      let nidCache = {};
+      try { nidCache = JSON.parse(localStorage.getItem('userOrderNidCache') || '{}'); } catch (_) {}
+
+      localOrdersList = (data || []).map(o => ({
+        id: o.id,
+        service: o.service,
+        name: o.name,
+        nid_no: String(o.nid_no || o.nid || o.nid_number || nidCache[String(o.id)] || '').trim(),
+        mobile: String(o.mobile || o.phone || '').trim(),
+        dob: String(o.date_of_birth || o.dob || o.birth_date || '').trim(),
+        details: o.details || '-',
+        date: o.created_at ? new Date(o.created_at).toLocaleDateString('bn-BD') : '-',
+        status: o.status || 'নতুন',
+        file_url: o.file_url || o.file || null,
+        raw: o
+      }));
+      renderOrdersTable();
+    }
+
+    async function fetchUserData(user) {
+      userDataStore = user;
+      const cleanEmail = user.email ? user.email.trim().toLowerCase() : '';
+      const emailName = cleanEmail ? cleanEmail.split('@')[0] : 'ইউজার';
+
+      document.getElementById('customerNameDisplay').textContent = emailName;
+      document.getElementById('boxUserName').textContent = emailName;
+      document.getElementById('userProfileName').textContent = emailName;
+      window.__currentProfileMobile = '';
+      document.getElementById('userProfilePhone').textContent = user.user_metadata?.phone || 'সংরক্ষিত নেই';
+      document.getElementById('profileEmailText').textContent = cleanEmail;
+      document.getElementById('profileModalEmail').textContent = cleanEmail;
+      document.getElementById('userProfileEmail').textContent = cleanEmail;
+
+      try {
+        let profile = null;
+        let profileError = null;
+
+        const { data: rpcProfile, error: rpcError } = await supabase.rpc('get_my_profile');
+        profile = Array.isArray(rpcProfile) ? (rpcProfile[0] || null) : (rpcProfile || null);
+        profileError = rpcError;
+
+        if (profileError) {
+          console.error('Profile RPC error:', profileError);
+        }
+
+        if (profile) {
+          const userBalance = Number(profile.balance || 0).toFixed(2);
+          document.getElementById('dashBalance').textContent = userBalance;
+          document.getElementById('userBalance').textContent = userBalance;
+
+          if (profile.mobile) {
+            window.__currentProfileMobile = String(profile.mobile).trim();
+            document.getElementById('userProfilePhone').textContent = profile.mobile;
+          }
+          if (profile.name) {
+            document.getElementById('customerNameDisplay').textContent = profile.name;
+            document.getElementById('boxUserName').textContent = profile.name;
+            document.getElementById('userProfileName').textContent = profile.name;
+          }
+        } else if (!profileError) {
+          await supabase.from('profiles').upsert(
+            [{ user_id: user.id, email: cleanEmail, mobile: user.user_metadata?.phone || '', balance: 0 }],
+            { onConflict: 'user_id' }
+          );
+          document.getElementById('dashBalance').textContent = '0.00';
+          document.getElementById('userBalance').textContent = '0.00';
+        }
+      } catch (err) {
+        console.error('Balance fetch error:', err);
+      }
+
+      await loadUserOrders(user.id);
+      await loadUserRechargeHistory(user.id);
+      // await loadRechargeNotifications(user.id);
+      // লগইন/রিফ্রেশের পর ড্যাশবোর্ড KPI-ও সাথে সাথে আপডেট হবে।
+      await loadUserDashboard(user.id);
+    }
+
+
+    async function loadUserDashboard(userId){
+      try{
+        // হিস্টোরির মতোই পুরো row নেওয়া হচ্ছে, যাতে কোনো optional column না থাকলেও KPI বন্ধ না হয়।
+        const [ordersResult, rechargesResult] = await Promise.all([
+          supabase.from('orders').select('*').eq('user_id',userId).order('created_at',{ascending:false}),
+          supabase.from('recharges').select('*').eq('user_id',userId).order('created_at',{ascending:false})
+        ]);
+        if (ordersResult.error) console.error('Dashboard orders error:', ordersResult.error);
+        if (rechargesResult.error) console.error('Dashboard recharges error:', rechargesResult.error);
+        const os=ordersResult.data||[], rs=rechargesResult.data||[];
+        // একই রিচার্জ একাধিকবার আসলে ID দিয়ে duplicate বাদ দেওয়া হবে।
+        const uniqueRechargeMap=new Map();
+        rs.forEach(r=>{
+          const key=String(r.id||(`${r.trx_id||''}|${r.created_at||''}|${r.amount||''}`));
+          if(!uniqueRechargeMap.has(key)) uniqueRechargeMap.set(key,r);
+        });
+        const uniqueRs=[...uniqueRechargeMap.values()];
+        const rechargeRows=uniqueRs.filter(r=>{
+          const n=Number(String(r.amount??'').replace(/,/g,''));
+          return Number.isFinite(n) && n>0;
+        });
+        const approved=rechargeRows.filter(r=>{
+          const st=String(r.status||'').trim().toLowerCase();
+          return ['approved','অনুমোদিত','approve','approved ','success','successful','সফল','completed','complete'].includes(st);
+        });
+        const completedStatuses=['completed','complete','সম্পন্ন','সফল','done','finished'];
+        document.getElementById('dashTotalOrders').textContent=os.length;
+        document.getElementById('dashCompletedOrders').textContent=os.filter(o=>{
+          const st=String(o.status||'').trim().toLowerCase();
+          return completedStatuses.includes(st) || !!o.file_url || !!o.file;
+        }).length;
+        document.getElementById('dashRechargeCount').textContent=rechargeRows.length;
+        const totalApprovedRecharge=approved.reduce((a,r)=>{
+          const n=Number(String(r.amount??'0').replace(/,/g,''));
+          return a+(Number.isFinite(n)?n:0);
+        },0);
+        document.getElementById('dashTotalRecharge').textContent='৳ '+totalApprovedRecharge.toFixed(2);
+        const rows=[];
+        os.forEach(o=>rows.push({kind:'কাজ',desc:o.service||'-',amount:'৳ '+Number(o.amount||0).toFixed(2),date:o.created_at,status:o.status||'পেন্ডিং'}));
+        rs.forEach(r=>rows.push({kind:'রিচার্জ',desc:`TrxID: ${r.trx_id||'-'}`,amount:'৳ '+Number(r.amount||0).toFixed(2),date:r.created_at,status:r.status||'পেন্ডিং'}));
+        rows.sort((a,b)=>new Date(b.date||0)-new Date(a.date||0));
+        const table=document.getElementById('userDashboardTable');
+        table.innerHTML=rows.length?rows.map(r=>{
+          const action=r.kind==='কাজ'?'orders':'recharges';
+          return `<tr data-dashboard-action="${action}" title="বিস্তারিত দেখতে ক্লিক করুন"><td class="row-kind">${r.kind}</td><td>${r.desc}</td><td>${r.amount}</td><td>${formatNotificationDate(r.date)}</td><td>${r.status}</td></tr>`;
+        }).join(''):'<tr><td colspan="5" class="notif-empty">এখনো কোনো কাজ বা রিচার্জ নেই।</td></tr>';
+        applyLanguageToNewContent(document.getElementById('userDashboardPanel'));
+        table.querySelectorAll('tr[data-dashboard-action]').forEach(row=>row.addEventListener('click',()=>{
+          if(row.dataset.dashboardAction==='orders') document.getElementById('accountOrdersBtn')?.click();
+          else document.getElementById('accountRechargeBtn')?.click();
+        }));
+      }catch(err){console.error('Dashboard load error:',err);}
+    }
+    function showUserDashboard(){
+      document.getElementById('userDashboardPanel').classList.add('active');
+      document.querySelectorAll('.right-content > .dash-box').forEach(x=>x.style.display='none');
+      if(userDataStore) loadUserDashboard(userDataStore.id);
+      document.getElementById('dashboardContainer').scrollIntoView({behavior:'smooth',block:'start'});
+    }
+    function hideUserDashboard(){
+      document.getElementById('userDashboardPanel').classList.remove('active');
+      document.querySelectorAll('.right-content > .dash-box').forEach(x=>x.style.display='');
+    }
+    const topDashboardBtn = document.getElementById('topDashboardBtn');
+    if (topDashboardBtn) topDashboardBtn.addEventListener('click', showUserDashboard);
+    document.getElementById('dashboardRefreshBtn').addEventListener('click',()=>{if(userDataStore){loadUserDashboard(userDataStore.id);loadRechargeNotifications(userDataStore.id);toast('ড্যাশবোর্ড আপডেট হয়েছে');}});
+
+    const updateAuthUI = (user, mode = 'signup') => {
+      const authSection = document.getElementById('authSection');
+      const signupContainer = document.getElementById('signupContainer');
+      const loginContainer = document.getElementById('loginContainer');
+      const dashboardContainer = document.getElementById('dashboardContainer');
+      const guestNav = document.getElementById('guestNav');
+      const userTopBar = document.getElementById('userTopBar');
+      const mainTitle = document.getElementById('mainTitle');
+      const subTitle = document.getElementById('subTitle');
+      const authPhoneGroup = document.getElementById('phoneInputGroup');
+
+      if (user) {
+        authSection.style.display = 'none';
+        guestNav.style.display = 'none';
+        userTopBar.style.display = 'flex';
+        dashboardContainer.style.display = 'block';
+        fetchUserData(user);
+        loadServicePrices();
+      } else {
+        authSection.style.display = 'block';
+        dashboardContainer.style.display = 'none';
+        userTopBar.style.display = 'none';
+        guestNav.style.display = 'flex';
+
+        if (mode === 'login') {
+          mainTitle.textContent = 'অনলাইন সার্ভিস বিডি';
+          subTitle.textContent = 'লগইন করতে ইমেল ও পাসওয়ার্ড দিন';
+          signupContainer.style.display = 'none';
+          loginContainer.style.display = 'block';
+          authPhoneGroup.style.display = 'none';
+        } else {
+          mainTitle.textContent = 'অনলাইন সার্ভিস বিডি';
+          subTitle.textContent = 'সাইন আপ করতে ইমেল, ফোন ও কমপক্ষে ৮ সংখ্যার পাসওয়ার্ড দিন';
+          signupContainer.style.display = 'block';
+          loginContainer.style.display = 'none';
+          authPhoneGroup.style.display = 'block';
+        }
+      }
+    };
+
+    document.getElementById('menuLogin').addEventListener('click', () => updateAuthUI(null, 'login'));
+    document.getElementById('menuSignup').addEventListener('click', () => updateAuthUI(null, 'signup'));
+    const headerLoginBtn = document.getElementById('headerLoginBtn');
+    if (headerLoginBtn) headerLoginBtn.addEventListener('click', () => updateAuthUI(null, 'login'));
+
+    document.getElementById('signupBtn').addEventListener('click', async () => {
+      const rawEmail = document.getElementById('authEmail').value;
+      const cleanEmail = rawEmail.trim().toLowerCase();
+      const phone = document.getElementById('authPhone').value.trim();
+      const password = document.getElementById('authPassword').value.trim();
+
+      if (!cleanEmail || !password || !phone) return toast('ইমেইল, ফোন নম্বর ও পাসওয়ার্ড দিন');
+      if (password.length < 8) return toast('পাসওয়ার্ড কমপক্ষে ৮ সংখ্যার বা অক্ষরের হতে হবে');
+
+      toast('সাইন আপ হচ্ছে...');
+      const { data, error } = await supabase.auth.signUp({ 
+        email: cleanEmail, 
+        password: password, 
+        options: { data: { phone: phone } } 
+      });
+
+      if (error) {
+        toast(error.message);
+        return;
+      }
+
+      if (data?.user) {
+        data.user.created_at = data.user.created_at || new Date().toISOString();
+        await supabase.from('profiles').upsert([
+          { user_id: data.user.id, email: cleanEmail, mobile: phone, balance: 0 }
+        ], { onConflict: 'user_id' });
+      }
+
+      toast('সাইন আপ সফল! এখন লগইন করুন।');
+      updateAuthUI(null, 'login');
+    });
+    document.getElementById('loginBtn').addEventListener('click', async () => {
+      const cleanEmail = document.getElementById('authEmail').value.trim().toLowerCase();
+      const password = document.getElementById('authPassword').value.trim();
+
+      if (!cleanEmail || !password) return toast('ইমেইল ও পাসওয়ার্ড দিন');
+
+     toast('লগইন হচ্ছে...');
+        const { data, error } = await window.supabase.auth.signInWithPassword({
+            email: cleanEmail,
+            password: password
+        });
+
+      if (error) return toast('লগইন ব্যর্থ হয়েছে: ' + error.message);
+
+      toast('লগইন সফল হয়েছে!');
+      updateAuthUI(data.user);
+    });
+
+   document.addEventListener('click', async (e) => {
+    const btn = e.target.closest('button, a');
+    if (btn && (btn.id === 'logoutMenuBtn' || btn.innerText.includes('লগআউট'))) {
+        e.preventDefault();
+        
+        try {
+            if (window.supabase && window.supabase.auth) {
+                await window.supabase.auth.signOut();
+            }
+        } catch (err) {
+            console.log(err);
+        }
+
+        // লোকাল এবং সেশন ডেটা পুরোপুরি পরিষ্কার করা
+        localStorage.clear();
+        sessionStorage.clear();
+
+        // Safe Toast (যদি toast ফাংশন থাকে তবে কল হবে, না থাকলে এরর দেবে না)
+        if (typeof toast === 'function') {
+            toast('লগআউট সফল হয়েছে');
+        } else {
+            alert('লগআউট সফল হয়েছে');
+        }
+
+        // সরাসরি পেজ রিফ্রেশ করে লগইন ফর্মে ফিরিয়ে নেওয়া
+        window.location.reload();
+    }
+});
+
+    const sidebarDashboardBtn=document.getElementById('sidebarDashboardBtn');
+    if(sidebarDashboardBtn) sidebarDashboardBtn.addEventListener('click',showUserDashboard);
+    document.getElementById('accountDetailsToggle').addEventListener('click',()=>{
+      document.getElementById('accountDetailsMenu').classList.toggle('open');
+      document.querySelector('.user-extra-menu')?.classList.toggle('open');
+    });
+    document.getElementById('accountProfileBtn').addEventListener('click',()=>document.getElementById('profileDetailsBtn').click());
+    document.getElementById('accountOrdersBtn').addEventListener('click',()=>{hideUserDashboard();setTimeout(()=>document.getElementById('userOrderHistoryTable')?.closest('.dash-box')?.scrollIntoView({behavior:'smooth',block:'start'}),50);});
+    document.getElementById('accountRechargeBtn').addEventListener('click',()=>{hideUserDashboard();setTimeout(()=>document.getElementById('userRechargeHistoryTable')?.closest('.dash-box')?.scrollIntoView({behavior:'smooth',block:'start'}),50);});
+    document.getElementById('accountSupportBtn').addEventListener('click',()=>window.open('https://wa.me/8801766257634','_blank'));
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        updateAuthUI(session.user);
+      } else {
+        updateAuthUI(null, 'signup');
+      }
+    });
+
+    // Admin থেকে অর্ডার সম্পন্ন/রিচার্জ অনুমোদন হলে ইউজার প্যানেলে দ্রুত নোটিফিকেশন দেখাবে।
+    if(!notificationTimer){
+      notificationTimer=setInterval(async()=>{
+        const {data:{user}}=await supabase.auth.getUser();
+       if(user){ 
+    // await loadRechargeNotifications(user.id); 
+    if(document.getElementById('userDashboardP...')) {
+        // বাকি কোড
+    }
+} 
+      },20000);
+    }
+  </script>
+<script id="modern-upgrade-js">
+(()=>{const d=document,body=d.body;let toastTimer;
+const toast=(m)=>{let x=d.querySelector('.ux-toast');if(!x){x=d.createElement('div');x.className='ux-toast';body.appendChild(x)}x.textContent=m;x.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>x.classList.remove('show'),2200)};
+const bar=d.createElement('div');bar.className='ux-progress';body.appendChild(bar);addEventListener('beforeunload',()=>bar.style.width='100%');
+const top=d.createElement('button');top.className='ux-top';top.innerHTML='↑';top.title='উপরে যান';body.appendChild(top);addEventListener('scroll',()=>top.style.display=scrollY>450?'grid':'none');top.onclick=()=>scrollTo({top:0,behavior:'smooth'});
+const command=d.createElement('div');command.className='ux-command';command.innerHTML='<div class="ux-command-card"><input class="ux-command-input" placeholder="সার্ভিস/অ্যাকশন খুঁজুন… (Esc বন্ধ)" autofocus><div class="ux-cmd-list"></div></div>';body.appendChild(command);
+const ci=command.querySelector('input'),list=command.querySelector('.ux-cmd-list');
+function actions(){const a=[...d.querySelectorAll('button,[role="button"],a,.service-item-link')].filter(x=>x.offsetParent!==null&&((x.innerText||'').trim()));return a.slice(0,120)}
+function render(q=''){list.innerHTML='';actions().filter(x=>(x.innerText||'').toLowerCase().includes(q.toLowerCase())).slice(0,18).forEach(x=>{let i=d.createElement('div');i.className='ux-cmd-item';i.textContent=(x.innerText||'').trim().replace(/\s+/g,' ').slice(0,120);i.onclick=()=>{command.style.display='none';x.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>x.click(),250)};list.appendChild(i)})}
+function openCmd(){command.style.display='flex';ci.value='';render();setTimeout(()=>ci.focus(),30)}ci.oninput=()=>render(ci.value);command.onclick=e=>{if(e.target===command)command.style.display='none'};
+addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openCmd()}if(e.key==='Escape')command.style.display='none'});
+// toolbar
+const host=d.querySelector('.dashboard-container')||d.querySelector('main')||body;const tb=d.createElement('div');tb.className='ux-toolbar';tb.innerHTML='<input id="uxSearch" placeholder="🔎 সার্ভিস, অর্ডার বা অপশন খুঁজুন…"><button class="ux-toolbtn" id="uxCmd">⌘ কমান্ড</button><button class="ux-toolbtn" id="uxCompact">↕ কমপ্যাক্ট</button><button class="ux-toolbtn" id="uxFull">⛶ ফুলস্ক্রিন</button><button class="ux-toolbtn" id="uxFocus">◎ ফোকাস</button>';
+if(host!==body){host.parentNode.insertBefore(tb,host)}else body.insertBefore(tb,body.firstChild);
+const search=tb.querySelector('#uxSearch');search.oninput=()=>{const q=search.value.toLowerCase().trim();d.querySelectorAll('.service-item-link,.dash-box,.content-card,.order-table tbody tr').forEach(el=>{el.style.display=(!q||(el.innerText||'').toLowerCase().includes(q))?'':'none'})};tb.querySelector('#uxCmd').onclick=openCmd;tb.querySelector('#uxCompact').onclick=()=>{body.classList.toggle('ux-compact');toast(body.classList.contains('ux-compact')?'কমপ্যাক্ট মোড চালু':'কমপ্যাক্ট মোড বন্ধ')};tb.querySelector('#uxFull').onclick=async()=>{try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen();else await document.exitFullscreen()}catch(e){toast('ফুলস্ক্রিন ব্রাউজার সমর্থন করছে না')}};tb.querySelector('#uxFocus').onclick=()=>{body.classList.toggle('ux-focus');toast('ফোকাস মোড পরিবর্তন হয়েছে')};
+// dynamic KPI strip
+const boxes=[...d.querySelectorAll('.dash-box')];if(boxes.length){const k=d.createElement('div');k.className='ux-kpis';k.innerHTML='<div class="ux-kpi"><small>📦 মোট সেকশন</small><b>'+boxes.length+'</b></div><div class="ux-kpi"><small>⚡ দৃশ্যমান অপশন</small><b>'+d.querySelectorAll('.service-item-link').length+'</b></div><div class="ux-kpi"><small>🔔 নোটিফিকেশন</small><b>'+(d.querySelector('#notifCount')?.textContent||'0')+'</b></div><div class="ux-kpi"><small>🕒 স্ট্যাটাস</small><b>LIVE</b></div>';tb.after(k)}
+// reveal animation
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.animate([{opacity:.25,transform:'translateY(10px)'},{opacity:1,transform:'none'}],{duration:420,easing:'ease-out'});obs.unobserve(e.target)}}),{threshold:.05});d.querySelectorAll('.dash-box,.content-card,.service-item-link').forEach(x=>obs.observe(x));
+setTimeout(()=>toast('✨ Modern Dynamic UI চালু হয়েছে — Ctrl/Cmd + K ব্যবহার করুন'),900);
+})();
+</script>
+
+
+
+<script id="language-toggle-script">
+(function () {
+  const translations = {
+    "তারিখ:": "Date:", "লগইন করুন": "Login", "লগইন": "Login", "লগ আউট": "Logout", "লগআউট": "Logout",
+    "প্রোফাইল": "Profile", "ড্যাশবোর্ড": "Dashboard", "নেভিগেশন": "Navigation", "রিফ্রেশ": "Refresh",
+    "কালার": "Color", "মোড": "Mode", "বর্তমান ব্যালেন্স": "Current Balance",
+    "ভাষা পরিবর্তন করুন": "Change Language", "ভাষা পরিবর্তন": "Change Language",
+    "একাউন্ট": "Account", "অ্যাকাউন্ট": "Account", "একাউন্ট ডিটেলস": "Account Details",
+    "প্রোফাইল ডিটেলস": "Profile Details", "অর্ডার হিস্টোরি": "Order History",
+    "রিচার্জ হিস্টোরি": "Recharge History", "কাস্টমার সাপোর্ট লাইভ": "Customer Support Live",
+    "সেবা": "Service", "অর্ডার": "Order", "অর্ডার করুন": "Place Order", "অর্ডার জমা দিন": "Submit Order",
+    "বাতিল": "Cancel", "বন্ধ করুন": "Close", "বন্ধ": "Close", "সংরক্ষণ": "Save", "আপডেট": "Update",
+    "নোটিফিকেশন": "Notifications", "ব্যালেন্স": "Balance", "এনআইডি সেবা": "NID Services",
+    "জন্ম নিবন্ধন সেবা": "Birth Registration Services", "টিন সার্টিফিকেট সেবা": "TIN Certificate Services",
+    "ই-পর্চা বা খতিয়ান সেবা": "E-Porcha / Khatian Services",
+    "জীবন বৃত্তান্ত (CV) & ফাইল সেবা": "CV & File Services", "হেল্পলাইন": "Helpline",
+    "নাম": "Name", "ইমেল": "Email", "ফোন নম্বর": "Phone Number", "মোবাইল নম্বর": "Mobile Number",
+    "জন্ম তারিখ": "Date of Birth", "স্ট্যাটাস": "Status", "তারিখ": "Date", "টাকা": "Amount",
+    "ধরন": "Type", "বিবরণ": "Description", "মোট কাজ": "Total Orders", "সম্পন্ন কাজ": "Completed Orders",
+    "মোট রিচার্জ": "Total Recharges", "মোট টাকা রিচার্জ": "Total Recharge Amount",
+    "ইউজার ড্যাশবোর্ড": "User Dashboard", "ডাটা লোড হচ্ছে...": "Loading data...",
+    "এখনো কোনো কাজ বা রিচার্জ নেই।": "No orders or recharges yet.", "সফল": "Success", "ত্রুটি": "Error",
+    "লোড হচ্ছে": "Loading", "ডাউনলোড": "Download", "প্রিন্ট": "Print", "পাসওয়ার্ড": "Password",
+    "অনলাইন সার্ভিস বিডি": "Online Service BD", "সকল ডিজিটাল সার্ভিস সচল রয়েছে": "All digital services are active",
+    "আপনাকে স্বাগতম": "Welcome", "সাম্প্রতিক": "Recent", "ব্যালেন্স ও রিচার্জ": "Balance & Recharge",
+    "রিচার্জ": "Recharge", "রিচার্জ করুন": "Recharge Now", "কিনুন রিচার্জ": "Buy Recharge",
+    "ইউজার Account": "User Account", "ইউজার অ্যাকাউন্ট": "User Account",
+    "অর্ডার ইনফরমেশন": "Order Information", "অর্ডার তথ্য": "Order Information", "সার্ভিস": "Service",
+    "সার্ভিস নাম": "Service Name", "অর্ডার নং": "Order No.", "নাম / বিবরণ": "Name / Description",
+    "ফলাফল": "Result", "পেমেন্ট": "Payment", "পেন্ডিং": "Pending", "সম্পন্ন": "Completed",
+    "বাতিল হয়েছে": "Cancelled", "চলমান": "Processing", "সাম্প্রতিক Order": "Recent Order",
+    "সাম্প্রতিক অর্ডার": "Recent Orders", "আপনার সাম্প্রতিক Order": "Your Recent Orders",
+    "আপনার সাম্প্রতিক অর্ডার": "Your Recent Orders", "মোট অর্ডার": "Total Orders",
+    "মোট অর্ডার ৩ Status": "Your Recent Order 3 Status", "ব্যবহারকারী": "User",
+    "ব্যবহারকারীর নাম": "Username", "সাইন আপ": "Sign Up", "সাইন ইন": "Sign In", "সেভ": "Save",
+    "জমা": "Submit", "ফিরে যান": "Back", "পরবর্তী": "Next", "আগের": "Previous",
+    "হোম": "Home", "মেনু": "Menu", "ভাষা": "Language", "কাজের তালিকা": "Order List",
+    "রিচার্জের তালিকা": "Recharge List", "সাম্প্রতিক রিচার্জ": "Recent Recharge",
+    "সকল অর্ডার": "All Orders", "অর্ডার সংখ্যা": "Order Count", "লোড হচ্ছে...": "Loading...",
+    "অপেক্ষা করুন": "Please wait", "Modern Dynamic UI": "Modern Dynamic UI"
+  };
+
+  const original = new WeakMap();
+
+  function skip(el) {
+    return !el || ["SCRIPT","STYLE","NOSCRIPT"].includes(el.tagName) ||
+      el.closest('#languageToggle,#languageModal');
+  }
+
+  function convert(text, lang) {
+    if (lang === 'bn') return text;
+    let t = text;
+    Object.keys(translations).sort((a,b)=>b.length-a.length).forEach(k => {
+      t = t.split(k).join(translations[k]);
+    });
+    return t;
+  }
+
+  function apply(root, lang) {
+    root = root || document.body;
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(n => {
+      if (skip(n.parentElement)) return;
+      if (!original.has(n)) original.set(n, n.nodeValue);
+      n.nodeValue = convert(original.get(n), lang);
+    });
+
+    root.querySelectorAll?.('input,button,select,textarea').forEach(el => {
+      ['placeholder','title','aria-label'].forEach(attr => {
+        if (!el.hasAttribute(attr)) return;
+        if (!el.dataset.langOriginal) el.dataset.langOriginal = el.getAttribute(attr);
+        el.setAttribute(attr, convert(el.dataset.langOriginal, lang));
+      });
+    });
+
+    document.documentElement.lang = lang === 'en' ? 'en' : 'bn';
+
+    document.querySelectorAll('.language-option').forEach(btn => {
+      const active = btn.dataset.lang === lang;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+  }
+
+  window.setSiteLanguage = function(lang, root) {
+    lang = lang === 'en' ? 'en' : 'bn';
+    localStorage.setItem('siteLanguage', lang);
+    apply(root || document.body, lang);
+  };
+  window.__setSiteLanguage = window.setSiteLanguage;
+
+  window.applyLanguageToNewContent = function(root) {
+    apply(root || document.body, localStorage.getItem('siteLanguage') || 'bn');
+  };
+
+  function bindSingleLanguageButton() {
+    document.querySelectorAll('.language-option').forEach(btn => {
+      if (btn.dataset.singleLangBound) return;
+      btn.dataset.singleLangBound = '1';
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.setSiteLanguage(this.dataset.lang === 'en' ? 'en' : 'bn');
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // Hide the old language-selection modal and any old two-button switcher.
+    const modal = document.getElementById('languageModal');
+    if (modal) modal.style.display = 'none';
+    const oldToggle = document.getElementById('languageToggle');
+    if (oldToggle) oldToggle.remove();
+
+    bindSingleLanguageButton();
+    window.setSiteLanguage(localStorage.getItem('siteLanguage') || 'bn');
+
+    // Translate newly-created dashboard/order content too.
+    const dashboard = document.getElementById('dashboardContainer');
+    if (dashboard) {
+      const observer = new MutationObserver(() => {
+        window.applyLanguageToNewContent(dashboard);
+        bindSingleLanguageButton();
+      });
+      observer.observe(dashboard, {childList:true, subtree:true, attributes:true});
+    }
+  });
+})();
+</script>
+
+
+<script id="final-user-panel-fixes">
+(function(){
+  // Fix the top date: never leave "তারিখ: লোড হচ্ছে..." permanently.
+  function updateCurrentDate(){
+    const el=document.getElementById('currentDate');
+    if(!el) return;
+    const d=new Date();
+    const bnDays=['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'];
+    const bnMonths=['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+    const day=bnDays[d.getDay()], date=d.getDate(), month=bnMonths[d.getMonth()], year=d.getFullYear();
+    el.textContent='তারিখ: '+day+', '+date+' '+month+' '+year;
+  }
+
+  // The dashboard loader calls this after creating rows. Define it so that
+  // dynamic dashboard content does not stop on an undefined function.
+  if(typeof window.applyLanguageToNewContent!=='function'){
+    window.applyLanguageToNewContent=function(root){
+      try{
+        const lang=localStorage.getItem('siteLanguage')||'bn';
+        const btns=document.querySelectorAll('#languageToggle button');
+        btns.forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));
+        if(typeof window.__setSiteLanguage==='function'){
+          window.__setSiteLanguage(lang, root||document.body);
+        }
+      }catch(e){console.warn('Language refresh skipped:',e);}
+    };
+  }
+
+  // Language is handled by the single top-bar button above.\n\n  // Make the Dashboard the first view after successful login/session restore.
+  function showDashboardAfterLogin(){
+    const panel=document.getElementById('userDashboardPanel');
+    const container=document.getElementById('dashboardContainer');
+    if(!panel || !container) return;
+    panel.classList.add('active');
+    document.querySelectorAll('.right-content > .dash-box').forEach(x=>x.style.display='none');
+    if(window.userDataStore?.id && typeof window.loadUserDashboard==='function'){
+      window.loadUserDashboard(window.userDataStore.id);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded',function(){
+    updateCurrentDate();
+    setInterval(updateCurrentDate,60000);
+    if (typeof window.bindLanguageModal === 'function') window.bindLanguageModal();
+
+    // Re-bind in case the top bar becomes visible after login.
+    const observer=new MutationObserver(bindLanguageModal);
+    const bar=document.getElementById('userTopBar');
+    if(bar) observer.observe(bar,{attributes:true,attributeFilter:['style','class']});
+
+    // Existing file keeps these as lexical variables, so we don't replace
+    // its auth logic. We only reveal the dashboard when the user panel is visible.
+    const dashboard=document.getElementById('dashboardContainer');
+    if(dashboard){
+      const obs=new MutationObserver(()=>{
+        if(getComputedStyle(dashboard).display!=='none'){
+          const panel=document.getElementById('userDashboardPanel');
+          if(panel && !panel.classList.contains('active')){
+            panel.classList.add('active');
+            document.querySelectorAll('.right-content > .dash-box').forEach(x=>x.style.display='none');
+          }
+        }
+      });
+      obs.observe(dashboard,{attributes:true,attributeFilter:['style','class']});
+    }
+  });
+})();
+</script>
+
+
+<script id="final-interaction-fixes">
+(function(){
+  'use strict';
+  const $=id=>document.getElementById(id);
+
+  function notify(msg){
+    try{ if(typeof window.toast==='function'){window.toast(msg);return;} }catch(e){}
+    let x=$('uxFallbackToast');
+    if(!x){
+      x=document.createElement('div'); x.id='uxFallbackToast';
+      x.style.cssText='position:fixed;left:50%;bottom:25px;transform:translateX(-50%);z-index:99999;background:#0f172a;color:#fff;padding:12px 18px;border-radius:10px;border:1px solid #38bdf8;font-weight:700;';
+      document.body.appendChild(x);
+    }
+    x.textContent=msg; clearTimeout(window.__t); window.__t=setTimeout(()=>x.remove(),2200);
+  }
+  const open=id=>{const e=$(id);if(e)e.style.display='flex'};
+  const close=id=>{const e=$(id);if(e)e.style.display='none'};
+  const bind=(id,event,fn)=>{
+    const e=$(id); if(!e||e.dataset.finalInteractionBound)return;
+    e.dataset.finalInteractionBound='1'; e.addEventListener(event,fn);
+  };
+
+  // Fix the undefined function used by the old final script.
+  window.bindLanguageModal=function(){
+    document.querySelectorAll('.language-option').forEach(b=>{
+      if(b.dataset.finalLangBound)return;
+      b.dataset.finalLangBound='1';
+      b.addEventListener('click',e=>{
+        e.preventDefault();
+        if(typeof window.setSiteLanguage==='function')
+          window.setSiteLanguage(b.dataset.lang==='en'?'en':'bn');
+      });
+    });
+  };
+
+  async function currentUser(){
+    const {data,error}=await supabase.auth.getUser();
+    if(error) throw error;
+    return data?.user||null;
+  }
+
+  function profile(){
+    const u=window.userDataStore;
+    if(u){
+      const email=(u.email||'').trim();
+      if($('profileModalEmail'))$('profileModalEmail').textContent=email||'—';
+      if($('userProfileEmail'))$('userProfileEmail').textContent=email||'—';
+      if($('userProfileName') && (!window.__currentProfileName))
+        $('userProfileName').textContent=email.split('@')[0]||'ইউজার';
+      if($('userProfilePhone'))
+        $('userProfilePhone').textContent=u.user_metadata?.phone||window.__currentProfileMobile||'সংরক্ষিত নেই';
+    }
+    open('profileModal');
+  }
+
+  async function recharge(){
+    let u;
+    try{u=await currentUser();}catch(e){notify('সেশন যাচাই করা যায়নি');return}
+    if(!u){notify('আগে লগইন করুন');return}
+    const amount=Number($('rechargeAmount')?.value||0);
+    const trx=String($('rechargeTrxId')?.value||'').trim();
+    if(!Number.isFinite(amount)||amount<50||amount>20000){notify('রিচার্জের পরিমাণ ৫০ থেকে ২০০০০ টাকা হতে হবে');return}
+    if(!trx){notify('TrxID দিন');return}
+
+    const b=$('submitRechargeBtn'); if(b){b.disabled=true;b.textContent='পাঠানো হচ্ছে...'}
+    try{
+      const {error}=await supabase.from('recharges').insert({
+        user_id:u.id, amount:amount, trx_id:trx, status:'pending'
+      });
+      if(error){console.error(error);notify('রিচার্জ রিকোয়েস্ট পাঠানো যায়নি: '+error.message);return}
+      $('rechargeAmount').value=''; $('rechargeTrxId').value='';
+      close('rechargeModal'); notify('রিচার্জ রিকোয়েস্ট সফলভাবে পাঠানো হয়েছে');
+      if(typeof window.loadUserRechargeHistory==='function')await window.loadUserRechargeHistory(u.id);
+      if(typeof window.loadRechargeNotifications==='function')await window.loadRechargeNotifications(u.id);
+      if(typeof window.loadUserDashboard==='function')await window.loadUserDashboard(u.id);
+    }finally{
+      if(b){b.disabled=false;b.textContent='রিকোয়েস্ট পাঠান'}
+    }
+  }
+
+  async function refresh(){
+    try{
+      const u=await currentUser(); if(!u){notify('কোনো লগইন সেশন নেই');return}
+      if(typeof window.fetchUserData==='function')await window.fetchUserData(u);
+      notify('ডাটা আপডেট হয়েছে');
+    }catch(e){console.error(e);notify('রিফ্রেশ করতে সমস্যা হয়েছে')}
+  }
+
+  async function logout(){
+    try{
+      const {error}=await supabase.auth.signOut(); if(error)throw error;
+      if(typeof window.updateAuthUI==='function')window.updateAuthUI(null,'login');
+      notify('লগআউট সফল হয়েছে');
+    }catch(e){console.error(e);notify('লগআউট করতে সমস্যা হয়েছে: '+e.message)}
+  }
+
+  async function passwordChange(){
+    const p=String($('newPasswordInput')?.value||'').trim();
+    if(p.length<8){notify('পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের হতে হবে');return}
+    const {error}=await supabase.auth.updateUser({password:p});
+    if(error){notify('পাসওয়ার্ড পরিবর্তন হয়নি: '+error.message);return}
+    $('newPasswordInput').value='';close('passwordModal');notify('পাসওয়ার্ড সফলভাবে পরিবর্তন হয়েছে');
+  }
+
+  function theme(){
+    const root=document.documentElement;
+    const next=root.getAttribute('data-theme')==='light'?'dark':'light';
+    root.setAttribute('data-theme',next);localStorage.setItem('userTheme',next);
+    notify(next==='light'?'লাইট মোড চালু':'ডার্ক মোড চালু');
+  }
+  function color(){
+    const colors=['#38bdf8','#22c55e','#a78bfa','#f59e0b','#f43f5e'];
+    const root=document.documentElement,cur=root.style.getPropertyValue('--accent-color').trim();
+    const next=colors[(colors.indexOf(cur)+1)%colors.length];
+    root.style.setProperty('--accent-color',next);localStorage.setItem('userAccentColor',next);
+    notify('কালার পরিবর্তন হয়েছে');
+  }
+  async function notifications(){
+    const p=$('notificationPanel'); if(p)p.classList.toggle('open');
+    try{const u=await currentUser();if(u&&typeof window.loadRechargeNotifications==='function')await window.loadRechargeNotifications(u.id)}catch(e){console.error(e)}
+  }
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    const st=localStorage.getItem('userTheme'); if(st==='light'||st==='dark')document.documentElement.setAttribute('data-theme',st);
+    const ac=localStorage.getItem('userAccentColor'); if(ac)document.documentElement.style.setProperty('--accent-color',ac);
+
+    window.bindLanguageModal();
+
+    // Login buttons: bind all login entry points explicitly.
+    // Use the existing auth UI for opening the login form, and handle the
+    // actual sign-in here so the button still works even if another handler
+    // fails to attach.
+    bind('headerLoginBtn','click',()=>{
+      const btn=$('menuLogin');
+      if(btn) btn.click();
+      else if(typeof window.updateAuthUI==='function') window.updateAuthUI(null,'login');
+    });
+    bind('menuLogin','click',()=>{
+      try{
+        const authSection=$('authSection'), login=$('loginContainer'), signup=$('signupContainer');
+        if(authSection) authSection.style.display='block';
+        if(login) login.style.display='block';
+        if(signup) signup.style.display='none';
+        $('authPhoneGroup')?.style?.setProperty('display','none');
+      }catch(e){console.error(e);}
+    });
+    // Final signup fix: use a capture-phase handler so the signup button
+    // remains functional even if an older listener is present.
+    const signupBtn=$('signupBtn');
+    if(signupBtn && !signupBtn.dataset.finalSignupBound){
+      signupBtn.dataset.finalSignupBound='1';
+      signupBtn.addEventListener('click',async(ev)=>{
+        ev.preventDefault();
+        ev.stopImmediatePropagation();
+
+        const email=String($('authEmail')?.value||'').trim().toLowerCase();
+        const phone=String($('authPhone')?.value||'').trim();
+        const password=String($('authPassword')?.value||'').trim();
+
+        if(!email || !phone || !password){
+          notify('ইমেইল, ফোন নম্বর ও পাসওয়ার্ড দিন');
+          return;
+        }
+        if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+          notify('সঠিক ইমেইল ঠিকানা দিন');
+          return;
+        }
+        if(password.length<8){
+          notify('পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের হতে হবে');
+          return;
+        }
+
+        signupBtn.disabled=true;
+        const oldText=signupBtn.textContent;
+        signupBtn.textContent='সাইন আপ হচ্ছে...';
+
+        try{
+          if(!window.supabase || !window.supabase.auth){
+            notify('Supabase সংযোগ পাওয়া যাচ্ছে না। পেজটি রিফ্রেশ করুন।');
+            return;
+          }
+
+          const {data,error}=await window.supabase.auth.signUp({
+            email,
+            password,
+            options:{data:{phone}}
+          });
+
+          if(error){
+            console.error('Signup error:',error);
+            const msg=String(error.message||'');
+            if(/already registered|already exists|user already/i.test(msg)){
+              notify('এই ইমেইল দিয়ে আগে থেকেই একাউন্ট আছে। লগইন করুন।');
+              if(typeof window.updateAuthUI==='function') window.updateAuthUI(null,'login');
+            }else{
+              notify('সাইন আপ ব্যর্থ: '+msg);
+            }
+            return;
+          }
+
+          // Profile creation is optional here. Auth account must not fail
+          // just because the profiles table has an RLS/column problem.
+          if(data?.user){
+            try{
+              const {error:profileError}=await window.supabase.from('profiles').upsert([{
+                user_id:data.user.id,
+                email,
+                mobile:phone,
+                balance:0
+              }],{onConflict:'user_id'});
+              if(profileError) console.warn('Profile save skipped:',profileError.message);
+            }catch(profileErr){
+              console.warn('Profile save skipped:',profileErr);
+            }
+          }
+
+          if(data?.session){
+            notify('সাইন আপ সফল হয়েছে! এখন আপনি লগইন অবস্থায় আছেন।');
+            if(typeof window.updateAuthUI==='function') window.updateAuthUI(data.user);
+          }else{
+            notify('সাইন আপ সফল হয়েছে! ইমেইলে ভেরিফিকেশন লিংক এলে সেটি নিশ্চিত করে লগইন করুন।');
+            if(typeof window.updateAuthUI==='function') window.updateAuthUI(null,'login');
+          }
+        }catch(err){
+          console.error('Signup exception:',err);
+          notify('সাইন আপ করতে সমস্যা হয়েছে: '+(err?.message||err));
+        }finally{
+          signupBtn.disabled=false;
+          signupBtn.textContent=oldText;
+        }
+      },true);
+    }
+
+    // Prevent duplicate/failed old listeners and make login deterministic.
+    const loginBtn=$('loginBtn');
+    if(loginBtn && !loginBtn.dataset.finalLoginBound){
+      loginBtn.dataset.finalLoginBound='1';
+      loginBtn.addEventListener('click',async(ev)=>{
+        ev.preventDefault();
+        ev.stopImmediatePropagation();
+        const email=String($('authEmail')?.value||'').trim().toLowerCase();
+        const password=String($('authPassword')?.value||'').trim();
+        if(!email || !password){notify('ইমেইল ও পাসওয়ার্ড দিন');return;}
+        loginBtn.disabled=true;
+        const oldText=loginBtn.textContent;
+        loginBtn.textContent='লগইন হচ্ছে...';
+        try{
+          const {data,error}=await supabase.auth.signInWithPassword({email,password});
+          if(error){notify('লগইন ব্যর্থ হয়েছে: '+error.message);return;}
+          notify('লগইন সফল হয়েছে!');
+          if(typeof window.updateAuthUI==='function') window.updateAuthUI(data.user);
+          else {
+            $('authSection')?.style?.setProperty('display','none');
+            $('userTopBar')?.style?.setProperty('display','flex');
+            $('dashboardContainer')?.style?.setProperty('display','block');
+          }
+        }catch(e){
+          console.error('Login error:',e);
+          notify('লগইন করতে সমস্যা হয়েছে: '+(e?.message||e));
+        }finally{
+          loginBtn.disabled=false;
+          loginBtn.textContent=oldText;
+        }
+      },true);
+    }
+
+    bind('topBarProfileBtn','click',profile);
+    bind('profileDetailsBtn','click',profile);
+    bind('boxRechargeBtn','click',()=>open('rechargeModal'));
+    bind('closeModalBtn','click',()=>close('rechargeModal'));
+    bind('submitRechargeBtn','click',recharge);
+
+    bind('refreshBtn','click',refresh);
+    bind('colorPickerBtn','click',color);
+    bind('themeToggleBtn','click',theme);
+    bind('notifBtn','click',notifications);
+
+    bind('closeProfileModalBtn','click',()=>close('profileModal'));
+    bind('changePasswordModalBtn','click',()=>open('passwordModal'));
+    bind('closePasswordModalBtn','click',()=>close('passwordModal'));
+    bind('submitNewPasswordBtn','click',passwordChange);
+    bind('logoutMenuBtn','click',logout);
+
+    bind('closeNotifPanel','click',()=>{$('notificationPanel')?.classList.remove('open')});
+
+    ['profileModal','rechargeModal','passwordModal','languageModal'].forEach(id=>{
+      const e=$(id);if(!e||e.dataset.overlayFix)return;
+      e.dataset.overlayFix='1';
+      e.addEventListener('click',ev=>{if(ev.target===e)close(id)});
+    });
+
+    bind('threeDotBtn','click',e=>{
+      e.preventDefault();const m=$('dropdownMenu');
+      if(m)m.style.display=getComputedStyle(m).display==='none'?'block':'none';
+    });
+
+    bind('accountDetailsToggle','click',()=>{
+      $('accountDetailsMenu')?.classList.toggle('open');
+      document.querySelector('.user-extra-menu')?.classList.toggle('open');
+    });
+    bind('accountProfileBtn','click',profile);
+    bind('accountOrdersBtn','click',()=>{
+      $('userOrderHistoryTable')?.closest('.dash-box')?.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+    bind('accountRechargeBtn','click',()=>{
+      $('userRechargeHistoryTable')?.closest('.dash-box')?.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+
+    const lang=localStorage.getItem('siteLanguage')||'bn';
+    if(typeof window.setSiteLanguage==='function')window.setSiteLanguage(lang);
+  });
+})();
+</script>
+
+
+<!-- FINAL ACCOUNT DETAILS FIX -->
+<script id="final-account-details-fix">
+(function(){
+  'use strict';
+
+  const byId = id => document.getElementById(id);
+  const showModal = el => {
+    if (!el) return;
+    el.style.display = 'flex';
+    el.classList.add('show');
+  };
+
+  async function loadAccountProfileDetails(){
+    const user = window.userDataStore;
+    if (!user) {
+      try {
+        const {data} = await window.supabase.auth.getUser();
+        if (data?.user) window.userDataStore = data.user;
+      } catch(e) {}
+    }
+
+    const u = window.userDataStore;
+    if (!u) return;
+
+    const email = String(u.email || '').trim();
+    let name = String(
+      window.__currentProfileName ||
+      u.user_metadata?.name ||
+      u.user_metadata?.full_name ||
+      ''
+    ).trim();
+    let mobile = String(
+      window.__currentProfileMobile ||
+      u.user_metadata?.phone ||
+      ''
+    ).trim();
+    let balance = '';
+
+    // First use the already-loaded profile values.
+    if (!name && byId('userProfileName')) {
+      const x = byId('userProfileName').textContent.trim();
+      if (x && x !== 'ইউজার') name = x;
+    }
+
+    // Direct profile read as a fallback, so Account Details still works
+    // even if the optional get_my_profile RPC is unavailable.
+    try {
+      const {data: p, error} = await window.supabase
+        .from('profiles')
+        .select('*')
+        .eq('user_id', u.id)
+        .maybeSingle();
+
+      if (!error && p) {
+        if (p.name) name = String(p.name).trim();
+        if (p.mobile) mobile = String(p.mobile).trim();
+        if (p.balance !== undefined && p.balance !== null)
+          balance = Number(p.balance).toFixed(2);
+      }
+    } catch(e) {
+      console.warn('Account profile fallback failed:', e);
+    }
+
+    if (!name) name = email ? email.split('@')[0] : 'ইউজার';
+    if (!mobile) mobile = 'সংরক্ষিত নেই';
+
+    window.__currentProfileName = name;
+    window.__currentProfileMobile = mobile;
+
+    const values = {
+      profileModalEmail: email || '—',
+      userProfileName: name,
+      userProfileEmail: email || '—',
+      userProfilePhone: mobile,
+      customerNameDisplay: name,
+      boxUserName: name
+    };
+
+    Object.entries(values).forEach(([id, value]) => {
+      const el = byId(id);
+      if (el) el.textContent = value;
+    });
+
+    const balanceEl = byId('userBalance');
+    if (balance && balanceEl) balanceEl.textContent = balance;
+    const dashBalanceEl = byId('dashBalance');
+    if (balance && dashBalanceEl) dashBalanceEl.textContent = balance;
+
+    // IP is informational only; if unavailable, keep a clear message.
+    const ipEl = byId('userIpAddress');
+    if (ipEl && (!ipEl.textContent || ipEl.textContent === 'লোড হচ্ছে...')) {
+      try {
+        const resp = await fetch('https://api.ipify.org?format=json', {cache:'no-store'});
+        const ipData = await resp.json();
+        ipEl.textContent = ipData?.ip || 'পাওয়া যায়নি';
+      } catch(e) {
+        ipEl.textContent = 'পাওয়া যায়নি';
+      }
+    }
+  }
+
+  function openAccountDetails(){
+    const menu = byId('accountDetailsMenu');
+    const box = document.querySelector('.user-extra-menu');
+    if (menu) {
+      menu.classList.add('open');
+      menu.style.display = 'flex';
+    }
+    if (box) box.classList.add('open');
+  }
+
+  function openProfileDetails(ev){
+    if (ev) {
+      ev.preventDefault();
+      ev.stopPropagation();
+    }
+    openAccountDetails();
+    showModal(byId('profileModal'));
+    loadAccountProfileDetails();
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    const toggle = byId('accountDetailsToggle');
+    const profileBtn = byId('accountProfileBtn');
+
+    if (toggle && !toggle.dataset.accountDetailsFinalFix) {
+      toggle.dataset.accountDetailsFinalFix = '1';
+      toggle.addEventListener('click', function(ev){
+        ev.preventDefault();
+        ev.stopPropagation();
+        const menu = byId('accountDetailsMenu');
+        const box = document.querySelector('.user-extra-menu');
+        const opening = !menu?.classList.contains('open');
+
+        if (menu) {
+          menu.classList.toggle('open', opening);
+          menu.style.display = opening ? 'flex' : 'none';
+        }
+        if (box) box.classList.toggle('open', opening);
+      }, true);
+    }
+
+    if (profileBtn && !profileBtn.dataset.accountProfileFinalFix) {
+      profileBtn.dataset.accountProfileFinalFix = '1';
+      profileBtn.addEventListener('click', openProfileDetails, true);
+    }
+
+    // Keep the account menu usable after language changes or dynamic UI updates.
+    setTimeout(function(){
+      const menu = byId('accountDetailsMenu');
+      if (menu && menu.classList.contains('open')) menu.style.display = 'flex';
+    }, 300);
+  });
+
+  // Expose a reliable function for any other button/menu to use.
+  window.openAccountDetails = openAccountDetails;
+  window.openProfileDetails = openProfileDetails;
+  window.loadAccountProfileDetails = loadAccountProfileDetails;
+})();
+</script>
+
+</body>
+</html>

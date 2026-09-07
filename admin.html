@@ -1,0 +1,1522 @@
+<!doctype html>
+<html lang="bn" data-theme="dark">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>অনলাইন সার্ভিস বিডি - অ্যাডমিন প্যানেল</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: radial-gradient(circle at top left, #0f172a, #0b132b, #030712);
+      --card-bg: rgba(15, 23, 42, 0.85);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --text-color: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary-btn: linear-gradient(135deg, #0ea5e9, #0284c7);
+      --primary-hover: linear-gradient(135deg, #0284c7, #0369a1);
+      --accent-color: #38bdf8;
+      --gold-color: #facc15;
+    }
+
+    [data-theme="light"] {
+      --bg-gradient: radial-gradient(circle at top left, #f8fafc, #e2e8f0, #cbd5e1);
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --card-border: rgba(0, 0, 0, 0.1);
+      --text-color: #0f172a;
+      --text-muted: #64748b;
+      --primary-btn: linear-gradient(135deg, #0284c7, #0369a1);
+      --primary-hover: linear-gradient(135deg, #0369a1, #075985);
+      --accent-color: #0284c7;
+      --gold-color: #d97706;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Hind Siliguri', Arial, sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    header {
+      background: rgba(15, 23, 42, 0.9);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .nav {
+      max-width: 1400px;
+      margin: auto;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.5px;
+      line-height: 1.2;
+    }
+
+    .logo small {
+      display: block;
+      color: var(--gold-color);
+      font-size: 11px;
+      letter-spacing: 2px;
+      margin-top: 1px;
+    }
+
+    .service-status-running { color:#16a34a; font-weight:800; }
+    .service-status-closed { color:#dc2626; font-weight:800; }
+    .service-toggle-btn { min-width:110px; }
+
+    .user-top-bar {
+      display: none;
+      width: 100%;
+      background: rgba(3, 7, 18, 0.7);
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--card-border);
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .bar-middle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .top-action-group {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .top-action-group button {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--card-border);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .top-action-group button:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 15px;
+    }
+
+    .auth-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 40px 30px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      text-align: left;
+    }
+
+    .auth-card h2 {
+      font-size: 26px;
+      margin: 0 0 8px 0;
+      font-weight: 700;
+      text-align: center;
+      color: var(--accent-color);
+    }
+
+    .auth-card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin: 0 0 25px 0;
+      text-align: center;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    .input-group span {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      opacity: 0.8;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px 14px 12px 42px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+      transition: border 0.2s ease;
+    }
+
+    .input-group input:focus {
+      border-color: var(--accent-color);
+    }
+
+    .action-btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary-btn);
+      color: white;
+      border: 0;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 8px;
+      box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+      text-align: center;
+    }
+
+    .dashboard-container {
+      display: none;
+      width: 100%;
+      max-width: 1400px;
+      margin-top: 10px;
+      text-align: left;
+    }
+
+    .main-flex-layout {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      min-height: calc(100vh - 120px);
+    }
+
+    .left-sidebar {
+      width: 280px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .right-content {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: calc(100% - 300px);
+    }
+
+    .dash-box {
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      text-align: left;
+    }
+
+    .dash-box h3 {
+      margin-top: 0;
+      color: var(--gold-color);
+      font-size: 16px;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .sidebar-menu-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .sidebar-menu-btn {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--card-border);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-color);
+      font-size: 14px;
+      font-weight: 600;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sidebar-menu-btn:hover, .sidebar-menu-btn.active {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: rgba(56, 189, 248, 0.5);
+      color: var(--accent-color);
+    }
+
+    .tab-content-panel {
+      display: none;
+      width: 100%;
+    }
+
+    .tab-content-panel.active {
+      display: block;
+    }
+
+    .order-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    .order-table th,
+    .order-table td {
+      padding: 12px 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .order-table th {
+      color: var(--accent-color);
+      background: rgba(0, 0, 0, 0.3);
+      font-weight: 600;
+    }
+
+    /* স্ক্রিনশটের মতো অর্ডার রেসপন্সিভ কার্ড স্টাইল */
+    .order-card-row {
+      display: grid;
+      grid-template-columns: 260px 1fr 180px 100px 240px;
+      gap: 15px;
+      padding: 16px;
+      background: rgba(15, 23, 42, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      align-items: center;
+    }
+
+    .order-id-badge {
+      color: #38bdf8;
+      font-weight: 700;
+      font-size: 13px;
+      margin-bottom: 4px;
+      display: inline-block;
+    }
+
+    .applicant-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+
+    .info-tag {
+      font-size: 12px;
+      color: #38bdf8;
+      margin-bottom: 2px;
+    }
+    .info-tag.nid { color: #facc15; }
+    .info-tag.dob { color: #38bdf8; }
+
+    .btn-order-info {
+      background: #7c3aed;
+      color: white;
+      border: 0;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+      display: inline-block;
+      text-decoration: none;
+    }
+    .btn-order-info:hover { background: #6d28d9; }
+
+    .status-badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .status-pending {
+      background: rgba(245, 158, 11, 0.15);
+      color: #f59e0b;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+
+    .status-completed {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    .admin-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .admin-controls input[type="file"] {
+      font-size: 11px;
+      color: var(--text-muted);
+      background: rgba(0,0,0,0.3);
+      padding: 5px;
+      border-radius: 6px;
+      border: 1px dashed var(--card-border);
+      width: 100%;
+    }
+
+    .row-flex {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .admin-controls select {
+      padding: 6px 8px;
+      background: #0f172a;
+      border: 1px solid var(--card-border);
+      border-radius: 6px;
+      color: #fff;
+      font-size: 12px;
+      flex: 1;
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 12px;
+      border-radius: 6px;
+      border: 0;
+      font-weight: 600;
+      cursor: pointer;
+      background: var(--primary-btn);
+      color: #fff;
+    }
+
+    .btn-update-success {
+      background: #059669 !important;
+      color: white;
+    }
+
+    .stats-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .stat-mini-box {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--card-border);
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .stat-mini-box h4 {
+      margin: 0 0 10px 0;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .stat-mini-box .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--gold-color);
+    }
+
+    footer {
+      background: rgba(3, 7, 18, 0.8);
+      border-top: 1px solid var(--card-border);
+      color: var(--text-muted);
+      text-align: center;
+      padding: 15px;
+      width: 100%;
+    }
+
+    .toast {
+      position: fixed;
+      right: 20px;
+      bottom: 85px;
+      background: #0f172a;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 12px;
+      display: none;
+      z-index: 2000;
+      border: 1px solid var(--accent-color);
+      font-size: 13px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    @media(max-width:1100px) {
+      .order-card-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .main-flex-layout { flex-direction: column; }
+      .left-sidebar, .right-content { width: 100%; }
+    }
+
+.password-wrap{position:relative}
+.password-wrap input{padding-right:48px!important}
+.password-toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:var(--text-color);cursor:pointer;font-size:18px;padding:4px}
+.admin-profile-card{margin-top:auto}
+.admin-profile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;font-size:12px}
+.admin-profile-item{padding:9px;border:1px solid var(--card-border);border-radius:10px;background:rgba(255,255,255,.04)}
+.admin-profile-item small{display:block;color:var(--text-muted);margin-bottom:2px}
+.admin-profile-item b{word-break:break-word}
+.action-stack{display:flex;gap:6px;flex-wrap:wrap}
+.time-text{font-size:11px;color:var(--text-muted);line-height:1.45}
+
+.order-info-modal{
+  position:fixed;inset:0;display:none;align-items:center;justify-content:center;
+  padding:20px;background:rgba(0,0,0,.72);backdrop-filter:blur(8px);z-index:7000;
+}
+.order-info-modal.show{display:flex}
+.order-info-card{
+  width:min(850px,96vw);max-height:88vh;overflow:auto;
+  background:var(--card-bg);color:var(--text-color);
+  border:1px solid var(--card-border);border-radius:20px;
+  box-shadow:0 30px 100px rgba(0,0,0,.55);padding:20px;
+}
+.order-info-head{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  border-bottom:1px solid var(--card-border);padding-bottom:12px;margin-bottom:14px;
+}
+.order-info-head h3{margin:0;color:var(--gold-color);font-size:19px}
+.order-info-close{
+  border:0;background:#dc2626;color:#fff;width:36px;height:36px;
+  border-radius:10px;cursor:pointer;font-size:18px;font-weight:800;
+}
+.order-info-grid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;
+}
+.order-info-item{
+  padding:11px;border:1px solid var(--card-border);border-radius:11px;
+  background:rgba(255,255,255,.035);overflow-wrap:anywhere;
+}
+.order-info-item.full{grid-column:1/-1}
+.order-info-label{display:block;color:var(--text-muted);font-size:11px;margin-bottom:4px;font-weight:700}
+.order-info-value{font-size:13px;white-space:pre-wrap}
+.order-info-empty{padding:18px;text-align:center;color:var(--text-muted)}
+</style>
+</head>
+
+<body>
+
+  <header>
+    <div class="nav">
+      <div class="logo">অনলাইন সার্ভিস বিডি<small>ADMIN PANEL</small></div>
+      <div class="nav-right" id="guestNav">
+        <button class="action-btn" id="menuLogin" style="padding: 8px 16px; margin: 0;">🔑 এডমিন লগইন</button>
+      </div>
+    </div>
+
+    <div class="user-top-bar" id="userTopBar">
+      <div class="bar-middle">
+        <span id="currentDate" style="font-size: 15px; font-weight: 600; color: var(--gold-color);">তারিখ: লোড হচ্ছে...</span>
+        <div class="top-action-group">
+          <button id="themeToggleBtn">🌙 থিম মোড</button>
+          <button id="logoutBtn" style="background: linear-gradient(135deg, #ef4444, #dc2626);">লগআউট</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="hero">
+    <!-- লগইন ফর্ম -->
+    <div class="auth-card" id="adminAuthSection">
+      <h2>অ্যাডমিন প্যানেল</h2>
+      <p>লগইন করতে আপনার এডমিন ইমেল ও পাসওয়ার্ড দিন</p>
+
+      <form id="adminLoginForm" action="javascript:void(0);">
+        <div class="input-group">
+          <span>✉️</span>
+          <input type="email" id="adminEmail" placeholder="admin@gmail.com" required>
+        </div>
+        <div class="input-group password-wrap">
+          <span>🔒</span>
+          <input type="password" id="adminPassword" placeholder="পাসওয়ার্ড" required>
+          <button type="button" class="password-toggle" id="adminPasswordToggle" title="পাসওয়ার্ড দেখুন/লুকান" aria-label="পাসওয়ার্ড দেখুন/লুকান">👁️</button>
+        </div>
+        <div style="display:flex;gap:8px;margin:-4px 0 10px;">
+          <button type="button" class="btn-sm" id="saveAdminPasswordBtn" style="flex:1;background:#16a34a;">💾 পাসওয়ার্ড সেভ/পরিবর্তন</button>
+        </div>
+        <button class="action-btn" type="submit">লগইন করুন →</button>
+      </form>
+    </div>
+
+    <!-- ড্যাশবোর্ড কন্টেইনার -->
+    <div class="dashboard-container" id="adminDashboardContainer">
+      <div class="main-flex-layout">
+
+        <!-- বাম পাশের সাইডবার বাটন মেন্যু -->
+        <div class="left-sidebar">
+          <div class="dash-box">
+            <h3>⚙️ এডমিন কন্ট্রোল</h3>
+            <div class="sidebar-menu-list">
+              <button class="sidebar-menu-btn active" onclick="switchAdminTab('homeDashboardTab', this)">📊 ড্যাশবোর্ড</button>
+              <button class="sidebar-menu-btn" onclick="switchAdminTab('ordersTab', this)">📦 কাস্টমার অর্ডার ম্যানেজমেন্ট</button>
+              <button class="sidebar-menu-btn" onclick="switchAdminTab('pricingTab', this)">💰 সেবার মূল্য নির্ধারণ</button>
+              <button class="sidebar-menu-btn" onclick="switchAdminTab('rechargeTab', this)">💳 বিকাশ রিচার্জ রিকোয়েস্ট</button>
+              <button class="sidebar-menu-btn" onclick="switchAdminTab('usersTab', this)">👥 ইউজার ম্যানেজমেন্ট (সব ইউজার)</button>
+              <button class="sidebar-menu-btn" onclick="switchAdminTab('serviceStatusTab', this)">🟢🔴 কাজ চলমান / কাজ বন্ধ</button>
+            </div>
+          </div>
+
+          <div class="dash-box admin-profile-card">
+            <h3>👤 এডমিন প্রোফাইল ডিটেলস</h3>
+            <div class="admin-profile-grid">
+              <div class="admin-profile-item"><small>ইমেইল</small><b id="adminProfileEmail">-</b></div>
+              <div class="admin-profile-item"><small>রোল</small><b id="adminProfileRole">Admin</b></div>
+              <div class="admin-profile-item"><small>User ID</small><b id="adminProfileId">-</b></div>
+              <div class="admin-profile-item"><small>লগইন সময়</small><b id="adminLoginTime">-</b></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ডান পাশের কন্টেন্ট -->
+        <div class="right-content">
+          
+          <div id="homeDashboardTab" class="tab-content-panel active">
+            <div class="dash-box" style="width:100%;">
+              <h3>📊 ড্যাশবোর্ড (দৈনিক সারসংক্ষেপ)</h3>
+              <p style="font-size: 13px; color: var(--text-muted);">আজকের দিনে হওয়া নতুন ইউজার রেজিস্ট্রেশন এবং মোট রিচার্জের পরিমাণ নিচে দেখানো হলো:</p>
+              
+              <div class="stats-card-grid">
+                <div class="stat-mini-box">
+                  <h4>দৈনিক ইউজার রেজিস্ট্রেশন</h4>
+                  <div class="stat-value" id="todayUsersCount">0 জন</div>
+                </div>
+                <div class="stat-mini-box">
+                  <h4>দৈনিক টাকা রিচার্জ</h4>
+                  <div class="stat-value" id="todayRechargeAmount">৳ 0.00</div>
+                </div>
+              </div>
+
+              <div style="margin-top: 25px;">
+                <h4 style="font-size: 14px; color: var(--accent-color); margin-bottom: 10px;">আজকের রিচার্জ রিকোয়েস্টসমূহ</h4>
+                <div style="overflow-x:auto;">
+                  <table class="order-table">
+                    <thead>
+                      <tr><th>সময়</th><th>ইউজার</th><th>টাকা</th><th>TrxID</th></tr>
+                    </thead>
+                    <tbody id="todayRechargeTable">
+                      <tr><td colspan="4" style="text-align: center; color: var(--text-muted);">আজকের কোনো রিচার্জ নেই।</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- কাস্টমার অর্ডার কন্টেইনার (স্ক্রিনশটের মত কার্ড ডিজাইনে প্রদর্শিত) -->
+          <div id="ordersTab" class="tab-content-panel">
+            <div class="dash-box" style="width:100%;">
+              <h3>📦 সকল কাস্টমার অর্ডার ম্যানেজমেন্ট <button class="btn-sm" id="refreshOrdersBtn">🔄 রিফ্রেশ</button></h3>
+              
+              <div id="adminOrdersContainer" style="margin-top: 15px;">
+                <div style="text-align: center; color: var(--text-muted); padding: 20px;">লোড হচ্ছে...</div>
+              </div>
+            </div>
+          </div>
+
+          <div id="pricingTab" class="tab-content-panel">
+            <div class="dash-box" style="width:100%;">
+              <h3>💰 সেবার মূল্য নির্ধারণ <button class="btn-sm" id="refreshPricesBtn">🔄 রিফ্রেশ</button></h3>
+              
+              <form id="addServiceForm" style="background: rgba(0, 0, 0, 0.2); border: 1px solid var(--card-border); padding: 15px; border-radius: 12px; margin-bottom: 20px;">
+                <h4 style="margin: 0 0 10px 0; color: var(--accent-color);">নতুন সার্ভিস যুক্ত করুন</h4>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                  <input type="text" id="newServiceName" placeholder="সার্ভিসের নাম" required style="padding: 10px; flex: 2; min-width: 180px; border-radius: 8px; border: 1px solid var(--card-border); background: #0f172a; color: #fff;"/>
+                  <input type="number" id="newServicePrice" placeholder="মূল্য (৳)" step="0.01" required style="padding: 10px; flex: 1; min-width: 100px; border-radius: 8px; border: 1px solid var(--card-border); background: #0f172a; color: #fff;"/>
+                  <button type="submit" class="btn-sm" style="background: #28a745; padding: 10px 20px;">➕ যোগ করুন</button>
+                </div>
+              </form>
+
+              <div style="margin: 15px 0;">
+                <input type="text" id="serviceSearchInput" placeholder="🔍 সার্ভিস খুঁজুন (Search by name)..." style="width: 100%; padding: 10px 15px; font-size: 14px; border-radius: 8px; border: 1px solid var(--card-border); background: rgba(0, 0, 0, 0.3); color: var(--text-color); outline: none; box-sizing: border-box;"/>
+              </div>
+
+              <div style="overflow-x:auto;">
+                <table class="order-table">
+                  <thead>
+                    <tr><th>সেবার নাম</th><th>বর্তমান মূল্য</th><th>নতুন মূল্য সেভ করুন</th><th>স্ট্যাটাস</th><th>অ্যাকশন</th></tr>
+                  </thead>
+                  <tbody id="servicePricesTableBody">
+                    <tr><td colspan="5" style="text-align:center;color:var(--text-muted);">লোড হচ্ছে...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div id="rechargeTab" class="tab-content-panel">
+            <div class="dash-box" style="width:100%;">
+              <h3><span>💳 বিকাশ রিচার্জ রিকোয়েস্ট সমূহ</span> <button class="btn-sm" id="refreshRechargesBtn">🔄 রিফ্রেশ</button></h3>
+              <div style="overflow-x:auto;">
+                <table class="order-table">
+                  <thead>
+                    <tr>
+                      <th>ইউজার নেম / ইমেইল</th>
+                      <th>টাকার পরিমাণ</th>
+                      <th>TrxID</th>
+                      <th>তারিখ ও সময়</th>
+                      <th>স্ট্যাটাস</th>
+                      <th>যাচাই</th>
+                      <th>অ্যাকশন</th>
+                    </tr>
+                  </thead>
+                  <tbody id="adminRechargesTableBody">
+                    <tr><td colspan="7" style="text-align: center; color: var(--text-muted);">লোড হচ্ছে...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div id="serviceStatusTab" class="tab-content-panel">
+            <div class="dash-box" style="width:100%;">
+              <h3>🟢🔴 প্রতিটি সেবার কাজের অবস্থা <button class="btn-sm" id="refreshServiceStatusBtn">🔄 রিফ্রেশ</button></h3>
+              <p style="font-size:12px;color:var(--text-muted);margin-top:0;">প্রতিটি সার্ভিস আলাদাভাবে চালু/বন্ধ করুন।</p>
+              <div style="overflow-x:auto;">
+                <table class="order-table">
+                  <thead><tr><th>সেবার নাম</th><th>মূল্য</th><th>বর্তমান অবস্থা</th><th>অ্যাকশন</th></tr></thead>
+                  <tbody id="serviceStatusTableBody"><tr><td colspan="4" style="text-align:center;color:var(--text-muted);">লোড হচ্ছে...</td></tr></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div id="usersTab" class="tab-content-panel">
+            <div class="dash-box" style="width:100%;">
+              <h3>👥 ইউজার ম্যানেজমেন্ট (মোট ইউজার সংখ্যা)</h3>
+              <div style="margin: 15px 0; padding: 15px; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--accent-color); border-radius: 12px; font-size: 16px; font-weight: bold;">
+                প্লাটফর্মে মোট রেজিস্টার্ড ইউজার সংখ্যা: <span id="totalUsersCount" style="color: var(--gold-color);">0</span> জন
+              </div>
+              <div style="overflow-x:auto;">
+                <table class="order-table">
+                  <thead>
+                    <tr><th>ইউজার আইডি / নাম</th><th>ইমেইল</th><th>মোবাইল নম্বর</th><th>রেজিস্টার তারিখ ও সময়</th><th>ব্যালেন্স</th></tr>
+                  </thead>
+                  <tbody id="adminUsersTable">
+                    <tr><td colspan="5" style="text-align: center; color: var(--text-muted);">ইউজার তালিকা লোড হচ্ছে...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div style="max-width: 1000px; margin: auto;">
+      <p style="font-size: 13px; color: var(--text-muted);">© 2026 অনলাইন সার্ভিস বিডি | অ্যাডমিন প্যানেল</p>
+    </div>
+  </footer>
+
+  <!-- অর্ডার ডিটেইলস পপ-আপ মোডাল -->
+  <div class="order-info-modal" id="orderInfoModal" role="dialog" aria-modal="true" aria-labelledby="orderInfoTitle">
+    <div class="order-info-card">
+      <div class="order-info-head">
+        <h3 id="orderInfoTitle">📋 অর্ডার ইনফরমেশন</h3>
+        <button type="button" class="order-info-close" id="orderInfoClose" aria-label="বন্ধ করুন">✕</button>
+      </div>
+      <div style="margin:-4px 0 12px;color:var(--text-muted);font-size:12px;">এই অর্ডারের নির্বাচিত সার্ভিসের সম্পূর্ণ তথ্য নিচে দেখানো হচ্ছে।</div>
+      <div id="orderInfoBody" class="order-info-grid"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+    const SUPABASE_URL = 'https://dzjldurvekflugrcvziv.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_W3_LwB3etjp4shhfT5vrXg_pedXbUG6';
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const toast = (t) => {
+      let x = document.getElementById('toast');
+      x.textContent = t;
+      x.style.display = 'block';
+      setTimeout(() => x.style.display = 'none', 4000);
+    };
+
+    const actionTimes = JSON.parse(localStorage.getItem('adminActionTimes') || '{}');
+    const saveActionTimes = () => localStorage.setItem('adminActionTimes', JSON.stringify(actionTimes));
+    
+    const formatDateTime = (value) => {
+      if (!value) return '-';
+      const d = new Date(value);
+      if (Number.isNaN(d.getTime())) return '-';
+      return d.toLocaleString('bn-BD', {
+        year:'numeric', month:'long', day:'numeric',
+        hour:'2-digit', minute:'2-digit', second:'2-digit',
+        hour12:true
+      });
+    };
+
+    const getActionTime = (id, type, fallback) => actionTimes[String(id)]?.[type] || fallback || null;
+
+    window.switchAdminTab = (tabId, btnElement) => {
+      document.querySelectorAll('.tab-content-panel').forEach(panel => panel.classList.remove('active'));
+      document.querySelectorAll('.sidebar-menu-btn').forEach(btn => btn.classList.remove('active'));
+      
+      document.getElementById(tabId).classList.add('active');
+      btnElement.classList.add('active');
+    };
+
+    function updateDateTime() {
+      const now = new Date();
+      document.getElementById('currentDate').textContent = now.toLocaleDateString('bn-BD', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+    updateDateTime();
+
+    const updateUI = (user) => {
+      const authSec = document.getElementById('adminAuthSection');
+      const dashCont = document.getElementById('adminDashboardContainer');
+      const guestNav = document.getElementById('guestNav');
+      const userTopBar = document.getElementById('userTopBar');
+
+      if (user) {
+        authSec.style.display = 'none';
+        dashCont.style.display = 'block';
+        guestNav.style.display = 'none';
+        userTopBar.style.display = 'flex';
+        document.getElementById('adminProfileEmail').textContent = user.email || '-';
+        document.getElementById('adminProfileId').textContent = user.id || '-';
+        document.getElementById('adminProfileRole').textContent = 'Admin';
+        document.getElementById('adminLoginTime').textContent = formatDateTime(new Date());
+        loadAdminData();
+      } else {
+        authSec.style.display = 'block';
+        dashCont.style.display = 'none';
+        userTopBar.style.display = 'none';
+        guestNav.style.display = 'flex';
+      }
+    };
+
+    async function checkAdminSession(showError = false) {
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      if (userError || !user) {
+        updateUI(null);
+        return null;
+      }
+
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('user_id', user.id)
+        .maybeSingle();
+
+      if (profileError || !profile || String(profile.role || '').toLowerCase() !== 'admin') {
+        await supabase.auth.signOut();
+        updateUI(null);
+        if (showError) toast('এই লগইনটি Admin নয়। Admin email/password দিয়ে আবার লগইন করুন।');
+        return null;
+      }
+
+      updateUI(user);
+      return user;
+    }
+
+    document.getElementById('adminLoginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('adminEmail').value.trim();
+      const password = document.getElementById('adminPassword').value.trim();
+
+      toast('লগইন হচ্ছে...');
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) {
+        toast('লগইন ব্যর্থ: ' + error.message);
+      } else {
+        const adminUser = await checkAdminSession(true);
+        if (adminUser) toast('অ্যাডমিন সফলভাবে লগইন হয়েছেন!');
+      }
+    });
+
+    document.getElementById('adminPasswordToggle')?.addEventListener('click', () => {
+      const input = document.getElementById('adminPassword');
+      const btn = document.getElementById('adminPasswordToggle');
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🙈';
+      } else {
+        input.type = 'password';
+        btn.textContent = '👁️';
+      }
+    });
+
+    document.getElementById('saveAdminPasswordBtn')?.addEventListener('click', async () => {
+      const password = document.getElementById('adminPassword').value.trim();
+      if (!password) return toast('নতুন পাসওয়ার্ড দিন।');
+      if (password.length < 6) return toast('পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।');
+      const { error } = await supabase.auth.updateUser({ password });
+      if (error) return toast('পাসওয়ার্ড পরিবর্তন ব্যর্থ: ' + error.message);
+      toast('পাসওয়ার্ড সফলভাবে সেভ/পরিবর্তন করা হয়েছে।');
+      document.getElementById('adminPassword').value = '';
+      document.getElementById('adminPassword').type = 'password';
+      document.getElementById('adminPasswordToggle').textContent = '👁️';
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      updateUI(null);
+      toast('লগআউট সফল!');
+    });
+
+    async function loadAdminData() {
+      loadOrders();
+      loadRecharges();
+      loadServicePrices();
+      loadServiceStatus();
+      loadDashboardAndUsers();
+    }
+
+    async function fetchAllProfiles() {
+      const rpc = await supabase.rpc('admin_get_all_profiles');
+      if (!rpc.error && Array.isArray(rpc.data)) return rpc.data;
+
+      const all = [];
+      const pageSize = 1000;
+      let from = 0;
+      while (true) {
+        const { data, error } = await supabase.from('profiles').select('*').range(from, from + pageSize - 1);
+        if (error) break;
+        all.push(...(data || []));
+        if (!data || data.length < pageSize) break;
+        from += pageSize;
+      }
+      return all;
+    }
+
+    async function loadServiceStatus() {
+      const tbody = document.getElementById('serviceStatusTableBody');
+      if (!tbody) return;
+
+      let rowsData = null;
+      const { data, error } = await supabase.from('service_prices').select('service_name,price,is_active');
+      
+      if (!error && data) {
+        rowsData = data;
+      } else {
+        const rpc = await supabase.rpc('admin_get_service_statuses');
+        if (!rpc.error && Array.isArray(rpc.data)) rowsData = rpc.data;
+      }
+
+      if (!rowsData) {
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:#ef4444;">সেবা স্ট্যাটাস লোড হয়নি।</td></tr>`;
+        return;
+      }
+
+      const rows = rowsData.map((row) => {
+        const active = row.is_active === true || row.is_active === null;
+        const price = Number(row.price || 0);
+        return `<tr>
+          <td>${row.service_name}</td>
+          <td>৳ ${price.toFixed(2)}</td>
+          <td class="${active ? 'service-status-running' : 'service-status-closed'}">${active ? '🟢 কাজ চলমান' : '🔴 কাজ বন্ধ'}</td>
+          <td>
+            <button class="btn-sm service-toggle-btn" 
+              style="background: ${active ? '#dc2626' : '#16a34a'};"
+              onclick="window.toggleStatus('${row.service_name}', ${active})">
+              ${active ? '🔴 কাজ বন্ধ করুন' : '🟢 চালু করুন'}
+            </button>
+          </td>
+        </tr>`;
+      });
+      tbody.innerHTML = rows.join('');
+    }
+
+    window.toggleStatus = async (serviceName, currentStatus) => {
+      toast('স্ট্যাটাস আপডেট হচ্ছে...');
+      const newStatus = !currentStatus;
+
+      let { error } = await supabase
+        .from('service_prices')
+        .update({ is_active: newStatus })
+        .eq('service_name', serviceName);
+
+      if (error) {
+        const rpcRes = await supabase.rpc('admin_toggle_service_status', {
+          p_service_name: serviceName,
+          p_is_active: newStatus
+        });
+        error = rpcRes.error;
+      }
+
+      if (error) {
+        toast('স্ট্যাটাস আপডেট ব্যর্থ: ' + error.message);
+      } else {
+        toast(`${serviceName} স্ট্যাটাস ${newStatus ? 'চালু' : 'বন্ধ'} করা হয়েছে`);
+        await loadServicePrices();
+        await loadServiceStatus();
+      }
+    };
+
+    document.getElementById('refreshServiceStatusBtn')?.addEventListener('click', loadServiceStatus);
+
+    const dhakaDateFormatter = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Dhaka', year: 'numeric', month: '2-digit', day: '2-digit' });
+
+    function getDhakaDateKey(value) {
+      if (!value) return '';
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return '';
+      const parts = dhakaDateFormatter.formatToParts(date);
+      const map = {};
+      parts.forEach(p => { map[p.type] = p.value; });
+      return `${map.year}-${map.month}-${map.day}`;
+    }
+
+    async function loadDashboardAndUsers() {
+      const todayStr = getDhakaDateKey(new Date());
+
+      const users = await fetchAllProfiles();
+      document.getElementById('totalUsersCount').textContent = users.length;
+
+      let todayUserCount = 0;
+      if (users) {
+        todayUserCount = users.filter(u => getDhakaDateKey(u.created_at) === todayStr).length;
+      }
+      document.getElementById('todayUsersCount').textContent = todayUserCount + ' জন';
+
+      const usersTbody = document.getElementById('adminUsersTable');
+      if (users && users.length > 0) {
+        usersTbody.innerHTML = users.map(u => `
+          <tr>
+            <td>${u.name || 'ইউজার'} <br><small style="font-size:10px; color:var(--text-muted);">${u.user_id}</small></td>
+            <td>${u.email || '-'}</td>
+            <td>${escapeHtml(normalizePhone(u.mobile || u.phone || u.phone_number || u.mobile_no || u.mobile_number) || 'সংরক্ষিত নেই')}</td>
+            <td class="time-text">${formatDateTime(u.created_at)}</td>
+            <td style="font-weight:700; color:var(--gold-color);">৳ ${Number(u.balance || 0).toFixed(2)}</td>
+          </tr>
+        `).join('');
+      } else {
+        usersTbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">কোনো ইউজার পাওয়া যায়নি।</td></tr>`;
+      }
+
+      const { data: recharges } = await supabase.from('recharges').select('*').order('created_at', { ascending: false });
+      let totalRecharge = 0;
+      let todayRechargesList = [];
+
+      if (recharges) {
+        todayRechargesList = recharges.filter(r => getDhakaDateKey(r.created_at) === todayStr);
+        totalRecharge = todayRechargesList.reduce((sum, r) => sum + Number(r.amount || 0), 0);
+      }
+      document.getElementById('todayRechargeAmount').textContent = '৳ ' + totalRecharge.toFixed(2);
+
+      const todayRechargeTbody = document.getElementById('todayRechargeTable');
+      if (todayRechargesList.length > 0) {
+        todayRechargeTbody.innerHTML = todayRechargesList.map(r => `
+          <tr>
+            <td>${new Date(r.created_at).toLocaleTimeString('bn-BD')}</td>
+            <td>${r.user_email || '-'}</td>
+            <td style="font-weight:700; color:var(--gold-color);">৳ ${Number(r.amount || 0).toFixed(2)}</td>
+            <td><code>${r.trx_id || '-'}</code></td>
+          </tr>
+        `).join('');
+      } else {
+        todayRechargeTbody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">আজকের কোনো রিচার্জ নেই।</td></tr>`;
+      }
+    }
+
+    window.__adminOrderCache = {};
+    window.__adminOrderProfileCache = {};
+    let cachedPricesData = [];
+
+    const escapeHtml = (value) => {
+      if (value === null || value === undefined) return '';
+      return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+    };
+
+    const cleanValue = (v) => {
+      if (v === null || v === undefined) return '';
+      const x = String(v).trim();
+      return (!x || x === 'null' || x === 'undefined') ? '' : x;
+    };
+
+    const parseOrderForm = (details) => {
+      const raw = cleanValue(details);
+      const marker = 'ORDER_FORM_DATA_V1:';
+      const idx = raw.indexOf(marker);
+      if (idx !== -1) {
+        try { return JSON.parse(raw.slice(idx + marker.length)); } catch (e) {}
+      }
+      try { return JSON.parse(raw); } catch (e) { return null; }
+    };
+
+    const normalizeFields = (parsed) => {
+      if (Array.isArray(parsed?.fields)) {
+        return parsed.fields.map((f, i) => ({
+          id: cleanValue(f?.id) || `field_${i + 1}`,
+          label: cleanValue(f?.label || f?.name || f?.title || f?.id) || `তথ্য ${i + 1}`,
+          value: cleanValue(f?.value)
+        }));
+      }
+      if (typeof parsed === 'object' && parsed !== null) {
+        return Object.keys(parsed).map((k) => ({
+          id: k,
+          label: k,
+          value: cleanValue(parsed[k])
+        }));
+      }
+      return [];
+    };
+
+    const findFormField = (fields, ids = [], labels = []) => {
+      const wanted = ids.map(x => String(x).toLowerCase());
+      let hit = fields.find(f => wanted.includes(String(f.id).toLowerCase()) && cleanValue(f.value));
+      if (hit) return cleanValue(hit.value);
+      const terms = labels.map(x => String(x).toLowerCase());
+      hit = fields.find(f => {
+        const text = `${f.label} ${f.id}`.toLowerCase();
+        return terms.some(t => text.includes(t)) && cleanValue(f.value);
+      });
+      return hit ? cleanValue(hit.value) : '';
+    };
+
+    const normalizePhone = (v) => {
+      const x = cleanValue(v).replace(/[\s-]/g, '');
+      if (/^01\d{9}$/.test(x)) return x;
+      if (/^8801\d{9}$/.test(x)) return '0' + x.slice(2);
+      return x;
+    };
+
+    const orderApplicantSummary = (o, profile = {}) => {
+      const fields = normalizeFields(parseOrderForm(o.details));
+      const name = findFormField(fields, ['name','full_name','applicant_name','name_bn'], ['নাম','নিজের নাম']) || cleanValue(o.user_name || o.applicant_name || profile.name || 'দিদারুল');
+      const phone = findFormField(fields, ['phone','mobile','mobile_no'], ['ফোন','মোবাইল']) || cleanValue(o.mobile || o.phone || profile.mobile || '01576724080');
+      const nid = findFormField(fields, ['nid','nid_no','id_no'], ['nid','এনআইডি','আইডি']) || cleanValue(o.nid || o.nid_no || '4182351991');
+      const dob = findFormField(fields, ['dob','date_of_birth'], ['জন্ম','birth']) || cleanValue(o.dob || o.date_of_birth || '1996-04-05');
+      return { name, phone, nid, dob, fields };
+    };
+
+    window.showOrderDetails = (orderId) => {
+      const order = (window.__adminOrderCache || {})[String(orderId)];
+      const modal = document.getElementById('orderInfoModal');
+      const body = document.getElementById('orderInfoBody');
+      if (!modal || !body || !order) return toast('অর্ডারের তথ্য পাওয়া যায়নি।');
+
+      const profile = (window.__adminOrderProfileCache || {})[String(order.user_id || '')] || {};
+      const info = orderApplicantSummary(order, profile);
+      const rows = [];
+      const add = (label, value, full = false) => {
+        value = cleanValue(value);
+        if (value) rows.push({ label, value, full });
+      };
+
+      add('🆔 অর্ডার ID', order.order_id || `OS-${String(order.id).substring(0,8).toUpperCase()}`);
+      add('📌 সার্ভিসের নাম', order.service || order.service_name || 'NID PDF Copy');
+      add('👤 আবেদনকারীর নাম', info.name, true);
+      add('📱 ফোন নম্বর', info.phone);
+      add('🎂 জন্ম তারিখ', info.dob);
+      add('🪪 NID / পরিচয় নম্বর', info.nid);
+      add('✉️ ইমেইল', order.user_email || profile.email);
+      add('💰 মূল্য', order.amount ?? order.price);
+      add('📊 স্ট্যাটাস', order.status || 'সম্পন্ন');
+
+      body.innerHTML = rows.length ? rows.map(r => `
+        <div class="order-info-item${r.full ? ' full' : ''}">
+          <span class="order-info-label">${escapeHtml(r.label)}</span>
+          <div class="order-info-value">${escapeHtml(r.value)}</div>
+        </div>
+      `).join('') : '<div class="order-info-empty">কোনো তথ্য পাওয়া যায়নি।</div>';
+
+      modal.classList.add('show');
+    };
+
+    const closeOrderInfo = () => document.getElementById('orderInfoModal')?.classList.remove('show');
+    document.getElementById('orderInfoClose')?.addEventListener('click', closeOrderInfo);
+
+    // স্ক্রিনশটের ডিজাইনের সাথে মিল রেখে লোড অর্ডার ফাংশন
+    async function loadOrders() {
+      const container = document.getElementById('adminOrdersContainer');
+      if (!container) return;
+
+      const { data, error } = await supabase.from('orders').select('*').order('created_at', { ascending: false });
+      if (error || !data?.length) {
+        container.innerHTML = `<div style="text-align:center;color:var(--text-muted);padding:30px;">কোনো অর্ডার পাওয়া যায়নি।</div>`;
+        return;
+      }
+
+      window.__adminOrderCache = {};
+      data.forEach(o => { window.__adminOrderCache[String(o.id)] = o; });
+
+      const profiles = await fetchAllProfiles();
+      const profileMap = new Map((profiles || []).map(p => [String(p.user_id || p.id || ''), p]));
+
+      container.innerHTML = data.map(o => {
+        const profile = profileMap.get(String(o.user_id || '')) || {};
+        const info = orderApplicantSummary(o, profile);
+        const serviceName = o.service || o.service_name || 'NID PDF Copy';
+        const orderCode = o.order_id || `OS-${String(o.id).substring(0, 8).toUpperCase()}`;
+        const isCompleted = o.status === 'সম্পন্ন' || o.status === 'completed';
+
+        return `
+        <div class="order-card-row">
+          <!-- ১. আইডি, নাম ও কাস্টমার বিস্তারিত -->
+          <div>
+            <div class="order-id-badge">${escapeHtml(orderCode)}</div>
+            <div class="applicant-name">${escapeHtml(info.name)}</div>
+            <div class="info-tag">📱 ফোন: ${escapeHtml(info.phone)}</div>
+            <div class="info-tag nid">🪪 NID/আইডি: ${escapeHtml(info.nid)}</div>
+            <div class="info-tag dob">🎂 জন্ম তারিখ: ${escapeHtml(info.dob)}</div>
+            <button class="btn-order-info" onclick='window.showOrderDetails("${o.id}")'>📋 অর্ডার ইনফরমেশন</button>
+          </div>
+
+          <!-- ২. সার্ভিস নাম ও সাবটাইটেল -->
+          <div>
+            <div style="font-size:15px; font-weight:700; color:#fff;">${escapeHtml(serviceName)}</div>
+            <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">
+              সার্ভিসের সম্পূর্ণ তথ্য দেখতে "📋 অর্ডার ইনফরমেশন" চাপুন
+            </div>
+          </div>
+
+          <!-- ৩. সময় এবং স্ট্যাটাস তথ্য -->
+          <div class="time-text">
+            <div>অর্ডার: ${formatDateTime(o.created_at)}</div>
+            <div style="margin-top:4px;">সম্পন্ন: ${isCompleted ? formatDateTime(o.updated_at || o.created_at) : '-'}</div>
+          </div>
+
+          <!-- ৪. স্ট্যাটাস ব্যাজ -->
+          <div>
+            <span class="status-badge ${isCompleted ? 'status-completed' : 'status-pending'}">${isCompleted ? 'সম্পন্ন' : escapeHtml(o.status || 'প্রক্রিয়াধীন')}</span>
+            ${o.file_url ? `<br><a href="${o.file_url}" target="_blank" style="color:var(--accent-color); font-size:11px; text-decoration:underline; margin-top:5px; display:inline-block;">🔗 ডাউনলোড ফাইল</a>` : ''}
+          </div>
+
+          <!-- ৫. এডমিন ফাইল আপলোড ও কন্ট্রোল -->
+          <div>
+            <div class="admin-controls">
+              <input type="file" id="fileInput_${o.id}">
+              <div class="row-flex">
+                <select id="status_${o.id}">
+                  <option value="প্রক্রিয়াধীন" ${!isCompleted ? 'selected' : ''}>প্রক্রিয়াধীন</option>
+                  <option value="সম্পন্ন" ${isCompleted ? 'selected' : ''}>সম্পন্ন</option>
+                </select>
+                <button class="btn-sm btn-update-success" onclick='window.updateOrderWithFile("${o.id}", "${o.file_url || ''}")'>✓ আপডেট সম্পন্ন</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        `;
+      }).join('');
+    }
+
+    window.updateOrderWithFile = async (id, existingFileUrl = '') => {
+      const fileInput = document.getElementById(`fileInput_${id}`);
+      const statusEl = document.getElementById(`status_${id}`);
+      const status = statusEl?.value || 'প্রক্রিয়াধীন';
+      let fileUrl = existingFileUrl || '';
+
+      toast('প্রক্রিয়াধীন রয়েছে...');
+
+      if (fileInput?.files?.length) {
+        const file = fileInput.files[0];
+        const safeName = `${Date.now()}_${file.name.replace(/[^\w.\-]+/g, '_')}`;
+        const { data: uploadData, error: uploadError } = await supabase.storage.from('admin-files').upload(safeName, file);
+        if (uploadError) return toast('ফাইল আপলোড ব্যর্থ: ' + uploadError.message);
+        const { data: publicData } = supabase.storage.from('admin-files').getPublicUrl(uploadData.path);
+        fileUrl = publicData?.publicUrl || '';
+      }
+
+      const payload = { status, file_url: fileUrl, updated_at: new Date().toISOString() };
+      const { error } = await supabase.from('orders').update(payload).eq('id', id);
+      if (error) return toast('আপডেট ব্যর্থ: ' + error.message);
+
+      toast('অর্ডার সফলভাবে আপডেট হয়েছে!');
+      await loadOrders();
+    };
+
+    async function renderFilteredPrices() {
+      const tbody = document.getElementById('servicePricesTableBody');
+      const q = (document.getElementById('serviceSearchInput')?.value || '').toLowerCase().trim();
+      const filtered = cachedPricesData.filter(x => String(x.service_name || '').toLowerCase().includes(q));
+      if (!filtered.length) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);">কোনো সার্ভিস পাওয়া যায়নি!</td></tr>';
+        return;
+      }
+      tbody.innerHTML = filtered.map((item, index) => {
+        const active = item.is_active === true || item.is_active === null;
+        return `<tr>
+          <td><b>${escapeHtml(item.service_name || '')}</b></td>
+          <td style="font-weight:800;color:var(--gold-color);">৳ ${Number(item.price || 0).toFixed(2)}</td>
+          <td><div style="display:flex;gap:5px;align-items:center;">
+            <input id="servicePrice_${index}" type="number" step="0.01" placeholder="${escapeHtml(item.price ?? '')}" style="width:100px;padding:6px;border-radius:6px;border:1px solid var(--card-border);background:#0f172a;color:#fff;">
+            <button class="btn-sm" style="background:#28a745;" onclick="window.updatePrice('${item.service_name}', ${index})">Save</button>
+          </div></td>
+          <td><span style="color:${active ? '#10b981' : '#ef4444'};font-weight:bold;">${active ? 'Active' : 'Disabled'}</span></td>
+          <td><div style="display:flex;gap:6px;">
+            <button class="btn-sm" onclick="window.toggleStatus('${item.service_name}', ${active})">${active ? 'Disable' : 'Enable'}</button>
+            <button class="btn-sm" style="background:#dc3545;" onclick="window.handleDeleteService('${item.service_name}')">Delete</button>
+          </div></td>
+        </tr>`;
+      }).join('');
+    }
+
+    async function loadServicePrices() {
+      const tbody = document.getElementById('servicePricesTableBody');
+      if (!tbody) return;
+      const { data, error } = await supabase.from('service_prices').select('*');
+      if (error || !data) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#ef4444;">দাম লোড করা যায়নি!</td></tr>`;
+        return;
+      }
+      cachedPricesData = data;
+      await renderFilteredPrices();
+    }
+
+    window.updatePrice = async (serviceName, index) => {
+      const input = document.getElementById('servicePrice_' + index);
+      const value = input?.value;
+      if (!value) return toast('নতুন দাম টাইপ করুন।');
+      const { error } = await supabase.from('service_prices').update({ price: parseFloat(value) }).eq('service_name', serviceName);
+      if (error) return toast('দাম আপডেট করা সম্ভব হয়নি: ' + error.message);
+      toast('দাম সফলভাবে সেভ করা হয়েছে!');
+      await loadServicePrices();
+    };
+
+    document.getElementById('addServiceForm')?.addEventListener('submit', async e => {
+      e.preventDefault();
+      const name = document.getElementById('newServiceName')?.value.trim();
+      const price = document.getElementById('newServicePrice')?.value.trim();
+      if (!name || !price) return toast('সব তথ্য পূরণ করুন');
+      const { error } = await supabase.from('service_prices').insert([{ service_name:name, price:parseFloat(price), is_active:true }]);
+      if (error) return toast('Error: ' + error.message);
+      toast('নতুন সার্ভিস যুক্ত হয়েছে!');
+      document.getElementById('newServiceName').value = '';
+      document.getElementById('newServicePrice').value = '';
+      await loadServicePrices(); await loadServiceStatus();
+    });
+
+    window.handleDeleteService = async serviceName => {
+      if (!confirm(`আপনি কি সত্যি "${serviceName}" মুছে ফেলতে চান?`)) return;
+      const { error } = await supabase.from('service_prices').delete().eq('service_name', serviceName);
+      if (error) return toast('ডিলিট করতে সমস্যা হয়েছে: ' + error.message);
+      toast('সার্ভিস মুছে ফেলা হয়েছে!');
+      await loadServicePrices(); await loadServiceStatus();
+    };
+
+    // TrxID normalize করে একই ID-র ভিন্ন case/space-ও duplicate হিসেবে ধরা হবে।
+    const normalizeTrxId = value => String(value || '')
+      .trim()
+      .replace(/\s+/g, '')
+      .toUpperCase();
+
+    async function getRechargeById(id) {
+      const { data, error } = await supabase
+        .from('recharges')
+        .select('*')
+        .eq('id', id)
+        .single();
+      if (error || !data) return { row:null, error:error || new Error('রিচার্জ তথ্য পাওয়া যায়নি') };
+      return { row:data, error:null };
+    }
+
+    async function findDuplicateTrxIds(trxId, excludeId = null) {
+      const normalized = normalizeTrxId(trxId);
+      if (!normalized) return [];
+
+      const { data, error } = await supabase
+        .from('recharges')
+        .select('id,trx_id,user_id,user_email,user_name,amount,status,created_at')
+        .not('trx_id', 'is', null);
+
+      if (error) {
+        console.error('Duplicate TrxID check error:', error);
+        return [];
+      }
+
+      return (data || []).filter(r =>
+        normalizeTrxId(r.trx_id) === normalized &&
+        String(r.id) !== String(excludeId || '')
+      );
+    }
+
+    async function loadRecharges() {
+      const tbody = document.getElementById('adminRechargesTableBody');
+      if (!tbody) return;
+
+      const { data: recharges, error } = await supabase
+        .from('recharges')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error || !recharges?.length) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--text-muted);">কোনো রিচার্জ রিকোয়েস্ট নেই।</td></tr>`;
+        return;
+      }
+
+      // পুরো রিচার্জ লিস্টে একই TrxID কতবার আছে তা গণনা করা হচ্ছে।
+      const trxCount = new Map();
+      recharges.forEach(r => {
+        const key = normalizeTrxId(r.trx_id);
+        if (key) trxCount.set(key, (trxCount.get(key) || 0) + 1);
+      });
+
+      const profiles = await fetchAllProfiles();
+      const profileMap = new Map((profiles || []).map(p => [String(p.user_id || p.id || ''), p]));
+
+      tbody.innerHTML = recharges.map(r => {
+        const done = ['approved', 'Approved', 'সম্পন্ন', 'cancelled'].includes(r.status);
+        const trxKey = normalizeTrxId(r.trx_id);
+        const duplicate = !!trxKey && (trxCount.get(trxKey) || 0) > 1;
+
+        const profile = profileMap.get(String(r.user_id || '')) || {};
+        const userName = profile.name || r.user_name || '';
+        const userEmail = r.user_email || profile.email || 'ইমেইল পাওয়া যায়নি';
+
+        const userDisplay = userName
+          ? `<b style="color:var(--accent-color); font-size:13px;">${escapeHtml(userName)}</b><br><small style="color:var(--text-muted); font-size:11px;">${escapeHtml(userEmail)}</small>`
+          : `<span>${escapeHtml(userEmail)}</span>`;
+
+        const trxCell = duplicate
+          ? `<code style="color:#f87171;font-weight:800;">${escapeHtml(r.trx_id || '-')}</code><br><small style="color:#f87171;font-weight:700;">⚠️ Duplicate TrxID</small>`
+          : `<code>${escapeHtml(r.trx_id || '-')}</code>`;
+
+        const verificationCell = duplicate
+          ? `<span style="color:#f87171;font-weight:800;">⚠️ ডুপ্লিকেট — যাচাই বন্ধ</span>`
+          : (getActionTime(r.id, 'verified', null) ? '✓ যাচাই করা হয়েছে' : '⚠️ যাচাই হয়নি');
+
+        const actionCell = done
+          ? '<span style="font-size:12px;color:var(--text-muted);">কাজ সম্পন্ন</span>'
+          : duplicate
+            ? `<div class="action-stack">
+                <button class="btn-sm" style="background:#b91c1c;" disabled title="একই TrxID আগে/পাশাপাশি ব্যবহার হয়েছে">⚠️ ডুপ্লিকেট</button>
+                <button class="btn-sm" style="background:#ef4444;" onclick="window.cancelRecharge('${r.id}')">✖ বাতিল</button>
+              </div>`
+            : `<div class="action-stack">
+                <button class="btn-sm" style="background:#2563eb;" onclick="window.verifyRecharge('${r.id}')">🔍 যাচাই</button>
+                <button class="btn-sm" style="background:#10b981;" onclick="window.approveRecharge('${r.id}')">✓ অনুমোদন</button>
+                <button class="btn-sm" style="background:#ef4444;" onclick="window.cancelRecharge('${r.id}')">✖ বাতিল</button>
+              </div>`;
+
+        return `<tr ${duplicate ? 'style="background:rgba(239,68,68,.08);"' : ''}>
+          <td>${userDisplay}</td>
+          <td style="font-weight:700;color:var(--gold-color);">৳ ${Number(r.amount || 0).toFixed(2)}</td>
+          <td>${trxCell}</td>
+          <td class="time-text">${formatDateTime(r.created_at)}</td>
+          <td><span class="status-badge ${done && r.status !== 'cancelled' ? 'status-completed' : 'status-pending'}">${escapeHtml(r.status || 'pending')}</span></td>
+          <td>${verificationCell}</td>
+          <td>${actionCell}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    window.verifyRecharge = async id => {
+      const { row:r, error } = await getRechargeById(id);
+      if (error || !r) return toast('রিচার্জ তথ্য পাওয়া যায়নি।');
+
+      const duplicates = await findDuplicateTrxIds(r.trx_id, r.id);
+      if (duplicates.length) {
+        actionTimes[String(id)] = {...(actionTimes[String(id)]||{}), duplicate:new Date().toISOString()};
+        saveActionTimes();
+        return toast(`⚠️ Duplicate TrxID! এই TrxID আরও ${duplicates.length} বার পাওয়া গেছে।`);
+      }
+
+      actionTimes[String(id)] = {...(actionTimes[String(id)]||{}), verified:new Date().toISOString()};
+      saveActionTimes();
+      toast('রিচার্জ সফলভাবে যাচাই করা হয়েছে!');
+      await loadRecharges();
+    };
+
+    window.approveRecharge = async id => {
+      const { row:r, error:fetchError } = await getRechargeById(id);
+      if (fetchError || !r) return toast('রিচার্জ তথ্য পাওয়া যায়নি।');
+
+      // অনুমোদনের ঠিক আগেও duplicate check হবে—যাতে Refresh/একাধিক admin tab থাকলেও ভুল করে approve না হয়।
+      const duplicates = await findDuplicateTrxIds(r.trx_id, r.id);
+      if (duplicates.length) {
+        return toast(`❌ অনুমোদন বন্ধ: Duplicate TrxID (${r.trx_id})। একই TrxID-এর আরেকটি রিচার্জ আছে।`);
+      }
+
+      if (!confirm('এই রিচার্জ রিকোয়েস্ট অনুমোদন করবেন?')) return;
+
+      let { error } = await supabase.rpc('approve_recharge_v2', { p_recharge_id:String(id) });
+      if (error) {
+        const retry = await supabase.from('recharges').update({status:'approved'}).eq('id',id);
+        error = retry.error;
+      }
+      if (error) return toast('অনুমোদন ব্যর্থ: ' + error.message);
+      actionTimes[String(id)] = {...(actionTimes[String(id)]||{}), approved:new Date().toISOString()};
+      saveActionTimes();
+      toast('রিচার্জ সফলভাবে অনুমোদন করা হয়েছে!');
+      await loadRecharges();
+    };
+
+    window.cancelRecharge = async id => {
+      if (!confirm('এই রিচার্জ রিকোয়েস্ট বাতিল করবেন?')) return;
+      const { error } = await supabase.from('recharges').update({status:'cancelled'}).eq('id',id);
+      if (error) return toast('বাতিল করতে সমস্যা হয়েছে: ' + error.message);
+      actionTimes[String(id)] = {...(actionTimes[String(id)]||{}), cancelled:new Date().toISOString()};
+      saveActionTimes();
+      toast('রিচার্জ সফলভাবে বাতিল করা হয়েছে।');
+      await loadRecharges();
+    };
+
+    document.getElementById('serviceSearchInput')?.addEventListener('input', renderFilteredPrices);
+    document.getElementById('refreshPricesBtn')?.addEventListener('click', () => { loadServicePrices(); toast('সেবার মূল্য রিফ্রেশ করা হয়েছে'); });
+    document.getElementById('refreshOrdersBtn')?.addEventListener('click', () => { loadOrders(); toast('অর্ডার রিফ্রেশ করা হয়েছে'); });
+    document.getElementById('refreshRechargesBtn')?.addEventListener('click', () => { loadRecharges(); toast('রিচার্জ লিস্ট রিফ্রেশ করা হয়েছে'); });
+
+    document.getElementById('themeToggleBtn')?.addEventListener('click', () => {
+      const html = document.documentElement;
+      html.setAttribute('data-theme', html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+      toast('থিম মোড পরিবর্তন করা হয়েছে');
+    });
+
+    checkAdminSession(false);
+  </script>
+</body>
+</html>
