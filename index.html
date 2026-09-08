@@ -952,20 +952,54 @@ body.ux-compact .dash-box{padding:13px}body.ux-compact .service-item-link{paddin
     </div>
   </div>
 
-  <div class="modal-overlay" id="passwordModal">
-    <div class="modal-card">
-      <h3>🔒 পাসওয়ার্ড পরিবর্তন করুন</h3>
-      <div class="form-field" style="margin-bottom: 12px;">
-        <label>নতুন পাসওয়ার্ড (কমপক্ষে ৮ সংখ্যার)</label>
-        <input type="password" id="newPasswordInput" placeholder="কমপক্ষে ৮ অক্ষরের পাসওয়ার্ড">
-      </div>
-      <div style="display: flex; gap: 10px;">
-        <button class="action-btn" id="submitNewPasswordBtn" style="margin-top:0; background: linear-gradient(135deg, #059669, #047857);">আপডেট করুন</button>
-        <button class="action-btn" id="closePasswordModalBtn" style="margin-top:0; background: #475569;">বাতিল</button>
-      </div>
+  <!-- পাসওয়ার্ড রিসেট মোডাল -->
+<div id="reset-modal" class="modal-overlay" style="display:none;">
+  <div class="modal-card" style="position:relative;">
+    <div id="recaptcha-container"></div>
+    
+    <!-- স্টেপ ১: মোবাইল নম্বর -->
+    <div id="step-phone">
+      <h3 style="margin-bottom:15px;">পাসওয়ার্ড রিসেট করুন</h3>
+      <input type="tel" id="phone" placeholder="মোবাইল নম্বর লিখুন" style="width:100%; padding:10px; margin-bottom:10px; border-radius:6px; border:1px solid #ccc;">
+      <button onclick="sendOTP()" class="action-btn" style="width:100%; padding:10px; background:#0284c7; color:#fff; border:none; border-radius:6px; cursor:pointer;">OTP পাঠান</button>
     </div>
-  </div>
 
+    <!-- স্টেপ ২: OTP ও নতুন পাসওয়ার্ড -->
+    <div id="step-otp" style="display:none;">
+      <h3 style="margin-bottom:15px;">OTP ও নতুন পাসওয়ার্ড</h3>
+      <input type="text" id="otp" placeholder="৬ ডিজিটের OTP" style="width:100%; padding:10px; margin-bottom:10px; border-radius:6px; border:1px solid #ccc;">
+      <input type="password" id="new-password" placeholder="নতুন পাসওয়ার্ড" style="width:100%; padding:10px; margin-bottom:10px; border-radius:6px; border:1px solid #ccc;">
+      <button onclick="resetPassword()" class="action-btn" style="width:100%; padding:10px; background:#16a34a; color:#fff; border:none; border-radius:6px; cursor:pointer;">পাসওয়ার্ড পরিবর্তন করুন</button>
+    </div>
+
+    <button onclick="closeResetModal()" style="margin-top:15px; background:transparent; color:#94a3b8; border:none; cursor:pointer; width:100%;">বন্ধ করুন</button>
+  </div>
+</div>
+
+  
+
+<!-- ২. এই পপআপ ফর্মটি আপনার লগইন কার্ড বা <body> এর একদম নিচে বসিয়ে দিন -->
+<div id="reset-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9999; justify-content:center; align-items:center;">
+  <div style="background:#1e293b; color:#fff; padding:25px; border-radius:12px; width:320px; text-align:center; box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
+   <div id="recaptcha-container"></div> 
+    <!-- স্টেপ ১: মোবাইল নম্বর ইনপুট -->
+    <div id="step-phone">
+      <h3 style="margin-bottom:15px;">পাসওয়ার্ড রিসেট করুন</h3>
+      <input type="tel" id="phone" placeholder="মোবাইল নম্বর লিখুন" style="width:100%; padding:10px; margin-bottom:15px; border-radius:6px; border:1px solid #334155; background:#0f172a; color:#fff;">
+      <button onclick="sendOTP()" style="width:100%; padding:10px; background:#0284c7; color:#fff; border:none; border-radius:6px; cursor:pointer; font-weight:bold;">OTP পাঠান</button>
+    </div>
+
+    <!-- স্টেপ ২: OTP ও নতুন পাসওয়ার্ড ইনপুট -->
+    <div id="step-otp" style="display:none;">
+      <h3 style="margin-bottom:15px;">OTP ও নতুন পাসওয়ার্ড</h3>
+      <input type="text" id="otp" placeholder="৬ ডিজিটের OTP" style="width:100%; padding:10px; margin-bottom:10px; border-radius:6px; border:1px solid #334155; background:#0f172a; color:#fff;">
+      <input type="password" id="new-password" placeholder="নতুন পাসওয়ার্ড" style="width:100%; padding:10px; margin-bottom:15px; border-radius:6px; border:1px solid #334155; background:#0f172a; color:#fff;">
+      <button onclick="resetPassword()" style="width:100%; padding:10px; background:#16a34a; color:#fff; border:none; border-radius:6px; cursor:pointer; font-weight:bold;">পাসওয়ার্ড পরিবর্তন করুন</button>
+    </div>
+
+    <button onclick="closeResetModal()" style="margin-top:15px; background:transparent; color:#94a3b8; border:none; cursor:pointer;">বন্ধ করুন</button>
+  </div>
+</div>
   <div class="modal-overlay" id="rechargeModal">
     <div class="modal-card">
       <h3>📱 বিকাশ এজেন্ট রিচার্জ</h3>
@@ -1011,10 +1045,10 @@ body.ux-compact .dash-box{padding:13px}body.ux-compact .service-item-link{paddin
 
         <div id="loginContainer" style="display: none;">
           <button class="action-btn" type="button" id="loginBtn">লগইন করুন →</button>
-          <button type="button" id="forgotPasswordBtn"
-            style="margin-top:10px; width:100%; background:transparent; border:0; color:#38bdf8; cursor:pointer; font-size:13px;">
-            পাসওয়ার্ড ভুলে গেছেন?
-          </button>
+          <button type="button" id="forgotPasswordBtn" onclick="openResetModal()"
+  style="margin-top:10px; width:100%; background:transparent; border:0; color:#38bdf8; cursor:pointer; font-weight:700;">
+  🔐 পাসওয়ার্ড পরিবর্তন করুন
+</button>
         </div>
       </form>
     </div>
@@ -3411,6 +3445,108 @@ setTimeout(()=>toast('✨ Modern Dynamic UI চালু হয়েছে — Ctr
   window.loadAccountProfileDetails = loadAccountProfileDetails;
 })();
 </script>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+<script>
 
+  // আপনার ফায়ারবেস কনফিগারেশন
+  const firebaseConfig = {
+    apiKey: "AIzaSyDnfGQ1MNskAGpIpFmbf_L9I8inW7NRQTk",
+    authDomain: "onlineservicebd-feec2.firebaseapp.com",
+    projectId: "onlineservicebd-feec2",
+    storageBucket: "onlineservicebd-feec2.firebasestorage.app",
+    messagingSenderId: "925882607841",
+    appId: "1:925882607841:web:9846f068c79eda6d22fa0",
+    measurementId: "G-JXRH9SF24M"
+  };
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
+  let confirmationResultGlobal = null;
+
+  // ReCAPTCHA ভেরিফায়ার সেটআপ
+  window.onload = function() {
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+      'size': 'invisible'
+    });
+  };
+
+// ১. OTP পাঠানোর ফাংশন
+function sendOTP() {
+  const phoneNumber = document.getElementById('phone').value.trim();
+  if (!phoneNumber) { alert("অনুগ্রহ করে একটি বৈধ মোবাইল নম্বর দিন!"); return; }
+  
+  let formattedPhone = phoneNumber;
+  if (!formattedPhone.startsWith('+')) {
+    if (formattedPhone.startsWith('0')) { formattedPhone = '+88' + formattedPhone; }
+    else { formattedPhone = '+880' + formattedPhone; }
+  }
+
+  const appVerifier = window.recaptchaVerifier;
+  firebase.auth().signInWithPhoneNumber(formattedPhone, appVerifier)
+    .then((confirmationResult) => {
+      confirmationResultGlobal = confirmationResult;
+      document.getElementById('step-phone').style.display = 'none';
+      document.getElementById('step-otp').style.display = 'block';
+      alert("OTP পাঠানো হয়েছে! ইনপুট বক্সে ৬ ডিজিটের কোড দিন।");
+    })
+    .catch((error) => {
+      alert("OTP পাঠাতে সমস্যা হয়েছে: " + error.message);
+      if (window.recaptchaVerifier) { window.recaptchaVerifier.render().then(function(widgetId) { grecaptcha.reset(widgetId); }); }
+    });
+}
+
+// ২. OTP যাচাই এবং পাসওয়ার্ড পরিবর্তন করার ফাংশন
+function resetPassword() {
+  const otp = document.getElementById('otp').value.trim();
+  const newPassword = document.getElementById('new-password').value.trim();
+
+  if (!otp || !newPassword) { alert("OTP এবং নতুন পাসওয়ার্ড দুটিই পূরণ করুন!"); return; }
+  if (newPassword.length < 6) { alert("পাসওয়ার্ড অন্তত ৬ অক্ষরের হতে হবে!"); return; }
+  if (!confirmationResultGlobal) { alert("সেশন শেষ হয়ে গেছে। আবার নতুন করে OTP পাঠান!"); return; }
+
+  confirmationResultGlobal.confirm(otp)
+    .then((result) => {
+      const user = result.user;
+      
+      // ১. Firebase Auth-এ পাসওয়ার্ড আপডেট
+      return user.updatePassword(newPassword).then(() => {
+        // ২. ডাটাবেজেও পাসওয়ার্ড আপডেট (Firestore)
+        if (typeof firebase !== 'undefined' && firebase.firestore) {
+          const db = firebase.firestore();
+          return db.collection('users').doc(user.uid).update({
+            password: newPassword
+          });
+        }
+      });
+    })
+    .then(() => {
+      alert("পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে! এখন নতুন পাসওয়ার্ড দিয়ে লগইন করুন।");
+      closeResetModal();
+    })
+    .catch((error) => {
+      alert("সমস্যা হয়েছে: " + error.message);
+    });
+}
+
+// মোডাল বন্ধ করার ফাংশন
+function closeResetModal() {
+  document.getElementById('reset-modal').style.display = 'none';
+  document.getElementById('step-phone').style.display = 'block';
+  document.getElementById('step-otp').style.display = 'none';
+  document.getElementById('phone').value = '';
+  document.getElementById('otp').value = '';
+  document.getElementById('new-password').value = '';
+  confirmationResultGlobal = null;
+}
+
+// মোডাল খোলার ফাংশন
+function openResetModal() {
+  document.getElementById('reset-modal').style.display = 'flex';
+  document.getElementById('step-phone').style.display = 'block';
+  document.getElementById('step-otp').style.display = 'none';
+}
+</script>
 </body>
 </html>
