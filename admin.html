@@ -3,15 +3,17 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>অনলাইন সার্ভিস বিডি - অ্যাডমিন প্যানেল</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+  <title>এডমিন প্যানেল | অনলাইন সার্ভিস বিডি (Online Service BD)</title>
+  <link rel="icon" type="image/png" href="https://dsdidar79-dev.github.io/onlineservicebd/icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
     :root {
       --bg-gradient: radial-gradient(circle at top left, #0f172a, #0b132b, #030712);
-      --card-bg: rgba(15, 23, 42, 0.85);
+      --card-bg: rgba(15, 23, 42, 0.88);
       --card-border: rgba(255, 255, 255, 0.1);
       --text-color: #f8fafc;
       --text-muted: #94a3b8;
@@ -19,11 +21,13 @@
       --primary-hover: linear-gradient(135deg, #0284c7, #0369a1);
       --accent-color: #38bdf8;
       --gold-color: #facc15;
+      --success-btn: linear-gradient(135deg, #10b981, #059669);
+      --danger-btn: linear-gradient(135deg, #ef4444, #dc2626);
     }
 
     [data-theme="light"] {
       --bg-gradient: radial-gradient(circle at top left, #f8fafc, #e2e8f0, #cbd5e1);
-      --card-bg: rgba(255, 255, 255, 0.9);
+      --card-bg: rgba(255, 255, 255, 0.95);
       --card-border: rgba(0, 0, 0, 0.1);
       --text-color: #0f172a;
       --text-muted: #64748b;
@@ -48,7 +52,7 @@
     }
 
     header {
-      background: rgba(15, 23, 42, 0.9);
+      background: rgba(15, 23, 42, 0.94);
       position: sticky;
       top: 0;
       z-index: 100;
@@ -57,434 +61,389 @@
     }
 
     .nav {
-      max-width: 1350px;
+      max-width: 1400px;
       margin: auto;
       padding: 14px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 15px;
     }
 
     .logo {
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 700;
       color: #fff;
-      letter-spacing: 0.5px;
       line-height: 1.2;
     }
-
     .logo small {
       display: block;
       color: var(--gold-color);
       font-size: 11px;
       letter-spacing: 2px;
-      margin-top: 1px;
+    }
+    .admin-badge {
+      display: inline-block;
+      margin-left: 8px;
+      background: #dc2626;
+      color: #fff;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      vertical-align: middle;
     }
 
-    .service-status-running { color:#16a34a; font-weight:800; }
-    .service-status-closed { color:#dc2626; font-weight:800; }
-    .service-toggle-btn { min-width:110px; }
-
-    .user-top-bar {
-      display: none;
-      width: 100%;
-      background: rgba(3, 7, 18, 0.7);
-      padding: 12px 20px;
-      border-bottom: 1px solid var(--card-border);
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-
-    .bar-middle {
+    .nav-actions {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-
-    .top-action-group {
-      display: flex;
-      gap: 10px;
-      align-items: center;
+      gap: 8px;
       flex-wrap: wrap;
     }
 
-    .top-action-group button {
+    .btn-top {
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid var(--card-border);
-      color: #fff;
+      color: var(--text-color);
       padding: 8px 14px;
       border-radius: 10px;
       cursor: pointer;
-      font-size: 14px;
       font-weight: 600;
-      transition: all 0.2s ease;
+      font-size: 13px;
+      font-family: inherit;
+      transition: 0.2s;
+    }
+    .btn-top:hover {
+      background: rgba(255, 255, 255, 0.16);
+      transform: translateY(-1px);
     }
 
-    .top-action-group button:hover {
-      background: rgba(255, 255, 255, 0.2);
-      transform: translateY(-2px);
+    .language-option {
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 6px 11px;
+      cursor: pointer;
+      font-weight: 700;
+      background: rgba(255,255,255,.07);
+      color: var(--text-color);
+      font-family: inherit;
+      font-size: 13px;
+    }
+    .language-option.active {
+      background: var(--primary-btn);
+      color: #fff;
+      border-color: transparent;
     }
 
-    .hero {
+    .main-wrap {
+      max-width: 1400px;
+      width: 100%;
+      margin: 15px auto;
+      padding: 0 15px;
       flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px 15px;
     }
 
-    .auth-card {
+    /* Auth Box */
+    .admin-auth-box {
+      max-width: 440px;
+      margin: 60px auto;
       background: var(--card-bg);
       backdrop-filter: blur(20px);
       border: 1px solid var(--card-border);
       border-radius: 20px;
-      padding: 40px 30px;
-      width: 100%;
-      max-width: 440px;
+      padding: 35px 30px;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-      text-align: left;
-    }
-
-    .auth-card h2 {
-      font-size: 26px;
-      margin: 0 0 8px 0;
-      font-weight: 700;
       text-align: center;
+    }
+    .admin-auth-box h2 {
+      margin-top: 0;
       color: var(--accent-color);
+      font-size: 24px;
     }
 
-    .auth-card p {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin: 0 0 25px 0;
-      text-align: center;
+    /* Global KPI Grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
     }
-
-    .input-group {
-      position: relative;
-      margin-bottom: 16px;
-      text-align: left;
-    }
-
-    .input-group span {
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 16px;
-      opacity: 0.8;
-    }
-
-    .input-group input {
-      width: 100%;
-      padding: 12px 14px 12px 42px;
-      background: rgba(0, 0, 0, 0.3);
+    .kpi-card {
+      background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 10px;
-      color: #fff;
-      font-size: 14px;
-      outline: none;
-      transition: border 0.2s ease;
+      border-radius: 16px;
+      padding: 16px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     }
-
-    .input-group input:focus {
-      border-color: var(--accent-color);
-    }
-
-    .action-btn {
-      width: 100%;
-      padding: 12px;
-      background: var(--primary-btn);
-      color: white;
-      border: 0;
-      border-radius: 10px;
-      font-size: 15px;
+    .kpi-card small {
+      color: var(--text-muted);
       font-weight: 700;
+      font-size: 12px;
+      display: block;
+    }
+    .kpi-card b {
+      font-size: 25px;
+      color: var(--accent-color);
+      display: block;
+      margin-top: 5px;
+    }
+
+    /* Daily Summary Box */
+    .daily-summary-box {
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(15, 23, 42, 0.95));
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 18px;
+      padding: 18px 20px;
+      margin-bottom: 22px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+    .daily-summary-head h3 {
+      margin: 0 0 5px 0;
+      color: var(--gold-color);
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .daily-summary-head p {
+      margin: 0;
+      font-size: 13.5px;
+      color: var(--text-color);
+      opacity: 0.9;
+      font-weight: 500;
+    }
+    .daily-kpis {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 12px;
+    }
+    .daily-kpi-item {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .daily-kpi-item span {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .daily-kpi-item b {
+      font-size: 24px;
+      color: #38bdf8;
+    }
+
+    /* Tabs */
+    .admin-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 18px;
+      overflow-x: auto;
+      padding-bottom: 5px;
+    }
+    .tab-btn {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--card-border);
+      color: var(--text-color);
+      padding: 10px 18px;
+      border-radius: 12px;
       cursor: pointer;
-      transition: all 0.3s ease;
-      margin-top: 8px;
+      font-weight: 700;
+      font-family: inherit;
+      font-size: 14px;
+      white-space: nowrap;
+      transition: 0.2s;
+    }
+    .tab-btn.active {
+      background: var(--primary-btn);
+      color: #fff;
+      border-color: transparent;
       box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
-      text-align: center;
     }
 
-    .dashboard-container {
-      display: none;
-      width: 100%;
-      max-width: 1350px;
-      margin-top: 10px;
-      text-align: left;
-    }
-
-    .main-flex-layout {
-      display: flex;
-      gap: 20px;
-      align-items: flex-start;
-      height: calc(100vh - 120px);
-    }
-
-    .left-sidebar {
-      width: 320px;
-      flex-shrink: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      height: 100%;
-      overflow-y: auto;
-      padding-right: 5px;
-    }
-
-    .right-content {
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      height: 100%;
-      overflow-y: auto;
-      padding-right: 5px;
-    }
-
-    .left-sidebar::-webkit-scrollbar,
-    .right-content::-webkit-scrollbar {
-      width: 6px;
-    }
-    .left-sidebar::-webkit-scrollbar-thumb,
-    .right-content::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 10px;
-    }
-
+    /* Section Boxes */
     .dash-box {
       background: var(--card-bg);
       backdrop-filter: blur(16px);
       border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 18px;
+      border-radius: 18px;
+      padding: 20px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      text-align: left;
+      margin-bottom: 25px;
     }
-
-    .dash-box h3 {
-      margin-top: 0;
-      color: var(--gold-color);
-      font-size: 16px;
+    .dash-box-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 15px;
       border-bottom: 1px solid var(--card-border);
-      padding-bottom: 10px;
+      padding-bottom: 12px;
+    }
+    .dash-box-header h3 {
+      margin: 0;
+      color: var(--gold-color);
+      font-size: 18px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
       gap: 8px;
     }
 
-    .sidebar-menu-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 10px;
+    .user-total-pill {
+      background: rgba(16, 185, 129, 0.18);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+      font-size: 13px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-weight: 800;
+      margin-left: 6px;
     }
 
-    .sidebar-menu-btn {
-      width: 100%;
-      padding: 12px 14px;
+    .search-input {
+      padding: 8px 14px;
+      border-radius: 10px;
       border: 1px solid var(--card-border);
-      cursor: pointer;
-      transition: all 0.2s ease;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.03);
-      color: var(--text-color);
-      font-size: 14px;
-      font-weight: 600;
-      text-align: left;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      background: rgba(0, 0, 0, 0.25);
+      color: #fff;
+      outline: none;
+      font-family: inherit;
+      font-size: 13px;
+      min-width: 250px;
     }
 
-    .sidebar-menu-btn:hover, .sidebar-menu-btn.active {
-      background: rgba(56, 189, 248, 0.15);
-      border-color: rgba(56, 189, 248, 0.5);
-      color: var(--accent-color);
+    /* Tables */
+    .table-responsive {
+      overflow-x: auto;
     }
-
-    .tab-content-panel {
-      display: none;
-      width: 100%;
-    }
-
-    .tab-content-panel.active {
-      display: block;
-    }
-
-    .order-table {
+    .admin-table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 10px;
       font-size: 13px;
+      min-width: 750px;
     }
-
-    .order-table th,
-    .order-table td {
+    .admin-table th, .admin-table td {
       padding: 12px 10px;
       text-align: left;
       border-bottom: 1px solid var(--card-border);
+      vertical-align: middle;
     }
-
-    .order-table th {
+    .admin-table th {
       color: var(--accent-color);
-      background: rgba(0, 0, 0, 0.3);
-      font-weight: 600;
-    }
-
-    .status-badge {
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 600;
-      display: inline-block;
-    }
-
-    .status-pending {
-      background: rgba(245, 158, 11, 0.15);
-      color: #f59e0b;
-      border: 1px solid rgba(245, 158, 11, 0.4);
-    }
-
-    .status-completed {
-      background: rgba(16, 185, 129, 0.15);
-      color: #10b981;
-      border: 1px solid rgba(16, 185, 129, 0.4);
-    }
-
-    .admin-controls {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .admin-controls input[type="file"] {
-      font-size: 11px;
-      color: var(--text-muted);
-      background: rgba(0,0,0,0.2);
-      padding: 4px;
-      border-radius: 6px;
-      border: 1px dashed var(--card-border);
-    }
-
-    .row-flex {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-    }
-
-    .admin-controls select {
-      padding: 6px 8px;
-      background: #0f172a;
-      border: 1px solid var(--card-border);
-      border-radius: 6px;
-      color: #fff;
-      font-size: 12px;
-    }
-
-    .btn-sm {
-      padding: 6px 12px;
-      font-size: 12px;
-      border-radius: 6px;
-      border: 0;
-      font-weight: 600;
-      cursor: pointer;
-      background: var(--primary-btn);
-      color: #fff;
-    }
-
-    .stats-card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 15px;
-      margin-top: 15px;
-    }
-
-    .stat-mini-box {
-      background: rgba(0, 0, 0, 0.25);
-      border: 1px solid var(--card-border);
-      padding: 20px;
-      border-radius: 12px;
-      text-align: center;
-    }
-
-    .stat-mini-box h4 {
-      margin: 0 0 10px 0;
-      font-size: 14px;
-      color: var(--text-muted);
-    }
-
-    .stat-mini-box .stat-value {
-      font-size: 24px;
+      background: rgba(0, 0, 0, 0.35);
       font-weight: 700;
-      color: var(--gold-color);
+    }
+    .admin-table tbody tr:hover {
+      background: rgba(56, 189, 248, 0.05);
+    }
+
+    /* Badges */
+    .status-badge {
+      padding: 4px 9px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      display: inline-block;
+      white-space: nowrap;
+    }
+    .status-pending { background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.4); }
+    .status-processing { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.4); }
+    .status-notfound { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.4); }
+    .status-completed { background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.4); }
+    .status-cancelled { background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.4); }
+
+    /* Action Buttons */
+    .btn-action {
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 0;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin: 2px;
+      transition: 0.2s;
+    }
+    .btn-action:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+    .btn-view { background: #7c3aed; }
+    .btn-complete { background: #059669; }
+    .btn-reject { background: #dc2626; }
+    .btn-edit { background: #0284c7; }
+
+    /* Form Fields */
+    .form-field { margin-bottom: 14px; text-align: left; }
+    .form-field label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 5px; font-weight: 600; }
+    .form-field input, .form-field select, .form-field textarea {
+      width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--card-border);
+      background: rgba(0, 0, 0, 0.3); color: #fff; font-size: 14px; outline: none; font-family: inherit;
+    }
+    .form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: var(--accent-color); }
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(8px);
+      display: none; align-items: center; justify-content: center; z-index: 1000; padding: 15px;
+    }
+    .modal-card {
+      background: #0f172a; color: #fff; width: 100%; max-width: 650px; padding: 22px;
+      border-radius: 18px; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+      max-height: 90vh; overflow-y: auto; text-align: left;
+    }
+    .modal-card h3 { margin-top: 0; color: var(--gold-color); font-size: 18px; display: flex; align-items: center; justify-content: space-between; }
+
+    .order-info-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 15px 0; }
+    .order-info-item { padding: 10px; border: 1px solid var(--card-border); border-radius: 10px; background: rgba(255,255,255,0.03); overflow-wrap: anywhere; }
+    .order-info-item.full { grid-column: 1 / -1; }
+    .order-info-label { display: block; color: var(--text-muted); font-size: 11px; font-weight: 700; margin-bottom: 3px; }
+    .order-info-value { font-size: 13px; font-weight: 600; white-space: pre-wrap; }
+
+    .toast {
+      position: fixed; right: 20px; bottom: 25px; background: #0f172a; color: #fff;
+      padding: 12px 20px; border-radius: 12px; display: none; z-index: 2000;
+      border: 1px solid var(--accent-color); font-size: 13px; font-weight: 700;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
     }
 
     footer {
-      background: rgba(3, 7, 18, 0.8);
+      background: rgba(3, 7, 18, 0.85);
       border-top: 1px solid var(--card-border);
       color: var(--text-muted);
       text-align: center;
       padding: 15px;
-      width: 100%;
-    }
-
-    .toast {
-      position: fixed;
-      right: 20px;
-      bottom: 85px;
-      background: #0f172a;
-      color: #fff;
-      padding: 12px 20px;
-      border-radius: 12px;
-      display: none;
-      z-index: 2000;
-      border: 1px solid var(--accent-color);
       font-size: 13px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
 
-    @media(max-width:950px) {
-      .main-flex-layout { flex-direction: column; height: auto; }
-      .left-sidebar, .right-content { height: auto; overflow-y: visible; width: 100%; }
+    @media(max-width: 950px) {
+      .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .daily-kpis { grid-template-columns: 1fr; }
+      .order-info-grid { grid-template-columns: 1fr; }
+    }
+    @media(max-width: 550px) {
+      .kpi-grid { grid-template-columns: 1fr; }
+      .nav { flex-direction: column; align-items: flex-start; }
+      .nav-actions { width: 100%; justify-content: space-between; }
     }
   
-/* Admin enhancements */
-.password-wrap{position:relative}
-.password-wrap input{padding-right:48px!important}
-.password-toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:var(--text-color);cursor:pointer;font-size:18px;padding:4px}
-.admin-profile-card{margin-top:auto}
-.admin-profile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;font-size:12px}
-.admin-profile-item{padding:9px;border:1px solid var(--card-border);border-radius:10px;background:rgba(255,255,255,.04)}
-.admin-profile-item small{display:block;color:var(--text-muted);margin-bottom:2px}
-.admin-profile-item b{word-break:break-word}
-.action-stack{display:flex;gap:6px;flex-wrap:wrap}
-.time-text{font-size:11px;color:var(--text-muted);line-height:1.45}
-@media(max-width:520px){.admin-profile-grid{grid-template-columns:1fr}}
-</style>
-<style id="modern-upgrade">
-:root{--ux-radius:20px;--ux-shadow:0 18px 60px rgba(0,0,0,.28);--ux-glow:0 0 0 1px rgba(255,255,255,.08),0 12px 35px rgba(0,0,0,.22)}
-body{background-attachment:fixed;overflow-x:hidden}body:before{content:"";position:fixed;inset:-30%;z-index:-2;pointer-events:none;background:radial-gradient(circle at 15% 20%,rgba(56,189,248,.12),transparent 25%),radial-gradient(circle at 85% 70%,rgba(168,85,247,.10),transparent 25%);animation:uxFloat 16s ease-in-out infinite alternate}@keyframes uxFloat{to{transform:translate3d(3%, -2%,0) scale(1.04)}}
-header{box-shadow:0 8px 30px rgba(0,0,0,.18)!important}.dash-box,.content-card,.auth-card,.modal-card{border-radius:var(--ux-radius)!important;box-shadow:var(--ux-shadow)!important;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}.dash-box:hover,.content-card:hover{transform:translateY(-2px);box-shadow:var(--ux-shadow),0 0 0 1px rgba(56,189,248,.06)!important}
-.service-item-link{position:relative;overflow:hidden}.service-item-link:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--accent-color),var(--gold-color));transform:scaleY(0);transform-origin:center;transition:.25s}.service-item-link:hover:before{transform:scaleY(1)}
-.ux-toolbar{position:sticky;top:78px;z-index:90;display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px 12px;margin:8px 0;border:1px solid var(--card-border);background:rgba(15,23,42,.72);backdrop-filter:blur(18px);border-radius:16px;box-shadow:var(--ux-glow)}.ux-toolbar input{flex:1;min-width:180px;padding:10px 13px;border-radius:11px;border:1px solid var(--card-border);background:rgba(0,0,0,.22);color:var(--text-color);outline:none}.ux-toolbtn{border:1px solid var(--card-border);background:rgba(255,255,255,.06);color:var(--text-color);padding:9px 11px;border-radius:10px;cursor:pointer;font-weight:700}.ux-toolbtn:hover{background:rgba(56,189,248,.14);border-color:var(--accent-color)}
-.ux-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:12px 0}.ux-kpi{padding:15px;border:1px solid var(--card-border);border-radius:16px;background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(255,255,255,.025));box-shadow:var(--ux-glow)}.ux-kpi small{display:block;color:var(--text-muted);font-weight:700}.ux-kpi b{display:block;font-size:25px;margin-top:3px;color:var(--accent-color)}
-.ux-command{position:fixed;inset:0;background:rgba(0,0,0,.62);backdrop-filter:blur(8px);display:none;align-items:flex-start;justify-content:center;padding:12vh 18px;z-index:5000}.ux-command-card{width:min(680px,100%);background:var(--card-bg);border:1px solid var(--card-border);border-radius:20px;padding:16px;box-shadow:0 30px 90px rgba(0,0,0,.5)}.ux-command input{width:100%;padding:14px;border-radius:12px;border:1px solid var(--card-border);background:rgba(0,0,0,.25);color:var(--text-color);font-size:16px}.ux-cmd-list{margin-top:10px;display:grid;gap:6px;max-height:48vh;overflow:auto}.ux-cmd-item{padding:12px;border-radius:11px;cursor:pointer}.ux-cmd-item:hover{background:rgba(56,189,248,.12)}
-.ux-progress{position:fixed;top:0;left:0;width:0;height:3px;background:linear-gradient(90deg,var(--accent-color),var(--gold-color),#a855f7);z-index:9999;transition:width .18s ease}.ux-top{position:fixed;right:22px;bottom:82px;width:42px;height:42px;border-radius:50%;border:1px solid var(--card-border);background:var(--card-bg);color:var(--text-color);display:none;place-items:center;cursor:pointer;z-index:998;box-shadow:var(--ux-glow)}
-.ux-toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;padding:11px 16px;border-radius:12px;background:#0f172a;color:#fff;border:1px solid var(--accent-color);z-index:6000;transition:.25s;box-shadow:var(--ux-shadow)}.ux-toast.show{opacity:1;transform:translate(-50%,0)}
-body.ux-compact .dash-box{padding:13px}body.ux-compact .service-item-link{padding:9px 11px}body.ux-focus *:focus{outline:2px solid var(--accent-color)!important;outline-offset:2px}
-@media(max-width:900px){.ux-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.ux-toolbar{top:62px}}@media(max-width:520px){.ux-kpis{grid-template-columns:1fr}.ux-toolbar input{min-width:100%}}
+    .order-info-section-title{grid-column:1/-1;margin-top:14px;padding:10px 12px;border-radius:10px;background:rgba(56,189,248,.08);color:var(--accent-color);font-weight:800;border-bottom:1px solid rgba(255,255,255,.08)}
+    .admin-inline-link{color:var(--accent-color);font-weight:800;text-decoration:none}
 
-.order-table td small { line-height: 1.65; }
-.order-table td strong { line-height: 1.5; }
+    .admin-notif-item{padding:11px 12px;border:1px solid var(--card-border);border-radius:11px;margin:8px 0;background:rgba(255,255,255,.03)}
+    .admin-notif-item strong{display:block;color:var(--accent-color);margin-bottom:4px}.admin-notif-item small{color:var(--text-muted)}
+    @media(max-width:800px){#tabNotifications> .dash-box>div{grid-template-columns:1fr !important}}
 </style>
 </head>
 
@@ -492,1257 +451,1788 @@ body.ux-compact .dash-box{padding:13px}body.ux-compact .service-item-link{paddin
 
   <header>
     <div class="nav">
-      <div class="logo">অনলাইন সার্ভিস বিডি<small>ADMIN PANEL</small></div>
-      <div class="nav-right" id="guestNav">
-        <button class="action-btn" id="menuLogin" style="padding: 8px 16px; margin: 0;">🔑 এডমিন লগইন</button>
+      <div class="logo">
+        অনলাইন সার্ভিস বিডি <span class="admin-badge">এডমিন প্যানেল</span>
+        <small>ONLINE SERVICE BD ADMIN</small>
       </div>
-    </div>
-
-    <div class="user-top-bar" id="userTopBar">
-      <div class="bar-middle">
-        <span id="currentDate" style="font-size: 16px; font-weight: 600; color: var(--gold-color);">তারিখ: লোড হচ্ছে...</span>
-        <div class="top-action-group">
-          <button id="themeToggleBtn">🌙 থিম মোড</button>
-          <button id="logoutBtn" style="background: linear-gradient(135deg, #ef4444, #dc2626);">লগআউট</button>
+      <div class="nav-actions">
+        <div id="languageOptions" style="display:flex;gap:4px;align-items:center;">
+          <button type="button" class="language-option active" data-lang="bn" id="adminLangBnBtn">বাংলা</button>
+          <button type="button" class="language-option" data-lang="en" id="adminLangEnBtn">English</button>
         </div>
+        <button class="btn-top" id="adminProfileBtn" style="display:none;background:var(--primary-btn);color:#fff;">👤 প্রোফাইল</button>
+        <button class="btn-top" id="themeToggleBtn">🌙 মোড</button>
+        <button class="btn-top" id="adminNotifBtn" style="background:var(--primary-btn);color:#fff;">🔔 নোটিফিকেশন <span id="adminNotifCount" style="display:inline-block;min-width:18px;padding:1px 5px;border-radius:999px;background:#ef4444;color:#fff;font-size:11px;margin-left:3px;">0</span></button>
+        <button class="btn-top" id="refreshAllBtn">🔄 রিফ্রেশ</button>
+        <button class="btn-top" id="adminLogoutBtn" style="background: var(--danger-btn); color: #fff; border: 0; display: none;">🚪 লগআউট</button>
       </div>
     </div>
   </header>
 
-  <div class="hero">
-    <!-- লগইন ফর্ম -->
-    <div class="auth-card" id="adminAuthSection">
-      <h2>অ্যাডমিন প্যানেল</h2>
-      <p>লগইন করতে আপনার এডমিন ইমেল ও পাসওয়ার্ড দিন</p>
+  <!-- Admin Login Screen -->
+  <div class="admin-auth-box" id="adminAuthSection">
+    <h2>🔐 এডমিন লগইন</h2>
+    <p style="color:var(--text-muted); font-size: 13px; margin-bottom: 20px;">অনলাইন সার্ভিস বিডি এডমিন ড্যাশবোর্ডে প্রবেশ করতে লগইন করুন।</p>
+    <form id="adminLoginForm" action="javascript:void(0);">
+      <div class="form-field">
+        <label>এডমিন ইমেল</label>
+        <input type="email" id="adminEmail" placeholder="admin@gmail.com" required>
+      </div>
+      <div class="form-field">
+        <label>পাসওয়ার্ড</label>
+        <input type="password" id="adminPassword" placeholder="আপনার পাসওয়ার্ড দিন" required>
+      </div>
+      <button type="submit" class="btn-top" style="width:100%; padding:12px; background:var(--primary-btn); color:#fff; border:0; font-weight:700; font-size:15px; margin-top:8px;">লগইন করুন →</button>
+    </form>
+  </div>
 
-      <form id="adminLoginForm" action="javascript:void(0);">
-        <div class="input-group">
-          <span>✉️</span>
-          <input type="email" id="adminEmail" placeholder="admin@gmail.com" required>
+  <!-- Admin Main Dashboard Content -->
+  <main class="main-wrap" id="adminDashboardSection" style="display:none;">
+
+    <!-- ড্যাশবোর্ড (দৈনিক সারসংক্ষেপ) -->
+    <div class="daily-summary-box">
+      <div class="daily-summary-head">
+        <h3>📊 ড্যাশবোর্ড (দৈনিক সারসংক্ষেপ)</h3>
+        <p>আজকের দিনে হওয়া নতুন ইউজার রেজিস্ট্রেশন এবং মোট রিচার্জের পরিমাণ মোট অডার নিচে দেখানো হলো:</p>
+      </div>
+      <div class="daily-kpis">
+        <div class="daily-kpi-item">
+          <div>
+            <span>🆕 আজকের নতুন ইউজার</span>
+            <small style="display:block;color:var(--text-muted);font-size:11px;">আজকে রেজিস্টার্ড একাউন্ট</small>
+          </div>
+          <b id="dailyNewUsers" style="color:#38bdf8;">0 জন</b>
         </div>
-        <div class="input-group password-wrap">
-          <span>🔒</span>
-          <input type="password" id="adminPassword" placeholder="পাসওয়ার্ড" required>
-          <button type="button" class="password-toggle" id="adminPasswordToggle" title="পাসওয়ার্ড দেখুন/লুকান" aria-label="পাসওয়ার্ড দেখুন/লুকান">👁️</button>
+        <div class="daily-kpi-item">
+          <div>
+            <span>💳 আজকের মোট রিচার্জ</span>
+            <small style="display:block;color:var(--text-muted);font-size:11px;">আজকের অনুমোদিত ফান্ড</small>
+          </div>
+          <b id="dailyTotalRecharge" style="color:#10b981;">৳ 0.00</b>
         </div>
-        <div style="display:flex;gap:8px;margin:-4px 0 10px;">
-          <button type="button" class="btn-sm" id="saveAdminPasswordBtn" style="flex:1;background:#16a34a;">💾 পাসওয়ার্ড সেভ/পরিবর্তন</button>
+        <div class="daily-kpi-item">
+          <div>
+            <span>📦 আজকের মোট অর্ডার</span>
+            <small style="display:block;color:var(--text-muted);font-size:11px;">আজকের জমাকৃত কাজ</small>
+          </div>
+          <b id="dailyTotalOrders" style="color:var(--gold-color);">0 টি</b>
         </div>
-        <button class="action-btn" type="submit">লগইন করুন →</button>
-      </form>
+      </div>
     </div>
 
-    <!-- ড্যাশবোর্ড কন্টেইনার -->
-    <div class="dashboard-container" id="adminDashboardContainer">
-      <div class="main-flex-layout">
+    <!-- Overall KPIs -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <small>👥 সর্বমোট ইউজার</small>
+        <b id="kpiTotalUsers">0</b>
+      </div>
+      <div class="kpi-card">
+        <small>⏳ অপেক্ষমান (Pending) অর্ডার</small>
+        <b id="kpiPendingOrders" style="color:#f59e0b;">0</b>
+      </div>
+      <div class="kpi-card">
+        <small>✅ সম্পন্ন (Completed) অর্ডার</small>
+        <b id="kpiCompletedOrders" style="color:#10b981;">0</b>
+      </div>
+      <div class="kpi-card">
+        <small>💳 পেন্ডিং রিচার্জ রিকোয়েস্ট</small>
+        <b id="kpiPendingRecharges" style="color:#f59e0b;">0</b>
+      </div>
+      <div class="kpi-card">
+        <small>💰 সর্বমোট অনুমোদিত ফান্ড</small>
+        <b id="kpiTotalFund" style="color:var(--gold-color);">৳ 0.00</b>
+      </div>
+    </div>
 
-        <!-- বাম পাশের সাইডবার বাটন মেন্যু -->
-        <div class="left-sidebar">
-          <div class="dash-box">
-            <h3>⚙️ এডমিন কন্ট্রোল</h3>
-            <div class="sidebar-menu-list">
-              <button class="sidebar-menu-btn active" onclick="switchAdminTab('homeDashboardTab', this)">
-                📊 ড্যাশবোর্ড
-              </button>
-              <button class="sidebar-menu-btn" onclick="switchAdminTab('ordersTab', this)">
-                📦 কাস্টমার অর্ডার ম্যানেজমেন্ট
-              </button>
-              <button class="sidebar-menu-btn" onclick="switchAdminTab('pricingTab', this)">
-                💰 সেবার মূল্য নির্ধারণ
-              </button>
-              <button class="sidebar-menu-btn" onclick="switchAdminTab('rechargeTab', this)">
-                💳 বিকাশ রিচার্জ রিকোয়েস্ট
-              </button>
-              <button class="sidebar-menu-btn" onclick="switchAdminTab('usersTab', this)">
-                👥 ইউজার ম্যানেজমেন্ট (সব ইউজার)
-              </button>
-              <button class="sidebar-menu-btn" onclick="switchAdminTab('serviceStatusTab', this)">
-                🟢🔴 কাজ চলমান / কাজ বন্ধ
-              </button>
-            </div>
-          </div>
+    <!-- Tabs -->
+    <div class="admin-tabs">
+      <button type="button" class="tab-btn active" data-target="tabUsers">👤 ইউজার ম্যানেজমেন্ট</button>
+      <button type="button" class="tab-btn" data-target="tabOrders">📦 অর্ডার ম্যানেজমেন্ট</button>
+      <button type="button" class="tab-btn" data-target="tabRecharges">💳 রিচার্জ রিকোয়েস্ট</button>
+      <button type="button" class="tab-btn" data-target="tabServices">⚙️ সেবার মূল্য ও কাজের অবস্থা</button>
+      <button type="button" class="tab-btn" data-target="tabNotifications">🔔 নোটিফিকেশন</button>
+    </div>
 
-          <!-- একদম নিচে বাম পাশে Admin Profile Details -->
-          <div class="dash-box admin-profile-card">
-            <h3>👤 এডমিন প্রোফাইল ডিটেলস</h3>
-            <div class="admin-profile-grid">
-              <div class="admin-profile-item"><small>ইমেইল</small><b id="adminProfileEmail">-</b></div>
-              <div class="admin-profile-item"><small>রোল</small><b id="adminProfileRole">Admin</b></div>
-              <div class="admin-profile-item"><small>User ID</small><b id="adminProfileId">-</b></div>
-              <div class="admin-profile-item"><small>লগইন সময়</small><b id="adminLoginTime">-</b></div>
-            </div>
+    <!-- TAB 1: USERS & BALANCE -->
+    <div id="tabUsers" class="tab-content">
+      <div class="dash-box">
+        <div class="dash-box-header">
+          <h3>
+            👤 ইউজার ম্যানেজমেন্ট 
+            <span class="user-total-pill">মোট ইউজার সংখ্যা: <span id="userManagementTotalCount">0</span> জন</span>
+          </h3>
+          <input type="text" id="searchUsersInput" class="search-input" placeholder="🔍 ইমেইল / নাম / মোবাইল নম্বর...">
+        </div>
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>নাম / ইউজার</th>
+                <th>ইমেল</th>
+                <th>মোবাইল নম্বর</th>
+                <th>আইপি অ্যাড্রেস</th>
+                <th>রেজিস্ট্রেশনের তারিখ</th>
+                <th>বর্তমান ব্যালেন্স</th>
+                <th>ব্যালেন্স অ্যাকশন</th>
+              </tr>
+            </thead>
+            <tbody id="usersTableBody">
+              <tr><td colspan="7" style="text-align:center;color:var(--text-muted);">ইউজার লোড হচ্ছে...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: ORDERS -->
+    <div id="tabOrders" class="tab-content" style="display:none;">
+      <div class="dash-box">
+        <div class="dash-box-header">
+          <h3>📦 ইউজারদের সকল অর্ডার তালিকা</h3>
+          <input type="text" id="searchOrdersInput" class="search-input" placeholder="🔍 নাম / ফোন / আইডি / সেবা খুঁজুন...">
+        </div>
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>সেবার নাম</th>
+                <th>আবেদনকারীর নাম ও বিবরণ</th>
+                <th>মূল্য</th>
+                <th>তারিখ</th>
+                <th>অবস্থা ও অ্যাকশন</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTableBody">
+              <tr><td colspan="5" style="text-align:center;color:var(--text-muted);">অর্ডার লোড হচ্ছে...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: RECHARGES -->
+    <div id="tabRecharges" class="tab-content" style="display:none;">
+      <div class="dash-box">
+        <div class="dash-box-header">
+          <h3>💳 রিচার্জ রিকোয়েস্ট ভেরিফিকেশন</h3>
+          <input type="text" id="searchRechargesInput" class="search-input" placeholder="🔍 TrxID / লাস্ট ৪ ডিজিট / ইমেইল...">
+        </div>
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>তারিখ ও সময়</th>
+                <th>ইউজার ইমেইল</th>
+                <th>টাকার পরিমাণ</th>
+                <th>TrxID</th>
+                <th>লাস্ট ৪ ডিজিট</th>
+                <th>অবস্থা</th>
+                <th>অ্যাকশন</th>
+              </tr>
+            </thead>
+            <tbody id="rechargesTableBody">
+              <tr><td colspan="7" style="text-align:center;color:var(--text-muted);">রিচার্জ লোড হচ্ছে...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 5: NOTIFICATIONS -->
+    <div id="tabNotifications" class="tab-content" style="display:none;">
+      <div class="dash-box">
+        <div class="dash-box-header">
+          <div>
+            <h3>🔔 নোটিফিকেশন সেন্টার</h3>
+            <p style="margin:4px 0 0;color:var(--text-muted);font-size:12px;">User থেকে আসা সকল সেবা/অর্ডার/রিচার্জ এবং Admin থেকে সকল User-এ পাঠানো বার্তা এখানে পরিচালনা করুন।</p>
           </div>
         </div>
-
-        <!-- ডান পাশের ফাইল / ট্যাব কন্টেন্ট -->
-        <div class="right-content">
-          
-          <!-- ড্যাশবোর্ড ট্যাব -->
-          <div id="homeDashboardTab" class="tab-content-panel active">
-            <div class="dash-box" style="width:100%;">
-              <h3>📊 ড্যাশবোর্ড (দৈনিক সারসংক্ষেপ)</h3>
-              <p style="font-size: 13px; color: var(--text-muted);">আজকের দিনে হওয়া নতুন ইউজার রেজিস্ট্রেশন এবং মোট রিচার্জের পরিমাণ নিচে দেখানো হলো:</p>
-              
-              <div class="stats-card-grid">
-                <div class="stat-mini-box">
-                  <h4>দৈনিক ইউজার রেজিস্ট্রেশন</h4>
-                  <div class="stat-value" id="todayUsersCount">0 জন</div>
-                </div>
-                <div class="stat-mini-box">
-                  <h4>দৈনিক টাকা রিচার্জ</h4>
-                  <div class="stat-value" id="todayRechargeAmount">৳ 0.00</div>
-                </div>
-              </div>
-
-              <div style="margin-top: 25px;">
-                <h4 style="font-size: 14px; color: var(--accent-color); margin-bottom: 10px;">আজকের রিচার্জ রিকোয়েস্টসমূহ</h4>
-                <div style="overflow-x:auto;">
-                  <table class="order-table">
-                    <thead>
-                      <tr>
-                        <th>সময়</th>
-                        <th>ইউজার</th>
-                        <th>টাকা</th>
-                        <th>TrxID</th>
-                      </tr>
-                    </thead>
-                    <tbody id="todayRechargeTable">
-                      <tr><td colspan="4" style="text-align: center; color: var(--text-muted);">আজকের কোনো রিচার্জ নেই।</td></tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <div class="dash-box" style="margin:0;">
+            <h4 style="margin:0 0 10px;color:var(--accent-color);">📢 সকল ইউজারে নোটিফিকেশন পাঠান</h4>
+            <div class="form-field"><label>সেবার ধরন</label><select id="adminNotifService"><option value="সকল সেবা">সকল সেবা</option></select></div>
+            <div class="form-field"><label>শিরোনাম</label><input id="adminNotifTitle" type="text" maxlength="150" placeholder="নোটিফিকেশনের শিরোনাম"></div>
+            <div class="form-field"><label>বার্তা</label><textarea id="adminNotifMessage" rows="5" maxlength="2000" placeholder="সকল ইউজারের জন্য বার্তা লিখুন..."></textarea></div>
+            <button type="button" class="btn-action btn-complete" id="sendAdminBroadcastBtn" style="padding:10px 16px;">📢 সকল ইউজারে পাঠান</button>
           </div>
-
-          <!-- ১. কাস্টমার অর্ডার ম্যানেজমেন্ট ট্যাব -->
-          <div id="ordersTab" class="tab-content-panel">
-            <div class="dash-box" style="width:100%;">
-              <h3>
-                📦 সকল কাস্টমার অর্ডার ম্যানেজমেন্ট
-                <button class="btn-sm" id="refreshOrdersBtn">🔄 রিফ্রেশ</button>
-              </h3>
-              <div style="overflow-x:auto;">
-                <table class="order-table">
-                  <thead>
-                    <tr>
-                      <th>অর্ডার আইডি ও ইউজার</th>
-                      <th>সেবার নাম ও বিবরণ</th>
-                      <th>তারিখ</th>
-                      <th>বর্তমান অবস্থা</th>
-                      <th>ফাইল আপলোড ও স্ট্যাটাস আপডেট</th>
-                    </tr>
-                  </thead>
-                  <tbody id="adminOrdersTableBody">
-                    <tr><td colspan="5" style="text-align: center; color: var(--text-muted);">লোড হচ্ছে...</td></tr>
-                  </tbody>
-                </table>
-              </div>
+          <div class="dash-box" style="margin:0;">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
+              <h4 style="margin:0;color:var(--accent-color);">📥 User Activity Notifications</h4>
+              <button type="button" class="btn-top" id="refreshAdminNotificationsBtn">🔄 রিফ্রেশ</button>
             </div>
+            <div id="adminNotificationList" style="margin-top:10px;max-height:520px;overflow:auto;"><div class="notif-empty">নোটিফিকেশন লোড হচ্ছে...</div></div>
           </div>
-
-          <!-- ২. সেবার মূল্য নির্ধারণ ট্যাব -->
-          <div id="pricingTab" class="tab-content-panel">
-            <div class="dash-box" style="width:100%;">
-              <h3>💰 সেবার মূল্য নির্ধারণ <button class="btn-sm" id="refreshPricesBtn">🔄 রিফ্রেশ</button></h3>
-              
-              <!-- নতুন সার্ভিস যোগ করার ফর্ম -->
-              <form id="addServiceForm" style="background: rgba(0, 0, 0, 0.2); border: 1px solid var(--card-border); padding: 15px; border-radius: 12px; margin-bottom: 20px;">
-                <h4 style="margin: 0 0 10px 0; color: var(--accent-color);">নতুন সার্ভিস যুক্ত করুন</h4>
-                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                  <input
-                    type="text"
-                    id="newServiceName"
-                    placeholder="সার্ভিসের নাম"
-                    required
-                    style="padding: 10px; flex: 2; min-width: 180px; border-radius: 8px; border: 1px solid var(--card-border); background: #0f172a; color: #fff;"
-                  />
-                  <input
-                    type="number"
-                    id="newServicePrice"
-                    placeholder="মূল্য (৳)"
-                    step="0.01"
-                    required
-                    style="padding: 10px; flex: 1; min-width: 100px; border-radius: 8px; border: 1px solid var(--card-border); background: #0f172a; color: #fff;"
-                  />
-                  <button type="submit" class="btn-sm" style="background: #28a745; padding: 10px 20px;">
-                    ➕ যোগ করুন
-                  </button>
-                </div>
-              </form>
-
-              <!-- সার্চ ইনপুট ফিল্ড -->
-              <div style="margin: 15px 0;">
-                <input
-                  type="text"
-                  id="serviceSearchInput"
-                  placeholder="🔍 সার্ভিস খুঁজুন (Search by name)..."
-                  style="
-                    width: 100%;
-                    padding: 10px 15px;
-                    font-size: 14px;
-                    border-radius: 8px;
-                    border: 1px solid var(--card-border);
-                    background: rgba(0, 0, 0, 0.3);
-                    color: var(--text-color);
-                    outline: none;
-                    box-sizing: border-box;
-                  "
-                />
-              </div>
-
-              <div style="overflow-x:auto;">
-                <table class="order-table">
-                  <thead>
-                    <tr>
-                      <th>সেবার নাম</th>
-                      <th>বর্তমান মূল্য</th>
-                      <th>নতুন মূল্য সেভ করুন</th>
-                      <th>স্ট্যাটাস</th>
-                      <th>অ্যাকশন</th>
-                    </tr>
-                  </thead>
-                  <tbody id="servicePricesTableBody">
-                    <tr><td colspan="5" style="text-align:center;color:var(--text-muted);">লোড হচ্ছে...</td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-          <!-- ৩. বিকাশ রিচার্জ রিকোয়েস্ট ট্যাব -->
-          <div id="rechargeTab" class="tab-content-panel">
-            <div class="dash-box" style="width:100%;">
-              <h3>
-                <span>💳 বিকাশ রিচার্জ রিকোয়েস্ট সমূহ</span>
-                <button class="btn-sm" id="refreshRechargesBtn">🔄 রিফ্রেশ</button>
-              </h3>
-              <div style="overflow-x:auto;">
-                <table class="order-table">
-                  <thead>
-                    <tr>
-                      <th>ইউজার তথ্য</th>
-                      <th>টাকার পরিমাণ</th>
-                      <th>TrxID</th>
-                      <th>ক্যাশ আউট নম্বর (Last 4)</th>
-                      <th>তারিখ ও সময়</th>
-                      <th>স্ট্যাটাস</th>
-                      <th>যাচাই</th>
-                      <th>অ্যাকশন</th>
-                    </tr>
-                  </thead>
-                  <tbody id="adminRechargesTableBody">
-                    <tr><td colspan="8" style="text-align: center; color: var(--text-muted);">লোড হচ্ছে...</td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-          <!-- ৫. সেবা চালু/বন্ধ ম্যানেজমেন্ট -->
-          <div id="serviceStatusTab" class="tab-content-panel">
-            <div class="dash-box" style="width:100%;">
-              <h3>🟢🔴 প্রতিটি সেবার কাজের অবস্থা <button class="btn-sm" id="refreshServiceStatusBtn">🔄 রিফ্রেশ</button></h3>
-              <p style="font-size:12px;color:var(--text-muted);margin-top:0;">প্রতিটি সার্ভিস আলাদাভাবে চালু/বন্ধ করুন। বন্ধ করলে User Panel-এ “🔴 কাজ বন্ধ” দেখাবে এবং নতুন অর্ডার করা যাবে না।</p>
-              <div style="overflow-x:auto;">
-                <table class="order-table">
-                  <thead><tr><th>সেবার নাম</th><th>মূল্য</th><th>বর্তমান অবস্থা</th><th>অ্যাকশন</th></tr></thead>
-                  <tbody id="serviceStatusTableBody"><tr><td colspan="4" style="text-align:center;color:var(--text-muted);">লোড হচ্ছে...</td></tr></tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-          <!-- ৪. ইউজার ম্যানেজমেন্ট ও কাউন্ট ট্যাব -->
-          <div id="usersTab" class="tab-content-panel">
-            <div class="dash-box" style="width:100%;">
-              <h3>👥 ইউজার ম্যানেজমেন্ট (মোট ইউজার সংখ্যা)</h3>
-              <div style="margin: 15px 0; padding: 15px; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--accent-color); border-radius: 12px; font-size: 16px; font-weight: bold;">
-                প্লাটফর্মে মোট রেজিস্টার্ড ইউজার সংখ্যা: <span id="totalUsersCount" style="color: var(--gold-color);">0</span> জন
-              </div>
-              <div style="overflow-x:auto;">
-                <table class="order-table">
-                  <thead>
-                    <tr>
-                      <th>ইউজার আইডি ও নাম</th>
-                      <th>ইমেইল</th>
-                      <th>মোবাইল নম্বর</th>
-                      <th>রেজিস্টার তারিখ ও সময়</th>
-                      <th>ব্যালেন্স</th>
-                    </tr>
-                  </thead>
-                  <tbody id="adminUsersTable">
-                    <tr><td colspan="5" style="text-align: center; color: var(--text-muted);">ইউজার তালিকা লোড হচ্ছে...</td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
         </div>
+      </div>
+    </div>
 
+    <!-- TAB 4: SERVICES & PRICES & WORK STATUS -->
+    <div id="tabServices" class="tab-content" style="display:none;">
+      <div class="dash-box">
+        <div class="dash-box-header">
+          <div>
+            <h3>⚙️ সেবার মূল্য নির্ধারণ ও 🟢🔴 প্রতিটি সেবার কাজের অবস্থা</h3>
+            <p style="margin:4px 0 0 0;font-size:13px;color:var(--gold-color);font-weight:500;">
+              💡 প্রতিটি সার্ভিস আলাদাভাবে চালু/বন্ধ করুন। বন্ধ করলে User Panel-এ “🔴 কাজ বন্ধ” দেখাবে এবং নতুন অর্ডার করা যাবে না।
+            </p>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+            <button type="button" class="btn-top" onclick="fetchServices()">🔄 রিফ্রেশ</button>
+            <input type="text" id="searchServicesInput" class="search-input" placeholder="🔍 সেবার নাম দিয়ে খুঁজুন...">
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th style="min-width:260px;">সেবার নাম</th>
+                <th style="width:160px;">মূল্য</th>
+                <th style="width:160px;">বর্তমান অবস্থা</th>
+                <th style="min-width:240px;">অ্যাকশন</th>
+              </tr>
+            </thead>
+            <tbody id="servicesTableBody">
+              <tr><td colspan="4" style="text-align:center;color:var(--text-muted);">সার্ভিস রেট ও অবস্থা লোড হচ্ছে...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Order Update Modal -->
+  <div class="modal-overlay" id="completeOrderModal">
+    <div class="modal-card" style="max-width:520px;">
+      <h3>📦 অর্ডার আপডেট <span style="cursor:pointer;" onclick="closeModal('completeOrderModal')">✕</span></h3>
+      <p style="font-size:13px;color:var(--text-muted);">অর্ডারের অবস্থা পরিবর্তন করুন। সম্পন্ন করলে ডেলিভারি ফাইল/লিংক দিতে পারবেন।</p>
+      <input type="hidden" id="completeOrderId">
+      <div class="form-field">
+        <label>অর্ডারের অবস্থা</label>
+        <select id="orderStatusSelect">
+          <option value="নতুন">নতুন</option>
+          <option value="প্রক্রিয়াধীন">প্রক্রিয়াধীন</option>
+          <option value="তথ্য খুঁজে পাওয়া যায়নি">তথ্য খুঁজে পাওয়া যায়নি</option>
+          <option value="বাতিল">বাতিল</option>
+          <option value="সম্পন্ন">সম্পন্ন</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label>📁 সরাসরি ফাইল আপলোড (ঐচ্ছিক)</label>
+        <input type="file" id="completeFileInput" accept="*/*">
+        <small style="display:block;margin-top:5px;color:var(--text-muted);">আপনার কম্পিউটারের যেকোনো folder/drive থেকে ফাইল নির্বাচন করুন। ফাইলটি Private Storage-এ যাবে; ইউজার শুধু নিজের অর্ডারের জন্য নিরাপদ Download Link পাবে।</small>
+      </div>
+      <div class="form-field">
+        <label>🔗 ফাইল / ডেলিভারি লিংক (ঐচ্ছিক)</label>
+        <input type="url" id="completeFileUrl" placeholder="https://drive.google.com/... বা https://...">
+      </div>
+      <div style="display:flex;gap:10px;margin-top:15px;">
+        <button type="button" class="btn-action btn-edit" id="saveCompleteOrderBtn" style="padding:10px 18px;font-size:13px;">💾 আপডেট করুন</button>
+        <button type="button" class="btn-top" onclick="closeModal('completeOrderModal')">বাতিল</button>
       </div>
     </div>
   </div>
 
-  <footer>
-    <div style="max-width: 1000px; margin: auto;">
-      <p style="font-size: 13px; color: var(--text-muted);">© 2026 অনলাইন সার্ভিস বিডি | অ্যাডমিন প্যানেল</p>
+  <!-- User Order Detail Info Modal -->
+  <div class="modal-overlay" id="adminOrderInfoModal">
+    <div class="modal-card">
+      <h3>📋 অর্ডারের পূর্ণ বিবরণ <span style="cursor:pointer;" onclick="closeModal('adminOrderInfoModal')">✕</span></h3>
+      <div id="adminOrderInfoBody" class="order-info-grid"></div>
+      <div style="display:flex;justify-content:flex-end;margin-top:15px;">
+        <button type="button" class="btn-top" onclick="closeModal('adminOrderInfoModal')">বন্ধ করুন</button>
+      </div>
     </div>
+  </div>
+
+  <!-- Edit User Balance Modal -->
+  <div class="modal-overlay" id="editBalanceModal">
+    <div class="modal-card" style="max-width:440px;">
+      <h3>💰 ইউজার ব্যালেন্স পরিবর্তন <span style="cursor:pointer;" onclick="closeModal('editBalanceModal')">✕</span></h3>
+      <p style="font-size:13px;color:var(--text-muted);"><b id="editBalanceUserEmail">user@gmail.com</b> এর ব্যালেন্স নিয়ন্ত্রণ করুন:</p>
+      <input type="hidden" id="editBalanceUserId">
+      <div class="form-field">
+        <label>নতুন ব্যালেন্স লিখুন (৳)</label>
+        <input type="number" id="editBalanceAmount" step="any" min="0" placeholder="0.00" required>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:15px;">
+        <button type="button" class="btn-action btn-complete" id="saveUserBalanceBtn" style="padding:10px 18px;font-size:13px;">ব্যালেন্স আপডেট করুন</button>
+        <button type="button" class="btn-top" onclick="closeModal('editBalanceModal')">বাতিল</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Profile Modal -->
+  <div class="modal-overlay" id="adminProfileModal">
+    <div class="modal-card" style="max-width:480px;">
+      <h3>👤 অ্যাডমিন প্রোফাইল তথ্য <span style="cursor:pointer;" onclick="closeModal('adminProfileModal')">✕</span></h3>
+      <div style="margin: 15px 0; display:flex; flex-direction:column; gap:10px;">
+        <div class="order-info-item">
+          <span class="order-info-label">অ্যাডমিন ইমেইল</span>
+          <div class="order-info-value" id="adminProfileEmail">-</div>
+        </div>
+        <div class="order-info-item">
+          <span class="order-info-label">অ্যাডমিন আইপি অ্যাড্রেস</span>
+          <div class="order-info-value" id="adminProfileIp">লোড হচ্ছে...</div>
+        </div>
+        <div class="order-info-item">
+          <span class="order-info-label">অ্যাকাউন্ট রোল</span>
+          <div class="order-info-value" style="color:#10b981;">সুপার এডমিন (Super Admin)</div>
+        </div>
+      </div>
+
+      <hr style="border:0; border-top:1px solid var(--card-border); margin:15px 0;">
+      <h4 style="margin:0 0 10px 0; color:var(--accent-color);">🔐 পাসওয়ার্ড পরিবর্তন করুন</h4>
+      <div class="form-field">
+        <label>নতুন পাসওয়ার্ড (কমপক্ষে ৮ সংখ্যা)</label>
+        <input type="password" id="adminNewPassword" placeholder="নতুন পাসওয়ার্ড লিখুন">
+      </div>
+      <button type="button" class="btn-action btn-complete" id="adminChangePassBtn" style="width:100%;padding:10px;justify-content:center;">পাসওয়ার্ড আপডেট করুন</button>
+      <div style="display:flex;justify-content:flex-end;margin-top:15px;">
+        <button type="button" class="btn-top" onclick="closeModal('adminProfileModal')">বন্ধ করুন</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="adminToast"></div>
+
+  <footer>
+    <p>© 2026 অনলাইন সার্ভিস বিডি | এডমিন ম্যানেজমেন্ট সিস্টেম</p>
   </footer>
-
-  <div class="toast" id="toast"></div>
-
+  
   <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-    const SUPABASE_URL = 'https://dzjldurvekflugrcvziv.supabase.co';
-    const SUPABASE_KEY = 'sb_publishable_W3_LwB3etjp4shhfT5vrXg_pedXbUG6';
-    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+  const SUPABASE_URL = 'https://dzjldurvekflugrcvziv.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_W3_LwB3etjp4shhfT5vrXg_pedXbUG6';
+  
+  // এই লাইন দুটি সবার উপরে রাখুন
+  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+  window.supabase = supabase;
+    // --- এডমিন রিচার্জ অনুমোদন ফাংশন ---
+window.handleApprove = async function(requestId, userEmail, amount, buttonElement) {
+  // বাটনটি ডিসেবল করে দিন যেন পরপর একাধিক ক্লিক না হয়
+  if (buttonElement) buttonElement.disabled = true;
 
-    const toast = (t) => {
-      let x = document.getElementById('toast');
-      x.textContent = t;
-      x.style.display = 'block';
-      setTimeout(() => x.style.display = 'none', 4000);
-    };
+  try {
+    const { data, error } = await supabase.rpc('approve_recharge_request', {
+      p_request_id: requestId,
+      p_user_email: userEmail,
+      p_amount: Number(amount)
+    });
 
-    const actionTimes = JSON.parse(localStorage.getItem('adminActionTimes') || '{}');
-    const saveActionTimes = () => localStorage.setItem('adminActionTimes', JSON.stringify(actionTimes));
-    const formatDateTime = (value) => {
-      if (!value) return '-';
-      const d = new Date(value);
-      if (Number.isNaN(d.getTime())) return '-';
-      return d.toLocaleString('bn-BD', {
-        year:'numeric', month:'long', day:'numeric',
-        hour:'2-digit', minute:'2-digit', second:'2-digit',
-        hour12:true
-      });
-    };
-    const getActionTime = (id, type, fallback) =>
-      actionTimes[String(id)]?.[type] || fallback || null;
-
-
-    window.switchAdminTab = (tabId, btnElement) => {
-      document.querySelectorAll('.tab-content-panel').forEach(panel => panel.classList.remove('active'));
-      document.querySelectorAll('.sidebar-menu-btn').forEach(btn => btn.classList.remove('active'));
-      
-      document.getElementById(tabId).classList.add('active');
-      btnElement.classList.add('active');
-      updateKpis();
-    };
-
-    function updateDateTime() {
-      const now = new Date();
-      document.getElementById('currentDate').textContent = now.toLocaleDateString('bn-BD', { year: 'numeric', month: 'long', day: 'numeric' });
-    }
-    updateDateTime();
-
-    const updateUI = (user) => {
-      const authSec = document.getElementById('adminAuthSection');
-      const dashCont = document.getElementById('adminDashboardContainer');
-      const guestNav = document.getElementById('guestNav');
-      const userTopBar = document.getElementById('userTopBar');
-
-      if (user) {
-        authSec.style.display = 'none';
-        dashCont.style.display = 'block';
-        guestNav.style.display = 'none';
-        userTopBar.style.display = 'flex';
-        document.getElementById('adminProfileEmail').textContent = user.email || '-';
-        document.getElementById('adminProfileId').textContent = user.id || '-';
-        document.getElementById('adminProfileRole').textContent = 'Admin';
-        document.getElementById('adminLoginTime').textContent = formatDateTime(new Date());
-        loadAdminData();
-        setupRechargeRealtimeNotification();
-      } else {
-        authSec.style.display = 'block';
-        dashCont.style.display = 'none';
-        userTopBar.style.display = 'none';
-        guestNav.style.display = 'flex';
-      }
-    };
-
-    // 🔔 রিয়েল-টাইম রিচার্জ নোটিফিকেশন এবং অ্যালার্ট
-    function setupRechargeRealtimeNotification() {
-      const alertSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
-
-      supabase
-        .channel('public:recharges')
-        .on(
-          'postgres_changes',
-          { event: 'INSERT', schema: 'public', table: 'recharges' },
-          (payload) => {
-            const newRecharge = payload.new;
-
-            alertSound.play().catch(e => console.log('Audio play blocked:', e));
-            toast(`🔔 নতুন রিচার্জ রিকোয়েস্ট! ইমেইল: ${newRecharge.user_email || 'অজানা'} (৳${newRecharge.amount})`);
-
-            const notifEl = document.getElementById('kpiNotifCount');
-            if (notifEl) {
-              let currentCount = parseInt(notifEl.textContent) || 0;
-              notifEl.textContent = currentCount + 1;
-              notifEl.style.color = '#facc15';
-            }
-
-            if (typeof loadRecharges === 'function') {
-              loadRecharges();
-            }
-            if (typeof loadDashboardAndUsers === 'function') {
-              loadDashboardAndUsers();
-            }
-          }
-        )
-        .subscribe();
+    if (error) {
+      alert('অনুমোদন ব্যর্থ হয়েছে: ' + error.message);
+      if (buttonElement) buttonElement.disabled = false;
+      return false;
     }
 
-    async function checkAdminSession(showError = false) {
-      const { data: { user }, error: userError } = await supabase.auth.getUser();
-      if (userError || !user) {
-        updateUI(null);
-        return null;
-      }
+    alert('রিচার্জ সফলভাবে অনুমোদিত হয়েছে!');
+    location.reload(); // পেজ রিফ্রেশ করুন
+    return true;
+  } catch (err) {
+    console.error('Approve Exception:', err);
+    if (buttonElement) buttonElement.disabled = false;
+    return false;
+  }
+};
+    const DEFAULT_SERVICES_LIST = [
+      { name: "NID PDF Copy", defaultPrice: 100 },
+      { name: "হারানো NID উদ্ধার", defaultPrice: 150 },
+      { name: "NID Server Copy", defaultPrice: 100 },
+      { name: "ছবি ও ঠিকানা দিয়ে NID PDF", defaultPrice: 200 },
+      { name: "নতুন আইডি কার্ড আবেদন", defaultPrice: 250 },
+      { name: "নতুন ভোটার নিবন্ধন স্লিপ", defaultPrice: 100 },
+      { name: "নতুন জন্ম নিবন্ধন আবেদন", defaultPrice: 120 },
+      { name: "জন্ম নিবন্ধন অনলাইন কপি", defaultPrice: 80 },
+      { name: "জন্ম সনদ তথ্য সংশোধন", defaultPrice: 150 },
+      { name: "মৃত্যু নিবন্ধন সনদ আবেদন", defaultPrice: 150 },
+      { name: "জন্ম নিবন্ধন ইংরেজি ও বাংলা সনদ রি-ইস্যু", defaultPrice: 100 },
+      { name: "নতুন TIN সার্টিফিকেট তৈরি", defaultPrice: 200 },
+      { name: "দ্রুত নতুন ই-টিন (e-TIN) রেজিস্ট্রেশন", defaultPrice: 200 },
+      { name: "হারানো TIN সার্টিফিকেট উত্তোলন", defaultPrice: 200 },
+      { name: "পুরাতন বা হারিয়ে যাওয়া টিন সার্টিফিকেট রি-প্রিন্ট বা উদ্ধার", defaultPrice: 200 },
+      { name: "রিটার্ন দাখিল ও সার্টিফিকেট আপডেট", defaultPrice: 300 },
+      { name: "অনলাইন খতিয়ান অনুসন্ধান", defaultPrice: 100 },
+      { name: "সার্টিফাইড পর্চা কপি আবেদন", defaultPrice: 250 },
+      { name: "নামজারি (Mutation) আবেদন", defaultPrice: 500 },
+      { name: "জমির ম্যাপ ও নকশা সংগ্রহ", defaultPrice: 350 },
+      { name: "প্রফেশনাল CV তৈরি (PDF/Word)", defaultPrice: 150 },
+      { name: "Word ফাইল PDF রূপান্তর", defaultPrice: 50 },
+      { name: "পাসপোর্ট সাইজ ছবি এডিটিং ও ব্যাকগ্রাউন্ড রিমুভ", defaultPrice: 50 },
+      { name: "PDF Merge, Split & Password Remove", defaultPrice: 50 }
+    ];
 
-      const { data: profile, error: profileError } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('user_id', user.id)
-        .maybeSingle();
+    let allOrders = [];
+    let allRecharges = [];
+    let allUsers = [];
+    let allServices = [];
+    let currentAdminUser = null;
 
-      if (profileError || !profile || String(profile.role || '').toLowerCase() !== 'admin') {
-        await supabase.auth.signOut();
-        updateUI(null);
-        if (showError) {
-          toast('এই লগইনটি Admin নয়। Admin email/password দিয়ে আবার লগইন করুন।');
+    window.notify = (msg) => {
+      const t = document.getElementById('adminToast');
+      if (!t) return alert(msg);
+      t.textContent = msg;
+      t.style.display = 'block';
+      clearTimeout(window.__tTimer);
+      window.__tTimer = setTimeout(() => t.style.display = 'none', 2600);
+    };
+
+    window.openModal = (id) => { const el = document.getElementById(id); if (el) el.style.display = 'flex'; };
+    window.closeModal = (id) => { const el = document.getElementById(id); if (el) el.style.display = 'none'; };
+
+    const escapeHtml = (v) => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+    // Check Login State
+    async function checkAuth() {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session && session.user) {
+        const { data: adminCheck, error: adminCheckError } = await supabase.rpc('is_current_user_admin');
+        if (adminCheckError || adminCheck !== true) {
+          await supabase.auth.signOut();
+          notify('এই অ্যাকাউন্টের Admin অনুমতি নেই।');
+          document.getElementById('adminAuthSection').style.display = 'block';
+          document.getElementById('adminDashboardSection').style.display = 'none';
+          return;
         }
-        return null;
+        currentAdminUser = session.user;
+        document.getElementById('adminAuthSection').style.display = 'none';
+        document.getElementById('adminDashboardSection').style.display = 'block';
+        document.getElementById('adminLogoutBtn').style.display = 'inline-block';
+        document.getElementById('adminProfileBtn').style.display = 'inline-block';
+        document.getElementById('adminProfileEmail').textContent = currentAdminUser.email || '-';
+        loadAllData();
+        if(!window.__adminNotifTimer){window.__adminNotifTimer=setInterval(fetchAdminActivityNotifications,15000);}
+      } else {
+        document.getElementById('adminAuthSection').style.display = 'block';
+        document.getElementById('adminDashboardSection').style.display = 'none';
+        document.getElementById('adminLogoutBtn').style.display = 'none';
+        document.getElementById('adminProfileBtn').style.display = 'none';
       }
-
-      updateUI(user);
-      return user;
     }
 
-    document.getElementById('adminLoginForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
+    // Login Submission
+    document.getElementById('adminLoginForm').addEventListener('submit', async () => {
       const email = document.getElementById('adminEmail').value.trim();
       const password = document.getElementById('adminPassword').value.trim();
+      if (!email || !password) return notify('ইমেইল ও পাসওয়ার্ড প্রদান করুন');
 
-      toast('লগইন হচ্ছে...');
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) {
-        toast('লগইন ব্যর্থ: ' + error.message);
-      } else {
-        const adminUser = await checkAdminSession(true);
-        if (adminUser) toast('অ্যাডমিন সফলভাবে লগইন হয়েছেন!');
+        notify('লগইন ব্যর্থ: ' + error.message);
+        return;
       }
+      notify('স্বাগতম! এডমিন লগইন সফল হয়েছে');
+      checkAuth();
     });
 
-    document.getElementById('adminPasswordToggle')?.addEventListener('click', () => {
-      const input = document.getElementById('adminPassword');
-      const btn = document.getElementById('adminPasswordToggle');
-      if (input.type === 'password') {
-        input.type = 'text';
-        btn.textContent = '🙈';
-      } else {
-        input.type = 'password';
-        btn.textContent = '👁️';
-      }
-    });
-
-    document.getElementById('saveAdminPasswordBtn')?.addEventListener('click', async () => {
-      const password = document.getElementById('adminPassword').value.trim();
-      if (!password) return toast('নতুন পাসওয়ার্ড দিন।');
-      if (password.length < 6) return toast('পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।');
-      const { error } = await supabase.auth.updateUser({ password });
-      if (error) return toast('পাসওয়ার্ড পরিবর্তন ব্যর্থ: ' + error.message);
-      toast('পাসওয়ার্ড সফলভাবে সেভ/পরিবর্তন করা হয়েছে।');
-      document.getElementById('adminPassword').value = '';
-      document.getElementById('adminPassword').type = 'password';
-      document.getElementById('adminPasswordToggle').textContent = '👁️';
-    });
-
-    document.getElementById('logoutBtn').addEventListener('click', async () => {
+    // Logout
+    document.getElementById('adminLogoutBtn').addEventListener('click', async () => {
       await supabase.auth.signOut();
-      updateUI(null);
-      toast('লগআউট সফল!');
+      notify('লগআউট সম্পন্ন হয়েছে');
+      checkAuth();
     });
 
-    async function loadAdminData() {
-      loadOrders();
-      loadRecharges();
-      loadServicePrices();
-      loadServiceStatus();
-      loadDashboardAndUsers();
+    // Load All Data
+    async function loadAllData() {
+      await Promise.all([
+        fetchOrders(),
+        fetchRecharges(),
+        fetchServices()
+      ]);
+      await fetchUsers();
+      await loadBroadcastServices();
+      await fetchAdminActivityNotifications();
+      updateKpis();
     }
+    window.loadAllData = loadAllData;
+    document.getElementById('refreshAllBtn').addEventListener('click', () => {
+      loadAllData();
+      notify('সকল ডাটা রিলোড করা হয়েছে');
+    });
+    document.getElementById('adminNotifBtn')?.addEventListener('click',()=>{
+      const tab=document.querySelector('.tab-btn[data-target="tabNotifications"]'); if(tab)tab.click();
+      fetchAdminActivityNotifications();
+      document.getElementById('adminNotifCount').textContent='0';
+      const items=window.__adminNotifItems||[]; (items||[]).forEach(x=>adminNotificationSeen[x.id]=true);
+      localStorage.setItem('adminNotificationSeenV1',JSON.stringify(adminNotificationSeen));
+    });
+    document.getElementById('refreshAdminNotificationsBtn')?.addEventListener('click',fetchAdminActivityNotifications);
+    document.getElementById('sendAdminBroadcastBtn')?.addEventListener('click',sendAdminBroadcast);
 
-    async function fetchAllProfiles() {
-      try {
-        const rpc = await supabase.rpc('admin_get_all_profiles');
-        if (!rpc.error && Array.isArray(rpc.data)) return rpc.data;
-      } catch (e) {}
 
-      const all = [];
-      const pageSize = 1000;
-      let from = 0;
-      while (true) {
-        const { data, error } = await supabase
-          .from('profiles')
-          .select('user_id,id,name,full_name,username,email,mobile,balance,role,created_at')
-          .range(from, from + pageSize - 1);
-        if (error) {
-          const countEl = document.getElementById('totalUsersCount');
-          if (countEl) countEl.textContent = 'ত্রুটি';
-          return [];
+    // Admin Profile Modal Open
+    document.getElementById('adminProfileBtn').addEventListener('click', async () => {
+      openModal('adminProfileModal');
+      const ipEl = document.getElementById('adminProfileIp');
+      if (ipEl && ipEl.textContent === 'লোড হচ্ছে...') {
+        try {
+          const res = await fetch('https://api.ipify.org?format=json');
+          const data = await res.json();
+          ipEl.textContent = data?.ip || 'পাওয়া যায়নি';
+        } catch (_) {
+          ipEl.textContent = 'পাওয়া যায়নি';
         }
-        all.push(...(data || []));
-        if (!data || data.length < pageSize) break;
-        from += pageSize;
       }
-      return all;
-    }
+    });
 
-    function getRealUserProfiles(users) {
-      return (users || []).filter(u => String(u.role || '').toLowerCase() !== 'admin');
-    }
+    // Admin Change Password
+    document.getElementById('adminChangePassBtn').addEventListener('click', async () => {
+      const p = document.getElementById('adminNewPassword').value.trim();
+      if (p.length < 8) return notify('পাসওয়ার্ড কমপক্ষে ৮ সংখ্যার হতে হবে');
 
-    async function loadServiceStatus() {
-      const tbody = document.getElementById('serviceStatusTableBody');
-      if (!tbody) return;
+      const { error } = await supabase.auth.updateUser({ password: p });
+      if (error) return notify('পাসওয়ার্ড পরিবর্তন ব্যর্থ: ' + error.message);
 
-      let rowsData = null;
-      const { data, error } = await supabase.from('service_prices').select('service_name,price,is_active');
-      
-      if (!error && data) {
-        rowsData = data;
-      } else {
-        const rpc = await supabase.rpc('admin_get_service_statuses');
-        if (!rpc.error && Array.isArray(rpc.data)) rowsData = rpc.data;
-      }
+      document.getElementById('adminNewPassword').value = '';
+      notify('অ্যাডমিন পাসওয়ার্ড সফলভাবে আপডেট করা হয়েছে');
+      closeModal('adminProfileModal');
+    });
 
-      if (!rowsData) {
-        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:#ef4444;">সেবা স্ট্যাটাস লোড হয়নি।</td></tr>`;
-        return;
-      }
-
-      const rows = rowsData.map((row) => {
-        const active = row.is_active === true || row.is_active === null;
-        const price = Number(row.price || 0);
-        return `<tr>
-          <td>${row.service_name}</td>
-          <td>৳ ${price.toFixed(2)}</td>
-          <td class="${active ? 'service-status-running' : 'service-status-closed'}">${active ? '🟢 কাজ চলমান' : '🔴 কাজ বন্ধ'}</td>
-          <td>
-            <button class="btn-sm service-toggle-btn" 
-              style="background: ${active ? '#dc2626' : '#16a34a'};"
-              onclick="window.toggleStatus('${row.service_name}', ${active})">
-              ${active ? '🔴 কাজ বন্ধ করুন' : '🟢 চালু করুন'}
-            </button>
-          </td>
-        </tr>`;
-      });
-      tbody.innerHTML = rows.join('');
-      updateKpis();
-    }
-
-    window.toggleStatus = async (serviceName, currentStatus) => {
-      toast('স্ট্যাটাস আপডেট হচ্ছে...');
-      const newStatus = !currentStatus;
-
-      let { error } = await supabase
-        .from('service_prices')
-        .update({ is_active: newStatus })
-        .eq('service_name', serviceName);
-
-      if (error) {
-        const rpcRes = await supabase.rpc('admin_toggle_service_status', {
-          p_service_name: serviceName,
-          p_is_active: newStatus
-        });
-        error = rpcRes.error;
-      }
-
-      if (error) {
-        toast('স্ট্যাটাস আপডেট ব্যর্থ: ' + error.message);
-      } else {
-        toast(`${serviceName} স্ট্যাটাস ${newStatus ? 'চালু' : 'বন্ধ'} করা হয়েছে`);
-        await loadServicePrices();
-        await loadServiceStatus();
-      }
-    };
-
-    document.getElementById('refreshServiceStatusBtn')?.addEventListener('click', loadServiceStatus);
-
-    const dhakaDateFormatter = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Dhaka', year: 'numeric', month: '2-digit', day: '2-digit' });
-
-    function getDhakaDateKey(value) {
-      if (!value) return '';
-      const date = new Date(value);
-      if (Number.isNaN(date.getTime())) return '';
-      const parts = dhakaDateFormatter.formatToParts(date);
-      const map = {};
-      parts.forEach(p => { map[p.type] = p.value; });
-      return `${map.year}-${map.month}-${map.day}`;
-    }
-
-    async function loadDashboardAndUsers() {
-      const todayStr = getDhakaDateKey(new Date());
-
-      const allProfiles = await fetchAllProfiles();
-      const users = getRealUserProfiles(allProfiles);
-      
-      const profileMap = new Map();
-      allProfiles.forEach(p => {
-        const idKey = String(p.user_id || p.id || '').trim();
-        if (idKey) profileMap.set(idKey, p);
-      });
-
-      document.getElementById('totalUsersCount').textContent = users.length;
-
-      const todayUserCount = users.filter(
-        u => getDhakaDateKey(u.created_at) === todayStr
-      ).length;
-      document.getElementById('todayUsersCount').textContent = todayUserCount + ' জন';
-
-      const usersTbody = document.getElementById('adminUsersTable');
-      if (users && users.length > 0) {
-        usersTbody.innerHTML = users.map(u => {
-          const uName = u.name || u.full_name || u.username || 'ইউজার';
-          const uId = u.user_id || u.id || '-';
-          return `
-            <tr>
-              <td><b>${uName}</b><br><small style="font-size:11px; color:var(--text-muted);">🆔 ${uId}</small></td>
-              <td>${u.email || '-'}</td>
-              <td>${u.mobile || 'সংরক্ষিত নেই'}</td>
-              <td class="time-text">${formatDateTime(u.created_at)}</td>
-              <td style="font-weight:700; color:var(--gold-color);">৳ ${Number(u.balance || 0).toFixed(2)}</td>
-            </tr>
-          `;
-        }).join('');
-      } else {
-        usersTbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">কোনো ইউজার পাওয়া যায়নি।</td></tr>`;
-      }
-
-      const { data: recharges } = await supabase.from('recharges').select('*').order('created_at', { ascending: false });
-      let totalRecharge = 0;
-      let todayRechargesList = [];
-
-      if (recharges) {
-        todayRechargesList = recharges.filter(r => getDhakaDateKey(r.created_at) === todayStr);
-        totalRecharge = todayRechargesList.reduce((sum, r) => sum + Number(r.amount || 0), 0);
-      }
-      document.getElementById('todayRechargeAmount').textContent = '৳ ' + totalRecharge.toFixed(2);
-
-      const todayRechargeTbody = document.getElementById('todayRechargeTable');
-      if (todayRechargesList.length > 0) {
-        todayRechargeTbody.innerHTML = todayRechargesList.map(r => {
-          const profile = profileMap.get(String(r.user_id || '').trim()) || {};
-          const uName = r.user_name || profile.name || profile.full_name || profile.username || 'ইউজার';
-          const uEmail = r.user_email || profile.email || '-';
-
-          return `
-            <tr>
-              <td>${new Date(r.created_at).toLocaleTimeString('bn-BD')}</td>
-              <td>
-                <b>${uName}</b><br>
-                <small style="color:var(--text-muted); font-size: 11px;">✉️ ${uEmail}</small>
-              </td>
-              <td style="font-weight:700; color:var(--gold-color);">৳ ${Number(r.amount || 0).toFixed(2)}</td>
-              <td><code>${r.trx_id || r.recharge_id || '-'}</code></td>
-            </tr>
-          `;
-        }).join('');
-      } else {
-        todayRechargeTbody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">আজকের কোনো রিচার্জ নেই।</td></tr>`;
-      }
-      
-      updateKpis();
-    }
-
-    function formatOrderDetails(raw) {
-      if (!raw) return '';
-      const text = String(raw).trim();
+    function isTodayDate(dateString) {
+      if (!dateString) return false;
       try {
-        const jsonText = text.replace(/^\s*ORDER_FORM_DATA_V1\s*:\s*/i, '');
-        const parsed = JSON.parse(jsonText);
-        if (parsed && parsed.fields && typeof parsed.fields === 'object') {
-          const lines = [];
-          Object.values(parsed.fields).forEach((field) => {
-            if (!field) return;
-            const label = String(field.label || '').replace(/\s*\*\s*$/, '').trim();
-            const value = String(field.value ?? '').trim();
-            if (value) lines.push(`<div style="margin:3px 0;"><span style="color:var(--text-muted);">${label}:</span> <b>${value}</b></div>`);
+        const d = new Date(dateString);
+        const now = new Date();
+        return d.getDate() === now.getDate() &&
+               d.getMonth() === now.getMonth() &&
+               d.getFullYear() === now.getFullYear();
+      } catch (_) {
+        return false;
+      }
+    }
+
+    // KPI & দৈনিক সারসংক্ষেপ ক্যালকুলেশন
+    function updateKpis() {
+      document.getElementById('kpiTotalUsers').textContent = allUsers.length;
+      document.getElementById('userManagementTotalCount').textContent = allUsers.length;
+
+      const todayUsers = allUsers.filter(u => isTodayDate(u.created_at)).length;
+      document.getElementById('dailyNewUsers').textContent = todayUsers + ' জন';
+
+      const todayOrders = allOrders.filter(o => isTodayDate(o.created_at)).length;
+      document.getElementById('dailyTotalOrders').textContent = todayOrders + ' টি';
+
+      const todayRechargeAmount = allRecharges
+        .filter(r => isTodayDate(r.created_at) && ['approved', 'অনুমোদিত', 'success', 'completed'].includes(String(r.status || '').toLowerCase()))
+        .reduce((sum, r) => sum + Number(r.amount || 0), 0);
+      document.getElementById('dailyTotalRecharge').textContent = '৳ ' + todayRechargeAmount.toFixed(2);
+
+      const pendingOrd = allOrders.filter(o => !['সম্পন্ন','completed','বাতিল','cancelled','rejected'].includes(String(o.status||'').toLowerCase())).length;
+      const completedOrd = allOrders.filter(o => ['সম্পন্ন','completed'].includes(String(o.status||'').toLowerCase()) || !!o.file_url).length;
+      document.getElementById('kpiPendingOrders').textContent = pendingOrd;
+      document.getElementById('kpiCompletedOrders').textContent = completedOrd;
+
+      const pendingRech = allRecharges.filter(r => String(r.status||'pending').toLowerCase() === 'pending').length;
+      document.getElementById('kpiPendingRecharges').textContent = pendingRech;
+
+      const totalFund = allRecharges
+        .filter(r => ['approved','অনুমোদিত','success','completed'].includes(String(r.status||'').toLowerCase()))
+        .reduce((sum, r) => sum + Number(r.amount || 0), 0);
+      document.getElementById('kpiTotalFund').textContent = '৳ ' + totalFund.toFixed(2);
+    }
+
+    // 1. ADVANCED USER & REAL BALANCE FETCHING (সকল ৭ জন ইউজার এবং তাদের আসল ব্যালেন্স পাওয়ার ফাংশন)
+    async function fetchUsers() {
+      let usersList = [];
+
+      // ক. প্রথমে ডাটাবেজের RPC ফাংশন কল করা (যা সরাসরি সব ৭ জন ইউজার ও আসল ব্যালেন্স দেয়)
+      try {
+        const { data: rpcUsers, error: rpcErr } = await supabase.rpc('get_all_users_for_admin');
+        if (!rpcErr && Array.isArray(rpcUsers) && rpcUsers.length > 0) {
+          usersList = rpcUsers.map(u => ({
+            id: u.id || u.user_id,
+            user_id: u.user_id,
+            email: u.email || '-',
+            name: u.name || (u.email ? u.email.split('@')[0] : 'ইউজার'),
+            mobile: u.mobile || '-',
+            ip_address: u.ip_address || u.ip || '',
+            balance: Number(u.balance || 0),
+            created_at: u.created_at
+          }));
+        }
+      } catch (e) {
+        console.warn('RPC not available, falling back...', e);
+      }
+
+      // খ. যদি RPC না থাকে, তবে profiles টেবিল থেকে সরাসরি সিলেক্ট করা
+      if (usersList.length === 0) {
+        try {
+          const { data: profData, error: profErr } = await supabase.from('profiles').select('*');
+          if (!profErr && Array.isArray(profData)) {
+            usersList = profData.map(p => ({
+              id: p.id || p.user_id,
+              user_id: p.user_id,
+              email: p.email || '-',
+              name: p.name || (p.email ? p.email.split('@')[0] : 'ইউজার'),
+              mobile: p.mobile || '-',
+              ip_address: p.ip_address || '',
+              balance: Number(p.balance || 0),
+              created_at: p.created_at
+            }));
+          }
+        } catch (e) {
+          console.warn('Profiles query error:', e);
+        }
+      }
+
+      // গ. ইউজার ম্যাপে সাজানো
+      const userMap = new Map();
+      usersList.forEach(u => {
+        const key = (u.email || u.user_id || '').toLowerCase().trim();
+        if (key && key !== '-') {
+          userMap.set(key, u);
+        }
+      });
+
+      // ঘ. অর্ডার হিস্টোরি স্ক্যান করে বাকি ইউজারদের খুঁজে নেওয়া
+      allOrders.forEach(o => {
+        const email = (o.user_email || '').toLowerCase().trim();
+        const key = email || (o.user_id || '').trim();
+        if (!key) return;
+
+        if (!userMap.has(key)) {
+          userMap.set(key, {
+            id: o.user_id || o.id,
+            user_id: o.user_id,
+            email: o.user_email || 'সংরক্ষিত নেই',
+            name: o.name || (o.user_email ? o.user_email.split('@')[0] : 'ইউজার'),
+            mobile: o.phone || o.mobile || '-',
+            ip_address: '',
+            balance: 0,
+            created_at: o.created_at || null
           });
-          return lines.join('');
+        } else {
+          const item = userMap.get(key);
+          if ((!item.name || item.name === 'ইউজার') && o.name) item.name = o.name;
+          if ((!item.mobile || item.mobile === '-') && (o.phone || o.mobile)) item.mobile = o.phone || o.mobile;
         }
-      } catch (e) {}
-      return text.replace(/\n/g, '<br>');
+      });
+
+      // ঙ. রিচার্জ হিস্টোরি স্ক্যান করা
+      allRecharges.forEach(r => {
+        const email = (r.user_email || '').toLowerCase().trim();
+        const key = email || (r.user_id || '').trim();
+        if (!key) return;
+
+        if (!userMap.has(key)) {
+          userMap.set(key, {
+            id: r.user_id || r.id,
+            user_id: r.user_id,
+            email: r.user_email || 'সংরক্ষিত নেই',
+            name: r.user_email ? r.user_email.split('@')[0] : 'ইউজার',
+            mobile: r.phone_last4 ? `লাস্ট ৪: ${r.phone_last4}` : '-',
+            ip_address: '',
+            balance: 0,
+            created_at: r.created_at || null
+          });
+        }
+      });
+
+      // চ. যেসব পুরোনো ইউজারের profiles.ip_address এখনো নেই, তাদের সর্বশেষ অর্ডারের
+      // saved order JSON থেকে IP fallback হিসেবে দেখানো হবে।
+      const finalUsersPlaceholder = Array.from(userMap.values());
+      finalUsersPlaceholder.forEach(usr => {
+        if (usr.ip_address) return;
+        const keyEmail = String(usr.email || '').toLowerCase().trim();
+        for (const o of allOrders) {
+          const sameUser = keyEmail && String(o.user_email || '').toLowerCase().trim() === keyEmail;
+          if (!sameUser) continue;
+          try {
+            const raw = String(o.details || '').trim();
+            if (!raw.startsWith('ORDER_FORM_DATA_V1:')) continue;
+            const obj = JSON.parse(raw.slice('ORDER_FORM_DATA_V1:'.length));
+            const ip = obj?.fields?.__user_ip_address?.value || '';
+            if (ip) { usr.ip_address = String(ip); break; }
+          } catch (_) {}
+        }
+      });
+
+      // ছ. ব্যালেন্স ডাবল চেক (যদি কারো ব্যালেন্স ০ হয়ে থাকে কিন্তু প্রোফাইলে টাকা থাকে)
+      const finalUsers = finalUsersPlaceholder;
+      
+      // সমান্তরালভাবে প্রত্যেকের আসল ব্যালেন্স ভেরিফাই করা
+      await Promise.all(finalUsers.map(async (usr) => {
+        if (usr.email && usr.email !== 'সংরক্ষিত নেই' && usr.email !== '-') {
+          try {
+            const { data: singleProf } = await supabase.from('profiles').select('balance, name, mobile, ip_address').eq('email', usr.email).maybeSingle();
+            if (singleProf && singleProf.balance !== undefined && singleProf.balance !== null) {
+              usr.balance = Number(singleProf.balance);
+              if (singleProf.name && singleProf.name !== 'ইউজার') usr.name = singleProf.name;
+              if (singleProf.mobile && singleProf.mobile !== '-') usr.mobile = singleProf.mobile;
+              if (singleProf.ip_address) usr.ip_address = singleProf.ip_address;
+            }
+          } catch (_) {}
+        }
+      }));
+
+      allUsers = finalUsers;
+      allUsers.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+
+      renderUsers(allUsers);
+      updateKpis();
     }
 
-    async function loadOrders() {
-      const tbody = document.getElementById('adminOrdersTableBody');
-      const { data, error } = await supabase
-        .from('orders')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #ef4444;">ডেটা লোড করতে সমস্যা হয়েছে।</td></tr>`;
+    function renderUsers(list) {
+      const tbody = document.getElementById('usersTableBody');
+      if (!list.length) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-muted);">কোনো ইউজার তালিকা নেই।</td></tr>';
         return;
       }
 
-      if (!data || data.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">কোনো অর্ডার পাওয়া যায়নি।</td></tr>`;
-        return;
-      }
-
-      const profiles = await fetchAllProfiles();
-      const profileMap = new Map((profiles || []).map(p => [String(p.user_id || p.id || '').trim(), p]));
-
-      tbody.innerHTML = data.map(o => {
-        const uId = String(o.user_id || '').trim();
-        const profile = profileMap.get(uId) || {};
-        
-        const userName = o.user_name || o.username || profile.name || profile.full_name || profile.username || o.name || 'ইউজার';
-        const userEmail = o.user_email || profile.email || '-';
-
-        const nidNumber = String(o.nid_no || o.nid || o.nid_number || o.nidNo || '').trim();
-        const dobRaw = o.date_of_birth || o.dob || o.birth_date || ((o.details || '').match(/(?:জন্ম তারিখ|Date of Birth|DOB)\s*:\s*([^\n,|]+)/i)?.[1] || '');
-        const dob = String(dobRaw || '').trim();
-
-        return `
+      tbody.innerHTML = list.map(u => `
         <tr>
+          <td><b>${escapeHtml(u.name || 'ইউজার')}</b></td>
+          <td>${escapeHtml(u.email || '-')}</td>
+          <td>${escapeHtml(u.mobile || '-')}</td>
+          <td><code style="font-size:12px;">${escapeHtml(u.ip_address || 'IP পাওয়া যায়নি')}</code></td>
+          <td><small>${u.created_at ? new Date(u.created_at).toLocaleDateString('bn-BD') : 'সংরক্ষিত নেই'}</small></td>
+          <td><b style="color:#10b981;font-size:15px;">৳ ${Number(u.balance || 0).toFixed(2)}</b></td>
           <td>
-            <strong style="color:var(--accent-color);">${o.order_id || o.id || 'N/A'}</strong><br>
-            <b>${userName}</b><br>
-            <small style="color:var(--text-muted);">✉️ ${userEmail}</small>
-            ${uId ? `<br><small style="color:var(--text-muted); font-size:10px;">🆔 ${uId}</small>` : ''}
-          </td>
-          <td>
-            <b>${o.service || 'সেবা নেই'}</b><br>
-            <strong>${o.name || userName || '-'}</strong>
-            ${nidNumber ? `<br><small style="color:var(--gold-color);font-weight:800;">🪪 NID/আইডি: ${nidNumber}</small>` : ''}
-            ${dob ? `<br><small style="color:var(--accent-color);font-weight:800;">🎂 জন্ম তারিখ: ${dob}</small>` : ''}
-            ${o.details && o.details !== '-' ? `<div style="margin-top:6px;padding:7px 9px;border:1px solid rgba(148,163,184,.18);border-radius:8px;line-height:1.55;">${formatOrderDetails(o.details)}</div>` : ''}
-          </td>
-          <td class="time-text">অর্ডার: ${formatDateTime(o.created_at)}${o.status === 'সম্পন্ন' || o.status === 'completed' ? '<br><span style="color:#10b981;font-weight:700;">সম্পন্ন: '+formatDateTime(o.completed_at || o.updated_at || getActionTime(o.id,'completed',null))+'</span>' : ''}</td>
-          <td>
-            <span class="status-badge ${o.status === 'সম্পন্ন' || o.status === 'completed' ? 'status-completed' : 'status-pending'}">${o.status || 'নতুন'}</span>
-            ${o.file_url ? '<br><a href="'+o.file_url+'" target="_blank" style="font-size:11px; color:var(--accent-color);">🔗 আপলোডকৃত ফাইল</a>' : ''}
-          </td>
-          <td>
-            <div class="admin-controls">
-              <input type="file" id="fileInput_${o.id}">
-              <div class="row-flex">
-                <select id="status_${o.id}">
-                  <option value="নতুন" ${o.status === 'নতুন' ? 'selected' : ''}>নতুন</option>
-                  <option value="তথ্য খুজে পাওয়া যায়নি" ${o.status === 'তথ্য খুজে পাওয়া যায়নি' ? 'selected' : ''}>তথ্য খুজে পাওয়া যায়নি</option>
-                  <option value="প্রক্রিয়াধীন" ${o.status === 'প্রক্রিয়াধীন' ? 'selected' : ''}>প্রক্রিয়াধীন</option>
-                  <option value="সম্পন্ন" ${o.status === 'সম্পন্ন' || o.status === 'completed' ? 'selected' : ''}>সম্পন্ন</option>
-                </select>
-                ${o.status === 'সম্পন্ন' || o.status === 'completed' ? '<span class="status-badge status-completed">✓ আপডেট সম্পন্ন</span>' : `<button class="btn-sm" onclick="window.updateOrderWithFile('${o.id}', '${o.file_url || ''}')">আপডেট</button>`}
-              </div>
-            </div>
+            <button type="button" class="btn-action btn-edit" onclick="openEditBalance('${u.id}', '${u.email}', ${u.balance || 0}, '${u.user_id || ''}')">✏️ ব্যালেন্স এড/চেঞ্জ</button>
           </td>
         </tr>
-      `; }).join('');
-      
-      updateKpis();
+      `).join('');
     }
 
-    let cachedPricesData = [];
+    window.openEditBalance = (id, email, currentBal, userId) => {
+      document.getElementById('editBalanceUserId').value = id;
+      document.getElementById('editBalanceUserId').dataset.userId = userId || '';
+      document.getElementById('editBalanceUserEmail').textContent = email;
+      document.getElementById('editBalanceAmount').value = currentBal;
+      openModal('editBalanceModal');
+    };
 
-    function renderFilteredPrices() {
-      const tbody = document.getElementById('servicePricesTableBody');
-      const searchVal = (document.getElementById('serviceSearchInput')?.value || '').toLowerCase().trim();
-      
-      const filtered = cachedPricesData.filter(item => 
-        (item.service_name || '').toLowerCase().includes(searchVal)
-      );
+    document.getElementById('saveUserBalanceBtn').addEventListener('click', async () => {
+      const id = document.getElementById('editBalanceUserId').value;
+      const userId = document.getElementById('editBalanceUserId').dataset.userId;
+      const email = document.getElementById('editBalanceUserEmail').textContent.trim();
+      const amount = Number(document.getElementById('editBalanceAmount').value);
+      if (isNaN(amount) || amount < 0) return notify('সঠিক ব্যালেন্স লিখুন');
 
-      if (filtered.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);">কোনো সার্ভিস পাওয়া যায়নি!</td></tr>';
+      // Update or Upsert by email and user_id to ensure balance updates without fail
+      let upsertData = { email: email, balance: amount };
+      if (userId && userId !== 'undefined' && userId !== '') {
+        upsertData.user_id = userId;
+      }
+
+      const { error } = await supabase.from('profiles').upsert(upsertData, { onConflict: 'email' });
+
+      if (error) {
+        // Fallback update by id
+        await supabase.from('profiles').update({ balance: amount }).eq('id', id);
+      }
+
+      notify(`ইউজার (${email}) এর ব্যালেন্স ৳ ${amount.toFixed(2)} আপডেট হয়েছে`);
+      closeModal('editBalanceModal');
+      await fetchUsers();
+    });
+
+    // ---------------- NOTIFICATIONS ----------------
+    let adminNotificationSeen = JSON.parse(localStorage.getItem('adminNotificationSeenV1') || '{}');
+    let lastAdminNotifSignature = '';
+
+    function adminNotifDate(v){ try{return new Date(v).toLocaleString('bn-BD',{year:'numeric',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});}catch(e){return v||'';} }
+    function escapeNotifText(v){ return String(v ?? '').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+    async function fetchAdminActivityNotifications(){
+      try{
+        const [ordersRes,rechargesRes]=await Promise.all([
+          supabase.from('orders').select('id,order_id,service,service_title,user_email,name,status,amount,created_at,updated_at').order('created_at',{ascending:false}).limit(30),
+          supabase.from('recharges').select('id,user_email,amount,trx_id,status,created_at').order('created_at',{ascending:false}).limit(20)
+        ]);
+        const items=[];
+        (ordersRes.data||[]).forEach(o=>items.push({id:'order:'+o.id,time:o.updated_at||o.created_at,title:'📦 '+(o.service_title||o.service||'সেবা অর্ডার'),message:`${o.name||o.user_email||'ইউজার'} — ${o.status||'পেন্ডিং'}${o.order_id?' | Order: '+o.order_id:''}`,meta:o.user_email||''}));
+        (rechargesRes.data||[]).forEach(r=>items.push({id:'recharge:'+r.id,time:r.created_at,title:'💳 রিচার্জ রিকোয়েস্ট',message:`${r.user_email||'ইউজার'} — ৳${Number(r.amount||0).toFixed(2)} — ${r.status||'pending'}${r.trx_id?' | TrxID: '+r.trx_id:''}`,meta:r.user_email||''}));
+        items.sort((x,y)=>new Date(y.time||0)-new Date(x.time||0));
+        const sig=items.slice(0,10).map(x=>x.id+'|'+x.time+'|'+x.message).join('||');
+        const unread=items.filter(x=>!adminNotificationSeen[x.id]).length;
+        const badge=document.getElementById('adminNotifCount'); if(badge) badge.textContent=String(Math.min(unread,99));
+        window.__adminNotifItems=items;
+        const box=document.getElementById('adminNotificationList');
+        if(box){box.innerHTML=items.length?items.slice(0,40).map(x=>`<div class="admin-notif-item"><strong>${escapeNotifText(x.title)}</strong><div>${escapeNotifText(x.message)}</div><small>${escapeNotifText(x.meta)} · ${adminNotifDate(x.time)}</small></div>`).join(''):'<div class="notif-empty">কোনো User notification নেই।</div>';}
+        if(sig && sig!==lastAdminNotifSignature && lastAdminNotifSignature){
+          const newest=items[0]; if(newest) notify('🔔 নতুন User notification: '+newest.title);
+        }
+        lastAdminNotifSignature=sig;
+        return items;
+      }catch(e){console.warn('Admin notification load failed:',e);}
+    }
+
+    async function loadBroadcastServices(){
+      const sel=document.getElementById('adminNotifService'); if(!sel)return;
+      const names=Array.from(new Set((allServices||[]).map(x=>x.service_name).filter(Boolean)));
+      sel.innerHTML='<option value="সকল সেবা">সকল সেবা</option>'+names.map(n=>`<option value="${escapeNotifText(n)}">${escapeNotifText(n)}</option>`).join('');
+    }
+
+    async function sendAdminBroadcast(){
+      const title=String(document.getElementById('adminNotifTitle')?.value||'').trim();
+      const message=String(document.getElementById('adminNotifMessage')?.value||'').trim();
+      const service=String(document.getElementById('adminNotifService')?.value||'সকল সেবা');
+      const btn=document.getElementById('sendAdminBroadcastBtn');
+      if(!title||!message)return notify('শিরোনাম ও বার্তা দুটোই দিন');
+      if(btn){btn.disabled=true;btn.textContent='⏳ পাঠানো হচ্ছে...';}
+      try{
+        const {error}=await supabase.from('service_notifications').insert({title,message,service_name:service,audience:'all',created_by:currentAdminUser?.email||'admin'});
+        if(error)throw error;
+        document.getElementById('adminNotifTitle').value='';document.getElementById('adminNotifMessage').value='';
+        notify('✅ সকল ইউজারের কাছে নোটিফিকেশন পাঠানো হয়েছে');
+      }catch(e){
+        console.error(e);
+        notify('নোটিফিকেশন পাঠানো যায়নি। আগে Notification SQL সেটআপ করুন।');
+      }finally{if(btn){btn.disabled=false;btn.textContent='📢 সকল ইউজারে পাঠান';}}
+    }
+
+    async function sendUserStatusNotification(order, status){
+      try{
+        const uid=order?.user_id||null;
+        const title='📦 অর্ডারের অবস্থা আপডেট';
+        const message=`${order?.service_title||order?.service||'আপনার সেবা'} — অর্ডারের অবস্থা: ${status}`;
+        await supabase.from('service_notifications').insert({title,message,service_name:order?.service_title||order?.service||'সকল সেবা',audience:uid?'user':'all',user_id:uid,created_by:currentAdminUser?.email||'admin'});
+      }catch(e){console.warn('User status notification failed:',e);}
+    }
+
+    // 2. SERVICES & PRICES & WORK STATUS
+    async function fetchServices() {
+      let { data, error } = await supabase.from('service_prices').select('*');
+      if (error) {
+        data = [];
+      }
+
+      const dbMap = new Map();
+      (data || []).forEach(item => {
+        dbMap.set(item.service_name.trim(), item);
+      });
+
+      allServices = DEFAULT_SERVICES_LIST.map(def => {
+        const found = dbMap.get(def.name);
+        return {
+          service_name: def.name,
+          price: found ? Number(found.price) : def.defaultPrice,
+          is_active: found ? found.is_active !== false : true
+        };
+      });
+
+      renderServices(allServices);
+    }
+    window.fetchServices = fetchServices;
+
+    function renderServices(list) {
+      const tbody = document.getElementById('servicesTableBody');
+      if (!list.length) {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text-muted);">কোনো সার্ভিস পাওয়া যায়নি।</td></tr>';
         return;
       }
 
-      tbody.innerHTML = filtered.map((item, index) => {
-        const isActive = item.is_active === true || item.is_active === null;
+      tbody.innerHTML = list.map((s, idx) => {
+        const isActive = s.is_active !== false;
+        const statusBadge = isActive 
+          ? `<span class="status-badge status-completed">🟢 কাজ চলমান</span>`
+          : `<span class="status-badge status-cancelled">🔴 কাজ বন্ধ</span>`;
+
+        const toggleBtn = isActive
+          ? `<button type="button" class="btn-action btn-reject" onclick="toggleServiceStatus('${escapeHtml(s.service_name)}', false)">🔴 কাজ বন্ধ করুন</button>`
+          : `<button type="button" class="btn-action btn-complete" onclick="toggleServiceStatus('${escapeHtml(s.service_name)}', true)">🟢 কাজ চালু করুন</button>`;
+
         return `
           <tr>
-            <td><b>${item.service_name}</b></td>
-            <td style="font-weight:800;color:var(--gold-color);">৳ ${Number(item.price || 0).toFixed(2)}</td>
             <td>
-              <div style="display:flex; gap:5px; align-items:center;">
-                <input id="servicePrice_${index}" type="number" step="0.01" placeholder="${item.price}" style="width:100px;padding:6px;border-radius:6px;border:1px solid var(--card-border);background:#0f172a;color:#fff;">
-                <button class="btn-sm" style="background:#28a745;" onclick="window.updatePrice('${item.service_name}', ${index})">Save</button>
+              <b style="font-size:14px;color:var(--accent-color);">${escapeHtml(s.service_name)}</b>
+            </td>
+            <td>
+              <div style="display:flex;align-items:center;gap:4px;">
+                <span style="font-weight:bold;color:var(--gold-color);">৳</span>
+                <input type="number" id="srv_price_${idx}" value="${Number(s.price || 0)}" min="0" style="width:105px;padding:6px 8px;border-radius:8px;border:1px solid var(--card-border);background:#000;color:#fff;font-family:inherit;font-weight:700;">
               </div>
             </td>
+            <td>${statusBadge}</td>
             <td>
-              <span style="color:${isActive ? '#10b981' : '#ef4444'}; font-weight:bold;">
-                ${isActive ? 'Active' : 'Disabled'}
-              </span>
+              ${toggleBtn}
+              <button type="button" class="btn-action btn-edit" onclick="saveSinglePrice('${escapeHtml(s.service_name)}', 'srv_price_${idx}', ${isActive})">💾 মূল্য সেভ</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    window.toggleServiceStatus = async (serviceName, newStatus) => {
+      const srv = allServices.find(x => x.service_name === serviceName);
+      const price = srv ? srv.price : 100;
+
+      const { error } = await supabase.from('service_prices').upsert({
+        service_name: serviceName,
+        price: price,
+        is_active: newStatus
+      }, { onConflict: 'service_name' });
+
+      if (error) return notify('স্ট্যাটাস আপডেট ব্যর্থ: ' + error.message);
+
+      notify(`"${serviceName}" এর কাজের অবস্থা পরিবর্তন হয়েছে (${newStatus ? '🟢 কাজ চলমান' : '🔴 কাজ বন্ধ'})`);
+      await fetchServices();
+    };
+
+    window.saveSinglePrice = async (serviceName, inputId, currentStatus) => {
+      const price = Number(document.getElementById(inputId).value);
+      if (isNaN(price) || price < 0) return notify('সঠিক মূল্য প্রদান করুন');
+
+      const { error } = await supabase.from('service_prices').upsert({
+        service_name: serviceName,
+        price: price,
+        is_active: currentStatus
+      }, { onConflict: 'service_name' });
+
+      if (error) return notify('মূল্য সংরক্ষণ ব্যর্থ: ' + error.message);
+
+      notify(`"${serviceName}" এর নতুন মূল্য ৳ ${price.toFixed(2)} সংরক্ষিত হয়েছে`);
+      await fetchServices();
+    };
+
+    // 3. ORDERS
+    async function fetchOrders() {
+      const { data, error } = await supabase.from('orders').select('*').order('created_at', { ascending: false });
+      if (error) { console.error('Orders error:', error); return; }
+      allOrders = data || [];
+      renderOrders(allOrders);
+    }
+
+    function normalizeOrderStatus(value) {
+      const s = String(value || '').trim().toLowerCase();
+      if (['নতুন','new','pending','পেন্ডিং'].includes(s)) return 'নতুন';
+      if (['প্রক্রিয়াধীন','প্রক্রিয়াধীন','processing','process','in progress'].includes(s)) return 'প্রক্রিয়াধীন';
+      if (['তথ্য খুঁজে পাওয়া যায়নি','তথ্য খুঁজে পাওয়া যায়নি','not found','information not found','info not found'].includes(s)) return 'তথ্য খুঁজে পাওয়া যায়নি';
+      if (['বাতিল','cancelled','canceled','rejected'].includes(s)) return 'বাতিল';
+      if (['সম্পন্ন','completed','complete','success','successful','done'].includes(s)) return 'সম্পন্ন';
+      return 'নতুন';
+    }
+
+    function renderOrders(list) {
+      const tbody = document.getElementById('ordersTableBody');
+      if (!list.length) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);">কোনো অর্ডার পাওয়া যায়নি।</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = list.map(o => {
+        const status = normalizeOrderStatus(o.status);
+        const isFinal = ['সম্পন্ন', 'বাতিল', 'তথ্য খুঁজে পাওয়া যায়নি'].includes(status);
+        const statusClass =
+          status === 'সম্পন্ন' ? 'status-completed' :
+          status === 'বাতিল' ? 'status-cancelled' :
+          status === 'তথ্য খুঁজে পাওয়া যায়নি' ? 'status-notfound' :
+          status === 'প্রক্রিয়াধীন' ? 'status-processing' : 'status-pending';
+
+        let detailsDisplay = '';
+        if (o.details && String(o.details).startsWith('ORDER_FORM_DATA_V1:')) {
+          try {
+            const p = JSON.parse(String(o.details).slice('ORDER_FORM_DATA_V1:'.length));
+            detailsDisplay = `<small style="color:var(--text-muted);display:block;">${p.field_count || Object.keys(p.fields || {}).length || 0} টি তথ্য জমা রয়েছে</small>`;
+          } catch (_) {}
+        }
+
+        const deliveryUrl = o.file_url || o.delivery_link || o.link || '';
+        const updateBtn = !isFinal
+          ? `<button type="button" class="btn-action btn-edit" onclick="openCompleteOrder('${escapeHtml(o.id)}')">✏️ আপডেট</button>`
+          : `<small style="color:var(--text-muted);">নিষ্পন্ন</small>`;
+
+        return `
+          <tr>
+            <td>
+              <b style="color:var(--accent-color);">${escapeHtml(o.service || o.service_title || '-')}</b>
+              <br><small style="color:var(--text-muted);">ID: ${escapeHtml(o.order_id || o.id)}</small>
             </td>
             <td>
-              <div style="display:flex; gap:6px;">
-                <button class="btn-sm" style="background:${isActive ? '#ff9800' : '#17a2b8'};" onclick="window.toggleStatus('${item.service_name}', ${isActive})">
-                  ${isActive ? 'Disable' : 'Enable'}
-                </button>
-                <button class="btn-sm" style="background:#dc3545;" onclick="window.handleDeleteService('${item.service_name}')">
-                  Delete
-                </button>
+              ${o.name ? `<b>আবেদনকারী:</b> ${escapeHtml(o.name)}<br>` : ''}
+              ${o.phone || o.mobile ? `<b>মোবাইল:</b> ${escapeHtml(o.phone || o.mobile)}<br>` : ''}
+              ${o.nid_no || o.nid ? `<b>NID/আইডি:</b> ${escapeHtml(o.nid_no || o.nid)}<br>` : ''}
+              ${detailsDisplay}
+              <button type="button" class="btn-action btn-view" onclick="viewOrderDetails('${escapeHtml(o.id)}')">📋 সব তথ্য দেখুন</button>
+            </td>
+            <td><b>৳ ${Number(o.amount || 0).toFixed(2)}</b></td>
+            <td><small>${o.created_at ? new Date(o.created_at).toLocaleString('bn-BD') : '-'}</small></td>
+            <td>
+              <span class="status-badge ${statusClass}">${escapeHtml(status)}</span>
+              <div style="margin-top:6px;display:flex;flex-direction:column;gap:4px;">
+                ${updateBtn}
+                ${deliveryUrl ? `<button type="button" class="btn-action btn-edit" style="border:0;cursor:pointer;" onclick="openAdminDeliveryFile('${escapeHtml(o.id)}')">📥 ফাইল / লিংক</button>` : ''}
               </div>
             </td>
           </tr>
         `;
       }).join('');
-      updateKpis();
     }
 
-    async function loadServicePrices() {
-      const tbody = document.getElementById('servicePricesTableBody');
-      const { data, error } = await supabase.from('service_prices').select('*');
-      
-      if (error || !data) {
-        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#ef4444;">দাম লোড করা যায়নি: ' + (error ? error.message : '') + '</td></tr>';
-        return;
+    function parseAdminOrderFields(details) {
+      const text = String(details || '').trim();
+      if (!text) return [];
+      try {
+        const parsed = text.startsWith('ORDER_FORM_DATA_V1:')
+          ? JSON.parse(text.slice('ORDER_FORM_DATA_V1:'.length))
+          : JSON.parse(text);
+        return Object.entries(parsed?.fields || {}).map(([fieldId, item]) => ({
+          fieldId,
+          label: String(item?.label || fieldId).replace(/\s+/g,' ').trim(),
+          value: String(item?.value ?? '').trim(),
+          file_url: String(item?.file_url || item?.url || '').trim(),
+          // User Panel stores uploaded images in storage_path; keep that path
+          // so Admin can generate a signed URL and display the actual image.
+          file_path: String(item?.file_path || item?.path || item?.storage_path || '').trim(),
+          file_name: String(item?.file_name || item?.name || item?.value || '').trim(),
+          file_type: String(item?.file_type || item?.type || '').trim()
+        })).filter(x => x.value || x.file_url || x.file_path);
+      } catch (_) { return []; }
+    }
+
+    async function signedAdminFileUrl(path) {
+      const clean = String(path || '').trim();
+      if (!clean) return '';
+      const { data, error } = await supabase.storage.from('private-order-files').createSignedUrl(clean, 60 * 60);
+      if (error) throw error;
+      return data?.signedUrl || '';
+    }
+
+    async function prepareAdminAttachments(fields) {
+      for (const field of fields) {
+        // Uploaded user photos are stored as storage_path (and, in some
+        // older records, directly in value). Resolve both forms for Admin.
+        if (!field.file_path && field.value && /^(?:order-photos|orders|order-uploads)\//i.test(String(field.value).trim())) {
+          field.file_path = String(field.value).trim();
+        }
+        if (!field.file_url && field.file_path) {
+          try {
+            field.file_url = await signedAdminFileUrl(field.file_path);
+          } catch (e) {
+            console.error('Signed URL error:', e);
+            field.file_url = '';
+          }
+        }
       }
-      cachedPricesData = data || [];
-      renderFilteredPrices();
+      return fields;
     }
 
-    window.updatePrice = async (serviceName, index) => {
-      const input = document.getElementById('servicePrice_' + index);
-      const newPrice = input?.value;
-      if (newPrice === undefined || newPrice === '') return toast('নতুন দাম টাইপ করুন।');
+    function renderAdminAttachment(field) {
+      const url = String(field.file_url || '').trim();
+      const name = String(field.file_name || field.value || 'ফাইল').trim();
+      const type = String(field.file_type || '').toLowerCase();
+      if (!url) return `<div><div>${escapeHtml(name || 'ফাইল')}</div><small style="color:var(--text-muted);">নিরাপদ ফাইল লিংক তৈরি করা যায়নি।</small></div>`;
+      if (type.startsWith('image/') || /\.(png|jpe?g|webp|gif|bmp)$/i.test(name) || /\.(png|jpe?g|webp|gif|bmp)(\?|$)/i.test(url)) {
+        return `<div style="display:flex;flex-direction:column;gap:8px;align-items:flex-start;">
+          <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" style="display:inline-block;">
+            <img src="${escapeHtml(url)}" alt="${escapeHtml(name)}" style="max-width:260px;max-height:220px;border-radius:10px;border:1px solid rgba(255,255,255,.15);object-fit:contain;background:#111;" onerror="this.style.display='none';">
+          </a>
+          <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" style="color:var(--accent-color);font-weight:800;text-decoration:none;">🖼️ ছবি বড় করে দেখুন</a>
+        </div>`;
+      }
+      return `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" style="color:var(--accent-color);font-weight:800;text-decoration:none;">📄 ${escapeHtml(name || 'ফাইল')} খুলুন</a>`;
+    }
 
-      const { error } = await supabase
-        .from('service_prices')
-        .update({ price: parseFloat(newPrice) })
-        .eq('service_name', serviceName);
+    function isExternalHttpUrl(value) {
+      return /^https?:\/\//i.test(String(value || '').trim());
+    }
 
-      if (error) {
-        toast('দাম আপডেট করা সম্ভব হয়নি: ' + error.message);
-      } else {
-        toast('দাম সফলভাবে আপডেট করা হয়েছে!');
-        loadServicePrices();
+    async function resolveAdminDeliveryUrl(value) {
+      const raw = String(value || '').trim();
+      if (!raw) return '';
+      if (isExternalHttpUrl(raw)) return raw;
+      return await signedAdminFileUrl(raw);
+    }
+
+    window.openAdminDeliveryFile = async (orderId) => {
+      const order = allOrders.find(x => String(x.id) === String(orderId));
+      if (!order) return notify('অর্ডারের তথ্য মেলেনি');
+      const value = String(order.file_url || order.delivery_link || order.link || '').trim();
+      if (!value) return notify('এই অর্ডারে কোনো ফাইল/লিংক নেই।');
+      try {
+        notify('ফাইল লিংক তৈরি হচ্ছে...');
+        const url = await resolveAdminDeliveryUrl(value);
+        if (!url) throw new Error('নিরাপদ ফাইল লিংক তৈরি করা যায়নি।');
+        window.open(url, '_blank', 'noopener');
+      } catch (e) {
+        console.error('Admin delivery file error:', e);
+        notify('ফাইল খোলা যাচ্ছে না। Storage Policy/RLS পরীক্ষা করুন।');
       }
     };
 
-    document.getElementById('addServiceForm')?.addEventListener('submit', async (e) => {
-      e.preventDefault();
+        window.viewOrderDetails = async (orderId) => {
+      const order = allOrders.find(x => String(x.id) === String(orderId));
+      if (!order) return notify('অর্ডারের তথ্য মেলেনি');
 
-      const nameInput = document.getElementById('newServiceName');
-      const priceInput = document.getElementById('newServicePrice');
-      const newServiceName = nameInput.value.trim();
-      const newServicePrice = priceInput.value.trim();
+      const body = document.getElementById('adminOrderInfoBody');
+      const dynamicFields = parseAdminOrderFields(
+        order.details || order.order_details || order.description || order.details_json || ''
+      );
+      await prepareAdminAttachments(dynamicFields);
 
-      if (!newServiceName || !newServicePrice) return toast('সব তথ্য পূরণ করুন');
+      const norm = (v) => String(v ?? '').normalize('NFKC').replace(/\s+/g,' ').trim().toLowerCase();
+      const findField = (patterns, ids = []) => {
+        const ps = (Array.isArray(patterns) ? patterns : [patterns]).map(norm);
+        const is = (Array.isArray(ids) ? ids : [ids]).map(x => norm(x));
+        return dynamicFields.find(f => {
+          const l = norm(f.label), id = norm(f.fieldId);
+          return ps.some(p => l === p || l.includes(p)) || is.some(p => p && id === p);
+        }) || null;
+      };
+      const findValue = (patterns, ids = []) => String(findField(patterns, ids)?.value || '').trim();
 
-      const { error } = await supabase
-        .from('service_prices')
-        .insert([{ service_name: newServiceName, price: parseFloat(newServicePrice), is_active: true }]);
+      // জন্ম তারিখের জন্য একাধিক source/key সমর্থন করা হচ্ছে।
+      // কিছু পুরোনো NID PDF অর্ডারে DOB top-level column-এ না থেকে details-এর ভিতরে থাকে।
+      const detailDob = (() => {
+        // Accept ISO, dd-mm-yyyy, dd/mm/yyyy and common date strings.
+        const cleanDate = (v) => {
+          if (v == null) return '';
+          const s = String(v).trim();
+          let m = s.match(/(?:^|\D)(\d{4}-\d{2}-\d{2})(?:$|\D)/);
+          if (m) return m[1];
+          m = s.match(/(?:^|\D)(\d{2})[\/-](\d{2})[\/-](\d{4})(?:$|\D)/);
+          if (m) return `${m[3]}-${m[2]}-${m[1]}`;
+          return '';
+        };
 
-      if (error) {
-        toast('Error: ' + error.message);
+        const candidates = [
+          'date_of_birth','dob','birth_date','birthDate','dateOfBirth',
+          'জন্ম তারিখ','জন্মতারিখ'
+        ];
+        for (const k of candidates) {
+          const v = cleanDate(order?.[k]);
+          if (v) return v;
+        }
+
+        const f = dynamicFields.find(x => {
+          const id = String(x.fieldId || '').toLowerCase().replace(/[^a-z0-9_]/g,'');
+          const label = String(x.label || '').toLowerCase().replace(/\s+/g,' ').trim();
+          return id === 'field_dob' || id.includes('dob') || id.includes('birthdate') || id.includes('dateofbirth') ||
+                 id.includes('birth_date') || id.includes('date_of_birth') ||
+                 label.includes('জন্ম তারিখ') || label.includes('জন্মতারিখ') ||
+                 label.includes('date of birth') || label.includes('birth date') ||
+                 label === 'dob';
+        });
+        const dynamicDate = cleanDate(f?.value);
+        if (dynamicDate) return dynamicDate;
+
+        // Direct field_dob fallback. This covers orders created by the current
+        // user form even when the label/id was serialized differently.
+        for (const item of dynamicFields) {
+          const id = String(item.fieldId || '').toLowerCase();
+          if (id === 'field_dob' || id.endsWith('_dob') || id.includes('date_of_birth') || id.includes('birth_date')) {
+            const d = cleanDate(item.value);
+            if (d) return d;
+          }
+        }
+
+        // শেষ fallback: details-এর JSON-এর যেকোনো nested key/label থেকে DOB খুঁজে বের করা।
+        const rawDetails = String(
+          order?.details || order?.order_details || order?.description || ''
+        );
+        if (rawDetails) {
+          try {
+            const jsonText = rawDetails.startsWith('ORDER_FORM_DATA_V1:')
+              ? rawDetails.slice('ORDER_FORM_DATA_V1:'.length)
+              : rawDetails;
+            const parsed = JSON.parse(jsonText);
+            const walk = (node) => {
+              if (!node || typeof node !== 'object') return '';
+              if (Array.isArray(node)) {
+                for (const item of node) {
+                  const found = walk(item);
+                  if (found) return found;
+                }
+                return '';
+              }
+              for (const [key, val] of Object.entries(node)) {
+                const nk = String(key).toLowerCase().replace(/[^a-z0-9_]/g,'');
+                const sk = String(key).toLowerCase().replace(/\s+/g,' ').trim();
+                const isDobKey =
+                  nk.includes('dob') || nk.includes('birthdate') || nk.includes('dateofbirth') ||
+                  nk.includes('birth_date') || nk.includes('date_of_birth') ||
+                  sk.includes('জন্ম তারিখ') || sk.includes('জন্মতারিখ') ||
+                  sk.includes('date of birth') || sk.includes('birth date') ||
+                  sk.includes('birth_date') || sk.includes('date_of_birth');
+                if (isDobKey) {
+                  const direct = cleanDate(val?.value ?? val);
+                  if (direct) return direct;
+                }
+                const nested = walk(val);
+                if (nested) return nested;
+              }
+              return '';
+            };
+            const found = walk(parsed);
+            if (found) return found;
+          } catch (_) {}
+        }
+
+        // আরও একটি fallback: details JSON-এ key না থাকলেও কোনো field-এর value
+        // যদি ISO জন্মতারিখ হয়, সেটি গ্রহণ করা হবে। এতে পুরোনো/ভিন্ন form schema-ও কাজ করবে।
+        const dateValues = [];
+        const collectDateValues = (node) => {
+          if (node == null) return;
+          if (typeof node === 'string') {
+            const m = node.match(/\b(19|20)\d{2}-\d{2}-\d{2}\b/);
+            if (m) dateValues.push(m[0]);
+            return;
+          }
+          if (Array.isArray(node)) { node.forEach(collectDateValues); return; }
+          if (typeof node === 'object') Object.values(node).forEach(collectDateValues);
+        };
+        try { collectDateValues(JSON.parse(rawDetails.startsWith('ORDER_FORM_DATA_V1:') ? rawDetails.slice('ORDER_FORM_DATA_V1:'.length) : rawDetails)); } catch (_) {}
+        if (dateValues.length === 1) return dateValues[0];
+
+        // Text fallback for older/non-JSON orders.
+        const m = rawDetails.match(/(?:জন্ম\s*তারিখ|date[_\s-]*of[_\s-]*birth|birth[_\s-]*date|field_dob|date_of_birth|birth_date|dob)[\"'\s:=,\-]+(?:[^\"'}]{0,80}?[\"']?[:=]?[\"']?\s*)?(\d{4}-\d{2}-\d{2}|\d{2}[\/-]\d{2}[\/-]\d{4})/i);
+        return cleanDate(m?.[1] || '');
+      })();
+
+      const dynamicName = findValue(['নাম (বাংলা)','নাম (ইংরেজি)','আবেদনকারীর নাম','কাস্টমারের নাম','সম্পূর্ণ নাম'], ['nid_name_bn','nid_name_en']);
+      const dynamicMobile = findValue(['মোবাইল নং','মোবাইল নম্বর','মোবাইল','ফোন'], ['nid_mobile','field_mobile']);
+      const dynamicDob = detailDob || findValue(['জন্ম তারিখ','date of birth','birth date','dob'], ['nid_dob','field_dob']);
+      const dynamicNid = findValue([
+        'জন্ম সনদ নং','জন্ম নিবন্ধন নং','জন্ম নিবন্ধন নম্বর','nid / জন্ম সনদ নম্বর',
+        'nid / ফরম / ভোটার নম্বর','nid নম্বর','nid number'
+      ], ['nid_birth_cert_no','field_birth_reg_no','field_nid']);
+
+      const applicantName = String(order.name || dynamicName || '-').trim() || '-';
+      const nid = String(order.nid || order.nid_no || dynamicNid || '-').trim() || '-';
+      const mobile = String(order.phone || order.mobile || dynamicMobile || '-').trim() || '-';
+      const dob = String(order.date_of_birth || order.dob || order.birth_date || order.birthDate || order.dateOfBirth || dynamicDob || '-').trim() || '-';
+
+      const items = [
+        ['অর্ডার ID', order.order_id || order.id],
+        ['সেবার নাম', order.service || order.service_title || '-'],
+        ['আবেদনকারীর নাম', applicantName],
+        ['ইউজার ইমেইল', order.user_email || '-'],
+        ['মোবাইল নম্বর', mobile],
+        ['NID / জন্ম সনদ নম্বর', nid],
+        ['জন্ম তারিখ', dob],
+        ['মূল্য', '৳ ' + Number(order.amount || 0).toFixed(2)],
+        ['অর্ডারের সময়', order.created_at ? new Date(order.created_at).toLocaleString('bn-BD') : '-'],
+        ['বর্তমান স্ট্যাটাস', normalizeOrderStatus(order.status)]
+      ];
+
+      const rows = [];
+      const pushRow = (label, value, extra = {}) => {
+        if (value === '' || value === null || value === undefined) return;
+        rows.push({ label, value, ...extra });
+      };
+      items.forEach(([label,value]) => pushRow(label,value));
+
+      const isNewNid = norm(order.service || order.service_title).includes(norm('নতুন আইডি কার্ড আবেদন'));
+      if (isNewNid) {
+        const groups = [
+          {title:'🪪 ১. আবেদনকারীর ব্যক্তিগত তথ্য', ids:['nid_name_bn','nid_name_en','nid_birth_cert_no','nid_dob','nid_mobile','nid_blood_group']},
+          {title:'👨‍👧 ২. পিতার তথ্য', ids:['nid_father_bn','nid_father_en','nid_father_id','nid_father_dob','nid_father_id_file']},
+          {title:'👩‍👧 ৩. মাতার তথ্য', ids:['nid_mother_bn','nid_mother_en','nid_mother_id','nid_mother_dob','nid_mother_id_file']},
+          {title:'🏡 ৪. বর্তমান ঠিকানা', ids:['nid_curr_division','nid_curr_district','nid_curr_thana','nid_curr_union','nid_curr_ward','nid_curr_village','nid_curr_post']},
+          {title:'🏠 ৫. স্থায়ী ঠিকানা', ids:['nid_perm_division','nid_perm_district','nid_perm_thana','nid_perm_union','nid_perm_ward','nid_perm_village','nid_perm_post']}
+        ];
+        const byId = new Map(dynamicFields.map(f => [norm(f.fieldId), f]));
+        const used = new Set();
+        for (const group of groups) {
+          const groupRows = [];
+          for (const id of group.ids) {
+            const f = byId.get(norm(id));
+            if (!f || (!f.value && !f.file_url)) continue;
+            used.add(norm(id));
+            let label = f.label.replace(/\s*\*\s*$/,'').trim();
+            if (id === 'nid_father_id_file') label = 'পিতার আইডি/NID আপলোড';
+            if (id === 'nid_mother_id_file') label = 'মাতার আইডি/NID আপলোড';
+            if (id === 'nid_same_address') continue;
+            groupRows.push({label, value:f.value, attachment:!!f.file_url, field:f});
+          }
+          if (groupRows.length) rows.push({section:group.title, children:groupRows});
+        }
+
+        const sameAddress = byId.get('nid_same_address');
+        if (sameAddress?.value) rows.push({section:'ℹ️ ঠিকানা সংক্রান্ত তথ্য', children:[{label:'বর্তমান ঠিকানা এবং স্থায়ী ঠিকানা একই',value:'হ্যাঁ'}]});
+
+        // Any future/extra fields are still shown after the structured sections.
+        const extras = dynamicFields.filter(f => !used.has(norm(f.fieldId)) && norm(f.fieldId) !== 'nid_same_address');
+        if (extras.length) {
+          rows.push({section:'📋 অন্যান্য তথ্য', children:extras.map(f => ({label:f.label.replace(/\s*\*\s*$/,'').trim(),value:f.value,attachment:!!f.file_url,field:f}))});
+        }
       } else {
-        toast('নতুন সার্ভিস যুক্ত হয়েছে!');
-        nameInput.value = '';
-        priceInput.value = '';
-        loadServicePrices();
-        loadServiceStatus();
+        const standardPatterns = ['নাম','মোবাইল','ফোন','nid','জন্ম তারিখ','date of birth','birth date','dob'];
+        for (const f of dynamicFields) {
+          const label = f.label.replace(/\s*\*\s*$/,'').trim();
+          const value = String(f.value || '').trim();
+          if (!value && !f.file_url) continue;
+          const l = norm(label);
+          const standard = standardPatterns.some(p => l.includes(norm(p)));
+          const duplicate = rows.some(r => !r.section && norm(r.label) === l && norm(r.value) === norm(value));
+          if (!standard && !duplicate) rows.push({label,value,attachment:!!f.file_url,field:f});
+        }
+      }
+
+      const deliveryPath = order.file_url || order.delivery_link || order.link || '';
+      if (deliveryPath) {
+        try {
+          const deliveryUrl = await resolveAdminDeliveryUrl(deliveryPath);
+          if (deliveryUrl) pushRow('ডেলিভারি ফাইল / লিংক', `<a href="${escapeHtml(deliveryUrl)}" target="_blank" rel="noopener noreferrer" class="admin-inline-link">📥 ফাইল / ডাউনলোড খুলুন</a>`, {html:true});
+        } catch (e) {
+          pushRow('ডেলিভারি ফাইল / লিংক', '⚠️ নিরাপদ ফাইল লিংক তৈরি করা যায়নি — Storage Policy/RLS পরীক্ষা করুন।');
+        }
+      }
+
+      body.innerHTML = rows.map(row => {
+        if (row.section) {
+          return `<div class="order-info-section-title">${escapeHtml(row.section)}</div>` + row.children.map(child => {
+            const content = child.attachment ? renderAdminAttachment(child.field) : escapeHtml(child.value);
+            return `<div class="order-info-item ${child.attachment ? 'full' : String(child.value).length > 80 ? 'full' : ''}"><span class="order-info-label">${escapeHtml(child.label)}</span><div class="order-info-value">${content}</div></div>`;
+          }).join('');
+        }
+        return `<div class="order-info-item ${row.html || String(row.value).length > 80 ? 'full' : ''}"><span class="order-info-label">${escapeHtml(row.label)}</span><div class="order-info-value">${row.html ? row.value : escapeHtml(row.value)}</div></div>`;
+      }).join('');
+
+      openModal('adminOrderInfoModal');
+    };
+
+
+    // Open the order-update modal for the selected order.
+    // The previous v5 file referenced openCompleteOrder() from the button
+    // but did not define the function, so the button could not open the modal.
+    window.openCompleteOrder = (orderId) => {
+      const order = allOrders.find(x => String(x.id) === String(orderId));
+      if (!order) return notify('অর্ডারের তথ্য মেলেনি');
+
+      const idEl = document.getElementById('completeOrderId');
+      const statusEl = document.getElementById('orderStatusSelect');
+      const urlEl = document.getElementById('completeFileUrl');
+      const fileEl = document.getElementById('completeFileInput');
+
+      if (idEl) idEl.value = order.id;
+      if (statusEl) {
+        const current = normalizeOrderStatus(order.status);
+        statusEl.value = [...statusEl.options].some(o => o.value === current)
+          ? current
+          : 'নতুন';
+      }
+      if (urlEl) urlEl.value = String(order.file_url || order.delivery_link || order.link || '');
+      if (fileEl) fileEl.value = '';
+
+      openModal('completeOrderModal');
+    };
+
+    async function uploadAdminOrderFile(orderId, file) {
+      if (!file) return '';
+      const safeName = String(file.name || 'delivery-file').replace(/[^a-zA-Z0-9._-]+/g, '_');
+      const path = `orders/${String(orderId)}/${Date.now()}_${safeName}`;
+      const { error: uploadError } = await supabase.storage
+        .from('private-order-files')
+        .upload(path, file, {
+          upsert: false,
+          contentType: file.type || 'application/octet-stream',
+          cacheControl: '3600'
+        });
+      if (uploadError) throw uploadError;
+      return path;
+    }
+
+    document.getElementById('saveCompleteOrderBtn').addEventListener('click', async () => {
+      const orderId = document.getElementById('completeOrderId').value;
+      const status = normalizeOrderStatus(document.getElementById('orderStatusSelect').value);
+      const fileUrlInput = document.getElementById('completeFileUrl').value.trim();
+      const fileInput = document.getElementById('completeFileInput');
+
+      // নিরাপত্তা: Admin-এর PC-এর local file path কখনো database-এ delivery link হিসেবে
+      // সংরক্ষণ করা যাবে না। File input থাকলে সেটিই Storage-এ upload হবে।
+      const isLocalFilePath = /^(file:\/\/|[A-Za-z]:[\\/]|\\\\)/i.test(fileUrlInput);
+      if (isLocalFilePath && !(fileInput?.files?.length)) {
+        notify('⚠️ এটি আপনার PC-এর লোকাল ফাইল path। নিচের File Upload দিয়ে ফাইলটি আবার নির্বাচন করুন।');
+        return;
+      }
+      const order = allOrders.find(x => String(x.id) === String(orderId));
+      if (!order) return notify('অর্ডারের তথ্য মেলেনি');
+
+      const isRefundStatus = ['বাতিল','তথ্য খুঁজে পাওয়া যায়নি'].includes(status);
+      const amount = Number(order.amount || 0);
+      const email = String(order.user_email || '').trim();
+      const btn = document.getElementById('saveCompleteOrderBtn');
+      if (btn) { btn.disabled = true; btn.textContent = 'আপডেট হচ্ছে...'; }
+
+      try {
+        let uploadedUrl = '';
+        if (fileInput?.files?.length) {
+          notify('ফাইল আপলোড হচ্ছে...');
+          uploadedUrl = await uploadAdminOrderFile(orderId, fileInput.files[0]);
+        }
+        const deliveryUrl = uploadedUrl || (isLocalFilePath ? (order.file_url || order.delivery_link || order.link || '') : fileUrlInput) || order.file_url || order.delivery_link || order.link || '';
+
+        // বাতিল/তথ্য খুঁজে পাওয়া যায়নি হলে আগে একবারের নিরাপদ refund RPC চালানো হবে।
+        // RPC ব্যর্থ হলে status পরিবর্তন করা হবে না এবং কোনো manual balance update করা হবে না।
+        if (isRefundStatus) {
+          if (!amount || !email) throw new Error('রিফান্ডের জন্য অর্ডারের মূল্য বা ইউজার ইমেইল পাওয়া যায়নি।');
+          const { error: refundError } = await supabase.rpc('cancel_order_and_refund_balance', {
+            p_order_id: orderId,
+            p_user_email: email,
+            p_amount: amount
+          });
+          if (refundError) throw new Error('রিফান্ড ব্যর্থ: ' + refundError.message);
+        }
+
+        const updateData = { status, updated_at: new Date().toISOString() };
+        if (deliveryUrl) {
+          updateData.file_url = deliveryUrl;
+          if ('delivery_link' in order) updateData.delivery_link = deliveryUrl;
+        }
+
+        const { error } = await supabase.from('orders').update(updateData).eq('id', orderId);
+        if (error) throw error;
+        await sendUserStatusNotification(order, status);
+
+        notify(isRefundStatus
+          ? `অর্ডারটি "${status}" হয়েছে এবং ৳ ${amount.toFixed(2)} রিফান্ড দেওয়া হয়েছে।`
+          : `অর্ডারের অবস্থা "${status}" করা হয়েছে${deliveryUrl ? ' এবং ফাইল যুক্ত হয়েছে।' : ''}`);
+        closeModal('completeOrderModal');
+        await fetchOrders();
+        await fetchUsers();
+        updateKpis();
+      } catch (e) {
+        const msg = String(e?.message || e || 'অর্ডার আপডেট ব্যর্থ হয়েছে');
+        if (/row-level security|RLS|violates row-level security/i.test(msg)) {
+          notify('⚠️ Storage RLS Policy-এর কারণে ফাইল আপলোড হয়নি। Supabase SQL Policy চালান।');
+        } else {
+          notify(msg);
+        }
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = '💾 আপডেট করুন'; }
       }
     });
 
-    window.handleDeleteService = async (serviceName) => {
-      const isConfirmed = window.confirm(`আপনি কি সত্যি "${serviceName}" সার্ভিসটি মুছে ফেলতে চান?`);
-      if (!isConfirmed) return;
+    window.cancelOrderWithRefund = async (orderId, email, amount) => {
+      if (!confirm(`আপনি কি নিশ্চিত এই অর্ডারটি বাতিল করে ইউজারের একাউন্টে ৳ ${Number(amount || 0).toFixed(2)} রিফান্ড করতে চান?`)) return;
+      const order = allOrders.find(x => String(x.id) === String(orderId));
+      if (!order) return notify('অর্ডারের তথ্য মেলেনি');
+      try {
+        const { error } = await supabase.rpc('cancel_order_and_refund_balance', {
+          p_order_id: orderId,
+          p_user_email: email || order.user_email || '',
+          p_amount: Number(amount || order.amount || 0)
+        });
+        if (error) return notify('রিফান্ড ব্যর্থ: ' + error.message);
+        await supabase.from('orders').update({ status:'বাতিল', updated_at:new Date().toISOString() }).eq('id', orderId);
+        await sendUserStatusNotification(order, 'বাতিল');
+        notify('অর্ডার বাতিল ও রিফান্ড সফল হয়েছে');
+        await fetchOrders();
+        await fetchUsers();
+        updateKpis();
+      } catch (e) { notify('সমস্যা হয়েছে: ' + e.message); }
+    };
 
-      const { error } = await supabase
-        .from('service_prices')
-        .delete()
-        .eq('service_name', serviceName);
+    // 4. RECHARGES
+    async function fetchRecharges() {
+      const { data, error } = await supabase.from('recharges').select('*').order('created_at', { ascending: false });
+      if (error) { console.error('Recharges error:', error); return; }
+      allRecharges = data || [];
+      renderRecharges(allRecharges);
+    }
 
-      if (error) {
-        toast('ডিলিট করতে সমস্যা হয়েছে: ' + error.message);
-      } else {
-        toast('সার্ভিসটি সফলভাবে মুছে ফেলা হয়েছে!');
-        loadServicePrices();
-        loadServiceStatus();
+    function rechargeStatus(value) {
+      const s = String(value || 'pending').trim().toLowerCase();
+      if (['approved','অনুমোদিত','success','successful','completed','complete','সম্পন্ন'].includes(s)) return 'approved';
+      if (['rejected','বাতিল','cancelled','canceled'].includes(s)) return 'rejected';
+      return 'pending';
+    }
+
+    async function verifyRechargeTrx(requestId, trxId) {
+      const trx = String(trxId || '').trim();
+      if (!trx) return notify('TrxID পাওয়া যায়নি');
+
+      const { data, error } = await supabase
+        .from('recharges')
+        .select('id,user_email,amount,status,trx_id')
+        .eq('trx_id', trx);
+
+      if (error) return notify('TrxID যাচাই ব্যর্থ: ' + error.message);
+
+      const others = (data || []).filter(x => String(x.id) !== String(requestId));
+      if (others.length) {
+        return notify('⚠️ এই TrxID আগে থেকেই অন্য একটি রিচার্জ রিকোয়েস্টে ব্যবহার হয়েছে।');
+      }
+
+      notify('✅ TrxID ইউনিক — একই TrxID আগে ব্যবহার হয়নি।');
+      return true;
+    }
+
+    window.verifyRecharge = async (requestId, trxId, buttonElement) => {
+      if (buttonElement) buttonElement.disabled = true;
+      try {
+        await verifyRechargeTrx(requestId, trxId);
+      } finally {
+        if (buttonElement) buttonElement.disabled = false;
       }
     };
 
-    document.getElementById('serviceSearchInput')?.addEventListener('input', renderFilteredPrices);
-    document.getElementById('refreshPricesBtn')?.addEventListener('click', () => { loadServicePrices(); toast('সেবার মূল্য রিফ্রেশ করা হয়েছে'); });
-
-    // 💳 রিচার্জ তালিকা লোড করার স্মার্ট ফাংশন (User ID, Email, Name সঠিকভাবে দেখানো এবং Last 4 Digits)
-    async function loadRecharges() {
-      const tbody = document.getElementById('adminRechargesTableBody');
-      if (!tbody) return;
-
-      const { data: recharges, error } = await supabase
-        .from('recharges')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: #ef4444;">রিচার্জ ডেটা লোড করতে সমস্যা হয়েছে: ${error.message}</td></tr>`;
+    function renderRecharges(list) {
+      const tbody = document.getElementById('rechargesTableBody');
+      if (!list.length) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-muted);">কোনো রিচার্জ রিকোয়েস্ট নেই।</td></tr>';
         return;
       }
 
-      if (!recharges || recharges.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--text-muted);">কোনো রিচার্জ রিকোয়েস্ট নেই।</td></tr>`;
-        return;
-      }
-
-      let profileMap = new Map();
-      try {
-        const profiles = await fetchAllProfiles();
-        if (profiles && profiles.length > 0) {
-          profiles.forEach(p => {
-            const uId = String(p.user_id || p.id || '').trim();
-            const emailKey = String(p.email || '').trim().toLowerCase();
-            if (uId) profileMap.set(uId, p);
-            if (emailKey) profileMap.set(emailKey, p);
-          });
-        }
-      } catch (e) {
-        console.log("Profiles fetching error:", e);
-      }
-
-      const trxCountMap = {};
-      recharges.forEach(r => {
-        const trx = String(r.trx_id || r.recharge_id || '').trim();
-        if (trx) {
-          trxCountMap[trx] = (trxCountMap[trx] || 0) + 1;
-        }
-      });
-
-      tbody.innerHTML = recharges.map(r => {
-        const rawUserId = String(r.user_id || '').trim();
-        const rawEmail = String(r.user_email || r.email || '').trim().toLowerCase();
-        
-        // প্রোফাইল থেকে তথ্যের মেলবন্ধন ঘটানো
-        const profile = profileMap.get(rawUserId) || profileMap.get(rawEmail) || {};
-        
-        const fetchedName = profile.name || profile.full_name || profile.username;
-        const userName = r.user_name || fetchedName || 'ইউজার';
-        const userEmail = r.user_email || r.email || profile.email || profile.mobile || (rawUserId ? `ID: ${rawUserId.substring(0,8)}...` : 'ইউজার ইমেইল পাওয়া যায়নি');
-
-        // ক্যাশ আউট নম্বর / Last 4 Digits এক্সট্র্যাক্ট করা
-        const last4Digits = r.sender_number || r.last_4_digits || r.cashout_number || r.phone || '-';
-
-        const trx = String(r.trx_id || r.recharge_id || '').trim();
-        const isValidTrx = trx.length === 10;
-        const isDuplicate = trxCountMap[trx] > 1;
-        const isVerified = Boolean(getActionTime(r.id, 'verified', null));
+      tbody.innerHTML = list.map(r => {
+        const st = rechargeStatus(r.status);
+        const isDone = st !== 'pending';
+        const cls = st === 'approved' ? 'status-completed' : (st === 'rejected' ? 'status-cancelled' : 'status-pending');
+        const statusText = st === 'approved' ? 'অনুমোদিত' : (st === 'rejected' ? 'বাতিল' : 'পেন্ডিং');
+        const last4 = String(r.last4 || r.phone_last4 || '-').slice(-4);
+        const safeId = escapeHtml(r.id);
+        const safeEmail = escapeHtml(r.user_email || '');
+        const trx = escapeHtml(r.trx_id || '-');
 
         return `
-        <tr style="${isDuplicate ? 'background: rgba(239, 68, 68, 0.1);' : ''}">
-          <td>
-            <b>${userName}</b><br>
-            <small style="color:var(--text-muted); font-size: 11px;">✉️ ${userEmail}</small>
-            ${rawUserId ? `<br><small style="color:var(--text-muted); font-size: 10px;">🆔 ${rawUserId}</small>` : ''}
-          </td>
-          <td style="font-weight:700; color:var(--gold-color);">৳ ${Number(r.amount || 0).toFixed(2)}</td>
-          <td>
-            <code>${trx || '-'}</code>
-            ${!isValidTrx ? '<br><small style="color:#ef4444;">(১০ ডিজিট হতে হবে)</small>' : ''}
-            ${isDuplicate ? '<br><b style="color:#ef4444; font-size:11px;">⚠️ ডুপ্লিকেট TrxID (ফলস)</b>' : ''}
-          </td>
-          <td>
-            <span style="font-weight:700; color:var(--accent-color);">📱 ${last4Digits}</span>
-          </td>
-          <td class="time-text">
-            রিকোয়েস্ট: ${formatDateTime(r.created_at)}
-            ${getActionTime(r.id,'verified',null) ? '<br>যাচাই: '+formatDateTime(getActionTime(r.id,'verified',null)) : ''}
-            ${getActionTime(r.id,'approved',r.approved_at || null) ? '<br>অনুমোদন: '+formatDateTime(getActionTime(r.id,'approved',r.approved_at || null)) : ''}
-            ${getActionTime(r.id,'cancelled',r.cancelled_at || null) ? '<br>বাতিল: '+formatDateTime(getActionTime(r.id,'cancelled',r.cancelled_at || null)) : ''}
-          </td>
-          <td>
-            <span class="status-badge ${r.status === 'approved' || r.status === 'Approved' || r.status === 'সম্পন্ন' ? 'status-completed' : 'status-pending'}">
-              ${r.status === 'approved' || r.status === 'Approved' ? 'অনুমোদিত' : r.status}
-            </span>
-          </td>
-          <td id="verify_${r.id}">
-            ${isDuplicate 
-              ? '<span style="font-size:12px;color:#ef4444;font-weight:700;">❌ ফলস (ডুপ্লিকেট TrxID)</span>'
-              : (!isValidTrx 
-                  ? '<span style="font-size:12px;color:#ef4444;font-weight:700;">❌ ট্রানজেকশন আইডি অবৈধ</span>'
-                  : (isVerified 
-                      ? '<span style="font-size:12px;color:#10b981;font-weight:700;">✓ যাচাই করা হয়েছে</span>' 
-                      : '<span style="font-size:12px;color:#f59e0b;">⚠️ যাচাই হয়নি</span>'))
-            }
-          </td>
-          <td>
-            ${r.status === 'approved' || r.status === 'Approved' || r.status === 'সম্পন্ন' || r.status === 'cancelled'
-              ? '<span style="font-size:12px;color:var(--text-muted);">কাজ সম্পন্ন</span>'
-              : `<div class="action-stack">
-                  ${(!isVerified && !isDuplicate) ? `<button class="btn-sm" style="background:#2563eb;" onclick="window.verifyRecharge('${r.id}')">🔍 যাচাই</button>` : ''}
-                  
-                  <button class="btn-sm" 
-                    style="background:${(isVerified && isValidTrx && !isDuplicate) ? '#10b981' : '#64748b'}; cursor:${(isVerified && isValidTrx && !isDuplicate) ? 'pointer' : 'not-allowed'};" 
-                    ${(isVerified && isValidTrx && !isDuplicate) ? '' : 'disabled title="ডুপ্লিকেট বা অযাচাইকৃত রিকোয়েস্ট অনুমোদন করা সম্ভব নয়"'} 
-                    onclick="window.approveRecharge('${r.id}')">
-                    ✓ অনুমোদন
-                  </button>
-                  
-                  <button class="btn-sm" style="background:#ef4444;" onclick="window.cancelRecharge('${r.id}')">✖ বাতিল</button>
-                </div>`}
-          </td>
-        </tr>
-      `}).join('');
-      
-      if (typeof updateKpis === 'function') updateKpis();
+          <tr>
+            <td><small>${r.created_at ? new Date(r.created_at).toLocaleString('bn-BD') : '-'}</small></td>
+            <td><b>${escapeHtml(r.user_email || 'ইউজার')}</b></td>
+            <td><b style="color:var(--gold-color);">৳ ${Number(r.amount || 0).toFixed(2)}</b></td>
+            <td>
+              <span style="font-family:monospace;font-size:14px;color:var(--accent-color);">${trx}</span>
+              ${!isDone && r.trx_id ? `<br><button type="button" class="btn-action btn-view" onclick="verifyRecharge('${safeId}', '${trx}', this)">🔎 TrxID যাচাই</button>` : ''}
+            </td>
+            <td><b style="color:#f43f5e;letter-spacing:2px;">${escapeHtml(last4)}</b></td>
+            <td><span class="status-badge ${cls}">${statusText}</span></td>
+            <td>
+              ${!isDone ? `
+                <button type="button" class="btn-action btn-complete" onclick="approveRecharge('${safeId}', '${escapeHtml(r.user_id || '')}', ${Number(r.amount || 0)}, '${safeEmail}', this)">অনুমোদন</button>
+                <button type="button" class="btn-action btn-reject" onclick="rejectRecharge('${safeId}', this)">বাতিল</button>
+              ` : '<small style="color:var(--text-muted);font-weight:700;">নিষ্পন্ন</small>'}
+            </td>
+          </tr>
+        `;
+      }).join('');
     }
 
-    window.updateOrderWithFile = async (id, existingFileUrl) => {
-      const fileInput = document.getElementById(`fileInput_${id}`);
-      const status = document.getElementById(`status_${id}`).value;
-      let fileUrl = existingFileUrl;
+    window.approveRecharge = async (rId, uId, amount, email, buttonElement) => {
+      if (buttonElement) buttonElement.disabled = true;
 
-      toast('প্রক্রিয়াধীন রয়েছে...');
-
-      if (fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        const fileName = `${Date.now()}_${file.name}`;
-        
-        const { data: uploadData, error: uploadError } = await supabase.storage
-          .from('admin-files')
-          .upload(fileName, file);
-
-        if (uploadError) {
-          toast('ফাইল আপলোড ব্যর্থ: ' + uploadError.message);
-          return;
-        }
-
-        const { data: publicURLData } = supabase.storage
-          .from('admin-files')
-          .getPublicUrl(fileName);
-
-        fileUrl = publicURLData.publicUrl;
-      }
-
-      const updatePayload = { status: status, file_url: fileUrl };
-      if (status === 'সম্পন্ন') {
-        updatePayload.completed_at = new Date().toISOString();
-      }
-      let { error } = await supabase
-        .from('orders')
-        .update(updatePayload)
-        .eq('id', id);
-
-      if (error && status === 'সম্পন্ন' && /completed_at|column/i.test(error.message || '')) {
-        delete updatePayload.completed_at;
-        const retry = await supabase.from('orders').update(updatePayload).eq('id', id);
-        error = retry.error;
-        if (!error) {
-          actionTimes[String(id)] = { ...(actionTimes[String(id)] || {}), completed: new Date().toISOString() };
-          saveActionTimes();
-        }
-      }
-
-      if (error) {
-        toast('ডাটাবেজ আপডেট ব্যর্থ: ' + error.message);
-      } else {
-        toast('সফলভাবে আপডেট ও ফাইল যুক্ত করা হয়েছে!');
-        loadOrders();
-      }
-    };
-
-    window.verifyRecharge = async (rechargeId) => {
-      const { data: r, error } = await supabase.from('recharges').select('*').eq('id', rechargeId).single();
-      if (error || !r) return toast('রিচার্জ তথ্য পাওয়া যায়নি।');
-      const trx = String(r.trx_id || r.recharge_id || '').trim();
-      
-      if (trx.length !== 10) {
-        toast('TrxID ঠিক ১০ অক্ষরের হতে হবে! ১০ অক্ষরের কম বা বেশি গ্রহণযোগ্য নয়।');
-        const el = document.getElementById('verify_' + rechargeId);
-        if (el) el.innerHTML = '<span style="color:#ef4444;font-weight:700">❌ invalid TrxID (Must be 10 chars)</span>';
-        return;
-      }
-
-      const { data: dup, error: dupErr } = await supabase.from('recharges').select('id,status,amount,user_email').eq('trx_id', trx);
-      if (dupErr) return toast('TrxID যাচাই করা যায়নি: ' + dupErr.message);
-      const others = (dup || []).filter(x => String(x.id) !== String(rechargeId));
-      const el = document.getElementById('verify_' + rechargeId);
-      if (others.length) {
-        if (el) el.innerHTML = '<span style="color:#ef4444;font-weight:700">❌ Duplicate TrxID</span>';
-        return toast('এই TrxID অন্য রিচার্জে ব্যবহৃত হয়েছে। Approve করবেন না।');
-      }
-
-      actionTimes[String(rechargeId)] = { ...(actionTimes[String(rechargeId)] || {}), verified: new Date().toISOString() };
-      saveActionTimes();
-      if (el) el.innerHTML = '<span style="color:#10b981;font-weight:700">✓ যাচাই করা হয়েছে</span>';
-      toast('TrxID সফলভাবে যাচাই করা হয়েছে!');
-      await loadRecharges();
-    };
-
-    window.cancelRecharge = async (rechargeId) => {
-      if (!confirm('এই রিচার্জটি বাতিল করতে চান?')) return;
-      const cancelTime = new Date().toISOString();
-      let { data, error } = await supabase.from('recharges').update({ status: 'cancelled', balance_credited: false }).eq('id', rechargeId).in('status', ['pending','Pending']).select();
-      if (error) return toast('বাতিল ব্যর্থ: ' + error.message);
-      actionTimes[String(rechargeId)] = { ...(actionTimes[String(rechargeId)] || {}), cancelled: cancelTime };
-      saveActionTimes();
-      toast('রিচার্জ বাতিল করা হয়েছে।');
-      await loadRecharges();
-    };
-
-    window.approveRecharge = async (rechargeId) => {
       try {
-        const { data: r, error: loadErr } = await supabase.from('recharges').select('*').eq('id', rechargeId).single();
-        if (loadErr || !r) return toast('রিচার্জ তথ্য পাওয়া যায়নি।');
-        const trx = String(r.trx_id || r.recharge_id || '').trim();
-        
-        if (trx.length !== 10) {
-          return toast('TrxID ঠিক ১০ অক্ষরের না হওয়ায় অনুমোদন সম্ভব নয়!');
+        const row = allRecharges.find(x => String(x.id) === String(rId));
+        if (!row) return notify('রিচার্জ রিকোয়েস্ট পাওয়া যায়নি');
+
+        if (rechargeStatus(row.status) !== 'pending') {
+          return notify('এই রিচার্জ ইতোমধ্যে নিষ্পন্ন হয়েছে');
         }
 
-        if (!getActionTime(rechargeId, 'verified', null)) {
-          return toast('অনুমোদন করার আগে অবশ্যই "যাচাই" করে নিন!');
+        // Prevent duplicate transaction IDs before approval.
+        if (!(await verifyRechargeTrx(rId, row.trx_id))) return;
+
+        if (!confirm(`৳ ${amount} রিচার্জ অনুমোদন করতে চান?`)) return;
+
+        // IMPORTANT: use the single server-side approval RPC only.
+        // Do NOT update profiles.balance here; doing both would credit the same
+        // recharge twice (e.g. ৳500 -> ৳1000).
+        // রিচার্জ অনুমোদনের জন্য শুধু recharges.status আপডেট করা হবে।
+        // আপনার বর্তমান সিস্টেমে status=approved হলে DB trigger একবার balance যোগ করে।
+        // আলাদা RPC + balance update করলে একই টাকা দুইবার যোগ হওয়ার ঝুঁকি থাকে।
+        const { error } = await supabase
+          .from('recharges')
+          .update({ status: 'approved' })
+          .eq('id', rId)
+          .eq('status', 'pending');
+
+        if (error) return notify('অনুমোদন ব্যর্থ: ' + error.message);
+
+        // নিশ্চিত করুন যে রেকর্ডটি সত্যিই approved হয়েছে।
+        const { data: checkRow, error: checkError } = await supabase
+          .from('recharges')
+          .select('id,status')
+          .eq('id', rId)
+          .maybeSingle();
+
+        if (checkError) return notify('অনুমোদন যাচাই ব্যর্থ: ' + checkError.message);
+        if (rechargeStatus(checkRow?.status) !== 'approved') {
+          return notify('অনুমোদন সম্পন্ন হয়েছে কিনা যাচাই করা যায়নি।');
         }
 
-        const amount = Number(r.amount);
-        if (!confirm(`TrxID: ${trx}\nদাবিকৃত রিচার্জ: ৳${amount.toFixed(2)}\nঅনুমোদন নিশ্চিত করতে OK চাপুন।`)) return;
-
-        toast('রিচার্জ অনুমোদন হচ্ছে...');
-
-        const { data, error } = await supabase.rpc('approve_recharge_v2', {
-          p_recharge_id: String(rechargeId)
-        });
-
-        if (error) {
-          toast('রিচার্জ অনুমোদন ব্যর্থ: ' + error.message);
-          return;
-        }
-
-        actionTimes[String(rechargeId)] = { ...(actionTimes[String(rechargeId)] || {}), approved: new Date().toISOString() };
-        saveActionTimes();
-        toast('সফলভাবে অনুমোদন করা হয়েছে!');
-        await loadRecharges();
-      } catch (err) {
-        toast('অনুমোদনের সময় সমস্যা হয়েছে!');
+        try{const prof=await supabase.from('profiles').select('user_id').eq('email',row.user_email).maybeSingle(); await supabase.from('service_notifications').insert({title:'💳 রিচার্জ অনুমোদিত',message:`৳ ${Number(row.amount||0).toFixed(2)} রিচার্জ অনুমোদিত হয়েছে।`,service_name:'রিচার্জ',audience:prof.data?.user_id?'user':'all',user_id:prof.data?.user_id||null,created_by:currentAdminUser?.email||'admin'});}catch(e){console.warn(e);}
+        notify('রিচার্জ অনুমোদন হয়েছে — ব্যালেন্স একবারই যোগ হবে');
+        await fetchRecharges();
+        await fetchUsers();
+        updateKpis();
+      } catch (e) {
+        console.error(e);
+        notify('অনুমোদনে সমস্যা হয়েছে: ' + e.message);
+      } finally {
+        if (buttonElement) buttonElement.disabled = false;
       }
     };
 
-    document.getElementById('refreshOrdersBtn')?.addEventListener('click', () => { loadOrders(); toast('অর্ডার রিফ্রেশ করা হয়েছে'); });
-    document.getElementById('refreshRechargesBtn')?.addEventListener('click', () => { loadRecharges(); toast('রিচার্জ লিস্ট রিফ্রেশ করা হয়েছে'); });
+    window.rejectRecharge = async (rId, buttonElement) => {
+      if (buttonElement) buttonElement.disabled = true;
+      try {
+        const row = allRecharges.find(x => String(x.id) === String(rId));
+        if (!row) return notify('রিচার্জ রিকোয়েস্ট পাওয়া যায়নি');
 
-    document.getElementById('themeToggleBtn')?.addEventListener('click', () => {
-      const html = document.documentElement;
-      const current = html.getAttribute('data-theme');
-      html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
-      toast('থিম মোড পরিবর্তন করা হয়েছে');
-    });
+        if (rechargeStatus(row.status) !== 'pending') {
+          return notify('এই রিচার্জ ইতোমধ্যে নিষ্পন্ন হয়েছে');
+        }
 
-    window.updateKpis = function() {
-      const activeTab = document.querySelector('.tab-content-panel.active');
-      const visibleOptionsCount = activeTab ? activeTab.querySelectorAll('button, input, select, a').length : 0;
-      const sectionsCount = document.querySelectorAll('.sidebar-menu-btn').length;
+        if (!confirm('রিচার্জ রিকোয়েস্টটি বাতিল করতে চান?')) return;
 
-      const secEl = document.getElementById('kpiTotalSections');
-      const optEl = document.getElementById('kpiVisibleOptions');
-      if (secEl) secEl.textContent = sectionsCount;
-      if (optEl) optEl.textContent = visibleOptionsCount;
+        const { error } = await supabase
+          .from('recharges')
+          .update({ status: 'rejected' })
+          .eq('id', rId)
+          .eq('status', 'pending');
+
+        if (error) return notify('ত্রুটি: ' + error.message);
+
+        try{const prof=await supabase.from('profiles').select('user_id').eq('email',row.user_email).maybeSingle(); await supabase.from('service_notifications').insert({title:'💳 রিচার্জ বাতিল',message:`৳ ${Number(row.amount||0).toFixed(2)} রিচার্জ রিকোয়েস্ট বাতিল করা হয়েছে।`,service_name:'রিচার্জ',audience:prof.data?.user_id?'user':'all',user_id:prof.data?.user_id||null,created_by:currentAdminUser?.email||'admin'});}catch(e){console.warn(e);}
+        notify('রিচার্জ রিকোয়েস্ট বাতিল করা হয়েছে — এটি হিস্টোরিতে থাকবে এবং আর অ্যাকশন করা যাবে না');
+        await fetchRecharges();
+        updateKpis();
+      } finally {
+        if (buttonElement) buttonElement.disabled = false;
+      }
     };
 
-    checkAdminSession(false);
+    // Tab Switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+        btn.classList.add('active');
+        const target = document.getElementById(btn.dataset.target);
+        if (target) target.style.display = 'block';
+      });
+    });
+
+    // Search filters
+    document.getElementById('searchServicesInput').addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      const filtered = allServices.filter(s => s.service_name.toLowerCase().includes(q));
+      renderServices(filtered);
+    });
+
+    document.getElementById('searchOrdersInput').addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      const filtered = allOrders.filter(o =>
+        (o.service || '').toLowerCase().includes(q) ||
+        (o.name || '').toLowerCase().includes(q) ||
+        (o.phone || o.mobile || '').includes(q) ||
+        (o.nid_no || o.nid || '').toLowerCase().includes(q) ||
+        (o.status || '').toLowerCase().includes(q) ||
+        (o.order_id || o.id || '').toLowerCase().includes(q)
+      );
+      renderOrders(filtered);
+    });
+
+    document.getElementById('searchRechargesInput').addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      const filtered = allRecharges.filter(r =>
+        (r.trx_id || '').toLowerCase().includes(q) ||
+        (r.last4 || r.phone_last4 || '').includes(q) ||
+        (r.user_email || '').toLowerCase().includes(q)
+      );
+      renderRecharges(filtered);
+    });
+
+    document.getElementById('searchUsersInput').addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      const filtered = allUsers.filter(u =>
+        (u.name || '').toLowerCase().includes(q) ||
+        (u.email || '').toLowerCase().includes(q) ||
+        (u.mobile || '').includes(q)
+      );
+      renderUsers(filtered);
+    });
+
+    // Theme Toggle
+    document.getElementById('themeToggleBtn').addEventListener('click', () => {
+      const root = document.documentElement;
+      const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('adminTheme', next);
+    });
+    if (localStorage.getItem('adminTheme')) {
+      document.documentElement.setAttribute('data-theme', localStorage.getItem('adminTheme'));
+    }
+
+    // Language Toggle Engine (বাংলা ও English)
+    const adminTranslations = {
+      "এডমিন প্যানেল": "Admin Panel",
+      "ড্যাশবোর্ড (দৈনিক সারসংক্ষেপ)": "Dashboard (Daily Summary)",
+      "আজকের দিনে হওয়া নতুন ইউজার রেজিস্ট্রেশন এবং মোট রিচার্জের পরিমাণ মোট অডার নিচে দেখানো হলো:": "Today's new user registrations, total recharge amount, and total orders are shown below:",
+      "আজকের নতুন ইউজার": "Today's New Users",
+      "আজকে রেজিস্টার্ড একাউন্ট": "Registered Accounts Today",
+      "আজকের মোট রিচার্জ": "Today's Total Recharge",
+      "আজকের অনুমোদিত ফান্ড": "Approved Funds Today",
+      "আজকের মোট অর্ডার": "Today's Total Orders",
+      "আজকের জমাকৃত কাজ": "Submitted Works Today",
+      "সর্বমোট ইউজার": "Total Users",
+      "সেবার মূল্য ও কাজের অবস্থা": "Service Prices & Status",
+      "সেবার মূল্য নির্ধারণ ও 🟢🔴 প্রতিটি সেবার কাজের অবস্থা": "Set Service Prices & Work Status",
+      "অর্ডার ম্যানেজমেন্ট": "Order Management",
+      "রিচার্জ রিকোয়েস্ট": "Recharge Requests",
+      "ইউজার ম্যানেজমেন্ট": "User Management",
+      "মোট ইউজার সংখ্যা:": "Total User Count:",
+      "সেবার নাম": "Service Name",
+      "মূল্য": "Price",
+      "বর্তমান অবস্থা": "Current Status",
+      "অ্যাকশন": "Actions",
+      "🟢 কাজ চলমান": "🟢 Running",
+      "🔴 কাজ বন্ধ": "🔴 Closed",
+      "🔴 কাজ বন্ধ করুন": "🔴 Close Work",
+      "🟢 কাজ চালু করুন": "🟢 Start Work",
+      "💾 মূল্য সেভ": "💾 Save Price",
+      "🔄 রিফ্রেশ": "🔄 Refresh",
+      "অপেক্ষমান (Pending) অর্ডার": "Pending Orders",
+      "সম্পন্ন (Completed) অর্ডার": "Completed Orders",
+      "পেন্ডিং রিচার্জ রিকোয়েস্ট": "Pending Recharges",
+      "সর্বমোট অনুমোদিত ফান্ড": "Total Approved Fund",
+      "আবেদনকারীর নাম ও বিবরণ": "Applicant Name & Info",
+      "তারিখ ও সময়": "Date & Time",
+      "ইউজার ইমেইল": "User Email",
+      "টাকার পরিমাণ": "Amount",
+      "লাস্ট ৪ ডিজিট": "Last 4 Digits",
+      "অবস্থা": "Status",
+      "অনুমোদন": "Approve",
+      "বাতিল": "Reject",
+      "নতুন": "New",
+      "প্রক্রিয়াধীন": "Processing",
+      "তথ্য খুঁজে পাওয়া যায়নি": "Information Not Found",
+      "সম্পন্ন": "Completed",
+      "🔎 TrxID যাচাই": "🔎 Verify TrxID",
+      "✏️ আপডেট": "✏️ Update",
+      "📥 ফাইল / লিংক": "📥 File / Link",
+      "নাম / ইউজার": "Name / User",
+      "রেজিস্ট্রেশনের তারিখ": "Registration Date",
+      "বর্তমান ব্যালেন্স": "Current Balance",
+      "ব্যালেন্স অ্যাকশন": "Balance Action",
+      "✏️ ব্যালেন্স এড/চেঞ্জ": "✏️ Edit Balance",
+      "👤 প্রোফাইল": "👤 Profile",
+      "🚪 লগআউট": "🚪 Logout",
+      "🌙 মোড": "🌙 Mode"
+    };
+
+    const originalTextNodes = new WeakMap();
+    function applyAdminLanguage(lang) {
+      document.querySelectorAll('.language-option').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+      localStorage.setItem('adminSiteLanguage', lang);
+
+      const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+      let node;
+      while ((node = walker.nextNode())) {
+        if (!originalTextNodes.has(node)) {
+          originalTextNodes.set(node, node.nodeValue);
+        }
+        let txt = originalTextNodes.get(node);
+        if (lang === 'en') {
+          Object.keys(adminTranslations).forEach(k => {
+            txt = txt.split(k).join(adminTranslations[k]);
+          });
+        }
+        node.nodeValue = txt;
+      }
+    }
+
+    document.getElementById('adminLangBnBtn').addEventListener('click', () => applyAdminLanguage('bn'));
+    document.getElementById('adminLangEnBtn').addEventListener('click', () => applyAdminLanguage('en'));
+
+    if (localStorage.getItem('adminSiteLanguage') === 'en') {
+      applyAdminLanguage('en');
+    }
+
+    // Init App
+    checkAuth();
   </script>
-
-<script id="modern-upgrade-js">
-(()=>{
-  const d = document, body = d.body;
-  let toastTimer;
-  const toast = (m) => {
-    let x = d.querySelector('.ux-toast');
-    if(!x){ x = d.createElement('div'); x.className = 'ux-toast'; body.appendChild(x); }
-    x.textContent = m;
-    x.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => x.classList.remove('show'), 2200);
-  };
-
-  const bar = d.createElement('div');
-  bar.className = 'ux-progress';
-  body.appendChild(bar);
-  addEventListener('beforeunload', () => bar.style.width = '100%');
-
-  const top = d.createElement('button');
-  top.className = 'ux-top';
-  top.innerHTML = '↑';
-  top.title = 'উপরে যান';
-  body.appendChild(top);
-  addEventListener('scroll', () => top.style.display = scrollY > 450 ? 'grid' : 'none');
-  top.onclick = () => scrollTo({ top: 0, behavior: 'smooth' });
-
-  const command = d.createElement('div');
-  command.className = 'ux-command';
-  command.innerHTML = '<div class="ux-command-card"><input class="ux-command-input" placeholder="সার্ভিস/অ্যাকশন খুঁজুন… (Esc বন্ধ)" autofocus><div class="ux-cmd-list"></div></div>';
-  body.appendChild(command);
-
-  const ci = command.querySelector('input'), list = command.querySelector('.ux-cmd-list');
-  function actions() {
-    return [...d.querySelectorAll('button,[role="button"],a')].filter(x => x.offsetParent !== null && ((x.innerText||'').trim())).slice(0, 120);
-  }
-  function render(q='') {
-    list.innerHTML = '';
-    actions().filter(x => (x.innerText||'').toLowerCase().includes(q.toLowerCase())).slice(0, 18).forEach(x => {
-      let i = d.createElement('div');
-      i.className = 'ux-cmd-item';
-      i.textContent = (x.innerText||'').trim().replace(/\s+/g,' ').slice(0, 120);
-      i.onclick = () => {
-        command.style.display = 'none';
-        x.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        setTimeout(() => x.click(), 250);
-      };
-      list.appendChild(i);
-    });
-  }
-  function openCmd() { command.style.display = 'flex'; ci.value = ''; render(); setTimeout(() => ci.focus(), 30); }
-  ci.oninput = () => render(ci.value);
-  command.onclick = e => { if(e.target === command) command.style.display = 'none'; };
-  addEventListener('keydown', e => {
-    if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openCmd(); }
-    if(e.key === 'Escape') command.style.display = 'none';
-  });
-
-  const host = d.querySelector('.dashboard-container') || body;
-  const tb = d.createElement('div');
-  tb.className = 'ux-toolbar';
-  tb.innerHTML = '<input id="uxSearch" placeholder="🔎 সার্ভিস, অর্ডার বা অপশন খুঁজুন…"><button class="ux-toolbtn" id="uxCmd">⌘ কমান্ড</button><button class="ux-toolbtn" id="uxCompact">↕ কমপ্যাক্ট</button><button class="ux-toolbtn" id="uxFull">⛶ ফুলস্ক্রিন</button><button class="ux-toolbtn" id="uxFocus">◎ ফোকাস</button>';
-  
-  if(host !== body) { host.parentNode.insertBefore(tb, host); } else body.insertBefore(tb, body.firstChild);
-
-  const search = tb.querySelector('#uxSearch');
-  search.oninput = () => {
-    const q = search.value.toLowerCase().trim();
-    d.querySelectorAll('.dash-box, .order-table tbody tr').forEach(el => {
-      el.style.display = (!q || (el.innerText||'').toLowerCase().includes(q)) ? '' : 'none';
-    });
-  };
-  
-  tb.querySelector('#uxCmd').onclick = openCmd;
-  tb.querySelector('#uxCompact').onclick = () => { body.classList.toggle('ux-compact'); toast(body.classList.contains('ux-compact') ? 'কমপ্যাক্ট মোড চালু' : 'কমপ্যাক্ট মোড বন্ধ'); };
-  tb.querySelector('#uxFull').onclick = async () => {
-    try {
-      if(!document.fullscreenElement) await document.documentElement.requestFullscreen();
-      else await document.exitFullscreen();
-    } catch(e) { toast('ফুলস্ক্রিন ব্রাউজার সমর্থন করছে না'); }
-  };
-  tb.querySelector('#uxFocus').onclick = () => { body.classList.toggle('ux-focus'); toast('ফোকাস মোড পরিবর্তন হয়েছে'); };
-
-  const k = d.createElement('div');
-  k.className = 'ux-kpis';
-  k.innerHTML = `
-    <div class="ux-kpi"><small>📦 মোট সেকশন</small><b id="kpiTotalSections">6</b></div>
-    <div class="ux-kpi"><small>⚡ দৃশ্যমান অপশন</small><b id="kpiVisibleOptions">0</b></div>
-    <div class="ux-kpi"><small>🔔 নোটিফিকেশন</small><b id="kpiNotifCount">0</b></div>
-    <div class="ux-kpi"><small>🕒 স্ট্যাটাস</small><b id="kpiStatus" style="color:#10b981;">LIVE</b></div>
-  `;
-  tb.after(k);
-
-  setTimeout(() => { if(window.updateKpis) window.updateKpis(); }, 500);
-})();
-</script>
 </body>
-
 </html>
