@@ -1114,6 +1114,223 @@ body.ux-compact .dash-box{padding:13px}body.ux-compact .service-item-link{paddin
   .user-service-status-banner { position:relative; overflow:hidden; }
   .user-service-status-banner:after { content:""; position:absolute; width:180px; height:180px; right:-70px; top:-80px; border-radius:50%; background:rgba(56,189,248,.10); pointer-events:none; }
 </style>
+
+<style id="osbd-premium-multicolor-theme">
+/* =========================================================
+   OSBD Premium Multi-Color Mobile Theme
+   Visual-only overrides: existing HTML/JS/functions preserved.
+   ========================================================= */
+:root{
+  --osbd-blue:#2563eb;
+  --osbd-cyan:#06b6d4;
+  --osbd-green:#10b981;
+  --osbd-lime:#84cc16;
+  --osbd-orange:#f97316;
+  --osbd-amber:#f59e0b;
+  --osbd-red:#ef4444;
+  --osbd-pink:#ec4899;
+  --osbd-purple:#8b5cf6;
+  --osbd-indigo:#6366f1;
+  --osbd-bg:#061329;
+  --osbd-surface:rgba(10,27,54,.88);
+  --osbd-border:rgba(148,163,184,.20);
+  --osbd-glow:0 18px 55px rgba(2,8,23,.48);
+}
+
+html[data-theme="dark"] body{
+  background:
+    radial-gradient(650px 420px at -10% -10%,rgba(37,99,235,.26),transparent 60%),
+    radial-gradient(500px 360px at 110% 12%,rgba(139,92,246,.20),transparent 62%),
+    radial-gradient(520px 360px at 50% 105%,rgba(16,185,129,.13),transparent 62%),
+    linear-gradient(145deg,#020817 0%,#061329 48%,#081b38 100%) !important;
+}
+html[data-theme="light"] body{
+  background:
+    radial-gradient(600px 360px at 0% 0%,rgba(59,130,246,.16),transparent 60%),
+    radial-gradient(500px 340px at 100% 0%,rgba(236,72,153,.10),transparent 62%),
+    linear-gradient(145deg,#f8fbff,#eef5ff 55%,#f4f9f5) !important;
+}
+
+/* Header / brand */
+header{
+  background:linear-gradient(90deg,rgba(3,15,35,.96),rgba(13,35,73,.94),rgba(35,20,65,.92)) !important;
+  border-bottom:1px solid rgba(96,165,250,.28) !important;
+  box-shadow:0 8px 30px rgba(2,8,23,.32);
+}
+.logo{
+  background:linear-gradient(90deg,#fff,#93c5fd,#c4b5fd);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent !important;
+}
+.logo-mark{
+  filter:drop-shadow(0 5px 12px rgba(34,211,238,.25));
+}
+
+/* Main cards */
+.auth-card,.dash-box,.content-card,.service-form,.form-container,
+.dashboard-kpi,.ux-command-card,.order-info-card,.recharge-history-card,
+.modal-card{
+  border-color:rgba(96,165,250,.25) !important;
+  box-shadow:var(--osbd-glow),inset 0 1px 0 rgba(255,255,255,.045) !important;
+}
+.auth-card{
+  background:
+    linear-gradient(145deg,rgba(15,39,78,.96),rgba(18,24,55,.94) 52%,rgba(45,22,70,.92)) !important;
+  border-radius:24px !important;
+  position:relative;
+  overflow:hidden;
+}
+.auth-card:before{
+  content:"";
+  position:absolute;
+  width:180px;height:180px;right:-90px;top:-95px;border-radius:50%;
+  background:radial-gradient(circle,rgba(34,211,238,.24),transparent 68%);
+  pointer-events:none;
+}
+.auth-card h2{
+  background:linear-gradient(90deg,#38bdf8,#a78bfa,#34d399);
+  -webkit-background-clip:text;background-clip:text;color:transparent !important;
+}
+
+/* Inputs */
+.input-group input,.ux-toolbar input,.form-field input,.form-field select,
+.form-field textarea{
+  border-color:rgba(96,165,250,.24) !important;
+  background:linear-gradient(145deg,rgba(2,8,23,.52),rgba(15,23,42,.72)) !important;
+  transition:.2s ease !important;
+}
+.input-group input:focus,.form-field input:focus,.form-field select:focus,
+.form-field textarea:focus,.ux-toolbar input:focus{
+  border-color:#38bdf8 !important;
+  box-shadow:0 0 0 3px rgba(56,189,248,.12),0 8px 25px rgba(37,99,235,.14) !important;
+}
+
+/* Primary action buttons */
+.action-btn{
+  background:linear-gradient(110deg,#2563eb 0%,#06b6d4 48%,#10b981 100%) !important;
+  border:1px solid rgba(255,255,255,.13) !important;
+  box-shadow:0 10px 28px rgba(6,182,212,.20) !important;
+  border-radius:13px !important;
+}
+.action-btn:hover{
+  background:linear-gradient(110deg,#1d4ed8,#0891b2,#059669) !important;
+  transform:translateY(-2px);
+}
+
+/* Secondary buttons / tools */
+.ux-toolbtn{
+  background:linear-gradient(135deg,rgba(37,99,235,.18),rgba(139,92,246,.18)) !important;
+  border-color:rgba(129,140,248,.30) !important;
+}
+.dashboard-nav-btn,.sidebar-nav-btn{
+  border-color:rgba(96,165,250,.30) !important;
+}
+.dashboard-nav-btn{
+  background:linear-gradient(110deg,#2563eb,#7c3aed,#db2777) !important;
+  box-shadow:0 8px 24px rgba(99,102,241,.18);
+}
+
+/* Dashboard KPI cards — deliberately different accents */
+.dashboard-kpi:nth-child(1){
+  background:linear-gradient(145deg,rgba(37,99,235,.20),rgba(6,182,212,.08)) !important;
+  border-color:rgba(56,189,248,.30) !important;
+}
+.dashboard-kpi:nth-child(2){
+  background:linear-gradient(145deg,rgba(16,185,129,.20),rgba(132,204,22,.07)) !important;
+  border-color:rgba(52,211,153,.28) !important;
+}
+.dashboard-kpi:nth-child(3){
+  background:linear-gradient(145deg,rgba(249,115,22,.20),rgba(245,158,11,.07)) !important;
+  border-color:rgba(251,146,60,.28) !important;
+}
+.dashboard-kpi:nth-child(4){
+  background:linear-gradient(145deg,rgba(139,92,246,.20),rgba(236,72,153,.07)) !important;
+  border-color:rgba(167,139,250,.28) !important;
+}
+.dashboard-kpi b{color:#e0f2fe !important;}
+
+/* Service cards — alternating colors */
+.service-item-link{
+  border:1px solid rgba(148,163,184,.16) !important;
+  background:linear-gradient(135deg,rgba(255,255,255,.065),rgba(15,23,42,.54)) !important;
+  border-radius:15px !important;
+  box-shadow:0 8px 22px rgba(2,8,23,.18) !important;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease !important;
+}
+.service-item-link:nth-child(4n+1){border-left:4px solid #06b6d4 !important;}
+.service-item-link:nth-child(4n+2){border-left:4px solid #10b981 !important;}
+.service-item-link:nth-child(4n+3){border-left:4px solid #f97316 !important;}
+.service-item-link:nth-child(4n+4){border-left:4px solid #8b5cf6 !important;}
+.service-item-link:hover{
+  transform:translateY(-2px) !important;
+  box-shadow:0 14px 30px rgba(37,99,235,.16) !important;
+  border-color:rgba(96,165,250,.34) !important;
+}
+
+/* Section headings */
+.section-subhead{
+  background:linear-gradient(100deg,rgba(37,99,235,.16),rgba(139,92,246,.14),rgba(16,185,129,.10)) !important;
+  border-color:rgba(96,165,250,.28) !important;
+  color:#fde68a !important;
+}
+
+/* Form fields */
+.form-field{
+  background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(2,6,23,.28)) !important;
+}
+
+/* Status / price badges */
+.service-price-badge{
+  background:linear-gradient(135deg,#f59e0b,#f97316) !important;
+  color:#fff !important;
+  box-shadow:0 5px 16px rgba(249,115,22,.25) !important;
+}
+
+/* Tables */
+.dashboard-table th{
+  background:linear-gradient(90deg,rgba(37,99,235,.22),rgba(139,92,246,.16)) !important;
+  color:#bae6fd !important;
+}
+.dashboard-table tbody tr:hover{
+  background:linear-gradient(90deg,rgba(37,99,235,.10),rgba(16,185,129,.07)) !important;
+}
+
+/* Download / success actions */
+.download-btn-table{
+  background:linear-gradient(135deg,#059669,#10b981,#84cc16) !important;
+}
+
+/* Modal */
+.modal-card{
+  background:
+    linear-gradient(145deg,rgba(8,25,53,.98),rgba(26,18,55,.97)) !important;
+}
+
+/* Floating accent elements */
+.toast{
+  background:linear-gradient(135deg,#0f2d5a,#26336b,#163d39) !important;
+  border-color:#38bdf8 !important;
+}
+
+/* Mobile polish */
+@media(max-width:600px){
+  .auth-card{
+    max-width:calc(100vw - 24px) !important;
+    padding:28px 18px !important;
+    border-radius:22px !important;
+  }
+  .action-btn{min-height:48px !important;font-size:15px !important;}
+  .service-item-link{border-radius:14px !important;}
+  .dashboard-kpi{padding:13px !important;border-radius:14px !important;}
+  .dashboard-kpi b{font-size:21px !important;}
+}
+
+/* Respect reduced-motion preference */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important;}
+}
+</style>
 </head>
 
 <body>
