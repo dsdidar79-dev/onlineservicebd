@@ -5199,5 +5199,61 @@ function openResetModal() {
   window.checkOrderRefunds=scanCancelledOrders;
 })();
 </script>
+<!-- URL routing: reflects the user's current section in the address bar -->
+<script id="online-service-bd-url-routing">
+(function () {
+  'use strict';
+  const base = location.pathname;
+  let applyingRoute = false;
+  const routes = {
+    dashboard: () => document.getElementById('sidebarDashboardBtn')?.click(),
+    orders: () => document.getElementById('accountOrdersBtn')?.click(),
+    recharges: () => document.getElementById('accountRechargeBtn')?.click(),
+    profile: () => document.getElementById('accountProfileBtn')?.click(),
+    recharge: () => document.getElementById('boxRechargeBtn')?.click()
+  };
+  function setRoute(name) {
+    if (applyingRoute) return;
+    const next = name ? '#' + name : '#dashboard';
+    if (location.hash !== next) history.pushState({ route: name || 'dashboard' }, '', base + next);
+  }
+  function routeFromHash() {
+    applyingRoute = true;
+    const hash = decodeURIComponent(location.hash.slice(1));
+    if (!hash || hash === 'dashboard') routes.dashboard();
+    else if (routes[hash]) routes[hash]();
+    else if (hash.startsWith('service=')) {
+      const service = hash.slice(8);
+      if (typeof window.openOrderModal === 'function') window.openOrderModal(service);
+    }
+    applyingRoute = false;
+  }
+  document.addEventListener('click', function (event) {
+    if (applyingRoute) return;
+    const el = event.target.closest('button, .service-item-link');
+    if (!el) return;
+    const id = el.id;
+    const routesById = {
+      sidebarDashboardBtn: 'dashboard', topDashboardBtn: 'dashboard',
+      accountOrdersBtn: 'orders', accountRechargeBtn: 'recharges',
+      accountProfileBtn: 'profile', profileDetailsBtn: 'profile',
+      topBarProfileBtn: 'profile', boxRechargeBtn: 'recharge'
+    };
+    if (routesById[id]) { setRoute(routesById[id]); return; }
+    if (el.classList.contains('service-item-link')) {
+      const call = el.getAttribute('onclick') || '';
+      const match = call.match(/openOrderModal\(['"]([\s\S]*?)['"]\)/);
+      if (match) setRoute('service=' + encodeURIComponent(match[1]));
+    }
+  }, true);
+  window.addEventListener('hashchange', routeFromHash);
+  window.addEventListener('popstate', routeFromHash);
+  document.addEventListener('DOMContentLoaded', function () {
+    if (!location.hash) history.replaceState({ route: 'dashboard' }, '', base + '#dashboard');
+    else setTimeout(routeFromHash, 350);
+  });
+})();
+</script>
+
 </body>
 </html>
